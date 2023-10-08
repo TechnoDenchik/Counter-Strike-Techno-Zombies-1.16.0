@@ -104,9 +104,9 @@ int CHudZB2::VidInit()
 {
 	pimpl->for_each(&IBaseHudSub::VidInit);
 
-	R_InitTexture(pimpl->m_pTexture_RageRetina, "resource/zombi/zombicrazy");
-	R_InitTexture(pimpl->m_pTexture_SprintRetina, "resource/zombi/zombispeedup");
-	R_InitTexture(pimpl->m_pTexture_DamageDoubleRetina, "resource/zombi/damagedouble");
+	R_InitTexture(pimpl->m_pTexture_RageRetina, "resource/zb3/zombicrazy");
+	R_InitTexture(pimpl->m_pTexture_SprintRetina, "resource/zb3/zombispeedup");
+	R_InitTexture(pimpl->m_pTexture_DamageDoubleRetina, "resource/zb3/damagedouble");
 	return 1;
 }
 
