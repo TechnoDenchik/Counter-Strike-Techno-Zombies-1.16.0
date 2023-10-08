@@ -26,9 +26,9 @@ GNU General Public License for more details.
 
 void ZombieSkill_Precache()
 {
-	PRECACHE_SOUND("zb2/zombi_pressure.wav");
-	PRECACHE_SOUND("zb2/zombi_pre_idle_1.wav");
-	PRECACHE_SOUND("zb2/zombi_pre_idle_2.wav");
+	PRECACHE_SOUND("zb3/zombi_pressure.wav");
+	PRECACHE_SOUND("zb3/zombi_pre_idle_1.wav");
+	PRECACHE_SOUND("zb3/zombi_pre_idle_2.wav");
 }
 
 void CZombieSkill_Base::Think()
