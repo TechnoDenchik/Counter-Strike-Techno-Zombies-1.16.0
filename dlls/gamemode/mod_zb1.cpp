@@ -33,9 +33,9 @@ GNU General Public License for more details.
 
 CMod_Zombi::CMod_Zombi() // precache
 {
-	PRECACHE_SOUND("zb2/human_death_01.wav");
-	PRECACHE_SOUND("zb2/human_death_02.wav");
-	PRECACHE_GENERIC("sound/zb2/Zombi_Ambience.mp3");
+	PRECACHE_SOUND("zb3/human_death_01.wav");
+	PRECACHE_SOUND("zb3/human_death_02.wav");
+	PRECACHE_GENERIC("sound/zb3/Zombi_Ambience.mp3");
 
 	CVAR_SET_FLOAT("sv_maxspeed", 390);
 }
@@ -426,8 +426,8 @@ void CMod_Zombi::HumanInfectionByZombie(CBasePlayer *player, CBasePlayer *attack
 	player->pev->armorvalue = std::max(100, static_cast<int>(attacker->pev->armorvalue * 0.5f));
 
 	InfectionSound();
-	PRECACHE_SOUND("zb2/human_death_01.wav");
-	PRECACHE_SOUND("zb2/human_death_02.wav");
+	PRECACHE_SOUND("zb3/human_death_01.wav");
+	PRECACHE_SOUND("zb3/human_death_02.wav");
 	EMIT_SOUND(ENT(player->pev), CHAN_BODY, RANDOM_LONG(0, 1) ? "zb2/human_death_01.wav" : "zb2/human_death_02.wav", VOL_NORM, ATTN_NORM);
 
 
