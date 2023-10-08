@@ -35,9 +35,9 @@ CMod_ZombieMod2::CMod_ZombieMod2() // precache
 {
 	UTIL_PrecacheOther("supplybox");
 
-	PRECACHE_SOUND("zb2/zombi_box.wav");
-	PRECACHE_SOUND("zb2/zombi_evolution.wav");
-	PRECACHE_SOUND("zb2/zombi_evolution_female.wav");
+	PRECACHE_SOUND("zb3/zombi_box.wav");
+	PRECACHE_SOUND("zb3/zombi_evolution.wav");
+	PRECACHE_SOUND("zb3/zombi_evolution_female.wav");
 
 	ZombieSkill_Precache();
 	HumanSkill_Precache();
@@ -290,7 +290,7 @@ void CPlayerModStrategy_ZB2::Zombie_HealthRecoveryThink()
 			m_pPlayer->pev->health = std::min(m_pPlayer->pev->max_health, m_pPlayer->pev->health + flRecoverValue);
 
 			// effects
-			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb2/zombi_heal.wav\n");
+			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb3/zombi_heal.wav\n");
 
 			MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, nullptr, m_pPlayer->pev);
 			WRITE_BYTE(ZB2_MESSAGE_HEALTH_RECOVERY);
@@ -420,5 +420,5 @@ void CPlayerModStrategy_ZB2::CheckEvolution()
 
 void CPlayerModStrategy_ZB2::EvolutionSound() const
 {
-	EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_BODY, "zb2/zombi_evolution.wav", VOL_NORM, ATTN_NORM);
+	EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_BODY, "zb3/zombi_evolution.wav", VOL_NORM, ATTN_NORM);
 }
