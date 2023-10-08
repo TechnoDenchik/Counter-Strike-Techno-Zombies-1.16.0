@@ -18,7 +18,7 @@ static std::pair<const char *, void(*)(CBasePlayer *p)> g_SupplyboxItems[]=
 			p->AddAccount(16000);
 			p->AddAccount(16000);
 			p->m_bNightVisionOn = false;
-			p->ClientCommand("weapon_k1a");
+			p->ClientCommand("weapon_mp7a1d");
 		}
 	}/*
 	{ "Grenades, Ammo Set", [](CBasePlayer *p) {
@@ -63,7 +63,7 @@ LINK_ENTITY_TO_CLASS(supplybox, CSupplyBox);
 
 void CSupplyBox::Precache()
 {
-	PRECACHE_SOUND("zombi/get_box.wav");
+	PRECACHE_SOUND("zb3/get_box.wav");
 	PRECACHE_MODEL("models/supplybox.mdl");
 }
 
