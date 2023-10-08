@@ -30,9 +30,9 @@ constexpr bool ENABLE_KNIFE2X = true;
 
 void HumanSkill_Precache()
 {
-	PRECACHE_SOUND("zb2/speedup.wav");
-	PRECACHE_SOUND("zb2/human_breath_male.wav");
-	PRECACHE_SOUND("zb2/speedup_heartbeat.wav");
+	PRECACHE_SOUND("zb3/speedup.wav");
+	PRECACHE_SOUND("zb3/human_breath_male.wav");
+	PRECACHE_SOUND("zb3/speedup_heartbeat.wav");
 }
 
 class SprintSkill : protected CZombieSkill_Base
