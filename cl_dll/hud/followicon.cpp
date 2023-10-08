@@ -25,7 +25,7 @@ int CHudFollowIcon::VidInit(void)
 	if (!m_pTexture_BombAB[1]) 
 		m_pTexture_BombAB[1] = R_LoadTextureUnique("resource/helperhud/c4_b");
 	if (!m_pTexture_Supplybox) 
-		m_pTexture_Supplybox = R_LoadTextureUnique("resource/helperhud/supplybox");
+		m_pTexture_Supplybox = R_LoadTextureUnique("resource/zb3/supplybox");
 	m_iFlags |= HUD_DRAW;
 	return 1;
 }
