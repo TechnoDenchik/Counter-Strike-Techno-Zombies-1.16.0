@@ -56,13 +56,13 @@ const char *  const CHudZB2_Skill::Config::ZOMBIE_SKILL_HUD_TIP[MAX_ZOMBIE_SKILL
 		"", // ZOMBIE_SKILL_SPRINT
 		"", // ZOMBIE_SKILL_HEADSHOT
 		"", // ZOMBIE_SKILL_KNIFE2X
-		"resource/helperhud/evolution", // ZOMBIE_SKILL_CRAZY,
-		"resource/helperhud/hiding", // ZOMBIE_SKILL_HIDE,
-		"resource/helperhud/trap", // ZOMBIE_SKILL_TRAP,
-		"resource/helperhud/smoke", // ZOMBIE_SKILL_SMOKE,
-		"resource/helperhud/heal", // ZOMBIE_SKILL_HEAL,
-		"resource/helperhud/tentacle", // ZOMBIE_SKILL_SHOCK,
-		"resource/helperhud/crazyspeed" // ZOMBIE_SKILL_CRAZY2,
+		"resource/zb3/evolution", // ZOMBIE_SKILL_CRAZY,
+		"resource/zb3/hiding", // ZOMBIE_SKILL_HIDE,
+		"resource/zb3/trap", // ZOMBIE_SKILL_TRAP,
+		"resource/zb3/smoke", // ZOMBIE_SKILL_SMOKE,
+		"resource/zb3/heal", // ZOMBIE_SKILL_HEAL,
+		"resource/zb3/tentacle", // ZOMBIE_SKILL_SHOCK,
+		"resource/zb3/crazyspeed" // ZOMBIE_SKILL_CRAZY2,
 };
 
 const char *  const CHudZB2_Skill::Config::ZOMBIE_CLASS_HUD_ICON[MAX_ZOMBIE_CLASS] =
@@ -80,28 +80,28 @@ const char *  const CHudZB2_Skill::Config::ZOMBIE_CLASS_HUD_ICON[MAX_ZOMBIE_CLAS
 const char *  const CHudZB2_Skill::Config::ZOMBIE_SKILL_HUD_ICON_NEW[MAX_ZOMBIE_SKILL] =
 {
 		"", // ZOMBIE_SKILL_EMPTY
-		"resource/zombi/humanskill_hm_spd", // ZOMBIE_SKILL_SPRINT
-		"resource/zombi/humanskill_hm_hd", // ZOMBIE_SKILL_HEADSHOT
-		"resource/zombi/humanskill_hm_2x", // ZOMBIE_SKILL_KNIFE2X
-		"resource/zombi/zombieskill_zombicrazy", // ZOMBIE_SKILL_CRAZY,
-		"resource/zombi/zombieskill_zombihiding", // ZOMBIE_SKILL_HIDE,
-		"resource/zombi/zombieskill_zombitrap", // ZOMBIE_SKILL_TRAP,
-		"resource/zombi/zombieskill_zombismoke", // ZOMBIE_SKILL_SMOKE,
-		"resource/zombi/zombieskill_zombiheal", // ZOMBIE_SKILL_HEAL,
-		"resource/zombi/zombieskill_zombideimos", // ZOMBIE_SKILL_SHOCK,
-		"resource/zombi/zombieskill_zombicrazy2" // ZOMBIE_SKILL_CRAZY2,
+		"resource/zb3/humanskill_hm_spd", // ZOMBIE_SKILL_SPRINT
+		"resource/zb3/humanskill_hm_hd", // ZOMBIE_SKILL_HEADSHOT
+		"resource/zb3/humanskill_hm_2x", // ZOMBIE_SKILL_KNIFE2X
+		"resource/zb3/zombieskill_zombicrazy", // ZOMBIE_SKILL_CRAZY,
+		"resource/zb3/zombieskill_zombihiding", // ZOMBIE_SKILL_HIDE,
+		"resource/zb3/zombieskill_zombitrap", // ZOMBIE_SKILL_TRAP,
+		"resource/zb3/zombieskill_zombismoke", // ZOMBIE_SKILL_SMOKE,
+		"resource/zb3/zombieskill_zombiheal", // ZOMBIE_SKILL_HEAL,
+		"resource/zb3/zombieskill_zombideimos", // ZOMBIE_SKILL_SHOCK,
+		"resource/zb3/zombieskill_zombicrazy2" // ZOMBIE_SKILL_CRAZY2,
 };
 
 const char *  const CHudZB2_Skill::Config::ZOMBIE_CLASS_HUD_ICON_NEW[MAX_ZOMBIE_CLASS] =
 {
 		"", // ZOMBIE_CLASS_HUMAN
-		"resource/zombi/zombietype_defaultzb", // ZOMBIE_CLASS_TANK,
-		"resource/zombi/zombietype_lightzb", // ZOMBIE_CLASS_SPEED,
-		"resource/zombi/zombietype_heavyzb", // ZOMBIE_CLASS_HEAVY,
-		"resource/zombi/zombietype_pczb", // ZOMBIE_CLASS_PC,
-		"resource/zombi/zombietype_doctorzb", // ZOMBIE_CLASS_HEAL,
-		"resource/zombi/zombietype_deimoszb", // ZOMBIE_CLASS_DEIMOS,
-		"resource/zombi/zombietype_deimos2zb", // ZOMBIE_CLASS_DEIMOS2,
+		"resource/zb3/zombietype_defaultzb", // ZOMBIE_CLASS_TANK,
+		"resource/zb3/zombietype_lightzb", // ZOMBIE_CLASS_SPEED,
+		"resource/zb3/zombietype_heavyzb", // ZOMBIE_CLASS_HEAVY,
+		"resource/zb3/zombietype_pczb", // ZOMBIE_CLASS_PC,
+		"resource/zb3/zombietype_doctorzb", // ZOMBIE_CLASS_HEAL,
+		"resource/zb3/zombietype_deimoszb", // ZOMBIE_CLASS_DEIMOS,
+		"resource/zb3/zombietype_deimos2zb", // ZOMBIE_CLASS_DEIMOS2,
 };
 
 const char *  const CHudZB2_Skill::Config::ZOMBIE_ITEM_HUD_ICON[2][3] =
