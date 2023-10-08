@@ -469,13 +469,13 @@ void CMonster::Spawn()
 
 void CMonster::Precache()
 {
-	PRECACHE_SOUND("zombi/zombi_death_1.wav");
-	PRECACHE_SOUND("zombi/zombi_death_2.wav");
-	PRECACHE_SOUND("zombi/zombi_hurt_01.wav");
-	PRECACHE_SOUND("zombi/zombi_hurt_02.wav");
-	PRECACHE_SOUND("zombi/zombi_attack_1.wav");
-	PRECACHE_SOUND("zombi/zombi_attack_2.wav");
-	PRECACHE_SOUND("zombi/zombi_attack_3.wav");
+	PRECACHE_SOUND("zb3/zombi_death_1.wav");
+	PRECACHE_SOUND("zb3/zombi_death_2.wav");
+	PRECACHE_SOUND("zb3/zombi_hurt_01.wav");
+	PRECACHE_SOUND("zb3/zombi_hurt_02.wav");
+	PRECACHE_SOUND("zb3/zombi_attack_1.wav");
+	PRECACHE_SOUND("zb3/zombi_attack_2.wav");
+	PRECACHE_SOUND("zb3/zombi_attack_3.wav");
 	PRECACHE_MODEL("models/player/zombi_origin/zombi_origin.mdl");
 }
 
@@ -767,9 +767,9 @@ bool CMonster::CheckAttack()
 
 	switch (RANDOM_LONG(1, 3))
 	{
-	case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zombi/zombi_attack_1.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zombi/zombi_attack_2.wav", VOL_NORM, ATTN_NORM); break;
-	case 3: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zombi/zombi_attack_3.wav", VOL_NORM, ATTN_NORM); break;
+	case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_1.wav", VOL_NORM, ATTN_NORM); break;
+	case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_2.wav", VOL_NORM, ATTN_NORM); break;
+	case 3: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_3.wav", VOL_NORM, ATTN_NORM); break;
 	}
 
 	return true;
@@ -1243,7 +1243,7 @@ void CMonsterModStrategy_Default::DeathSound() const
 {
 	switch (RANDOM_LONG(1, 2))
 	{
-	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zombi/zombi_death_1.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zombi/zombi_death_2.wav", VOL_NORM, ATTN_NORM); break;
+	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zb3/zombi_death_1.wav", VOL_NORM, ATTN_NORM); break;
+	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zb3/zombi_death_2.wav", VOL_NORM, ATTN_NORM); break;
 	}
 }
