@@ -106,8 +106,8 @@ int CHudZB3ScoreBoard::VidInit(void)
 
 int CHudZB3ScoreBoard::Draw(float time)
 {
-	int x = ScreenWidth / 2; // Äâèæåíèå ïî ãîðèçîíòàëè
-	int y = 5; // Äâèæåíèå ïî âåðòèêàëè
+	int x = ScreenWidth / 2; // Ã„Ã¢Ã¨Ã¦Ã¥Ã­Ã¨Ã¥ Ã¯Ã® Ã£Ã®Ã°Ã¨Ã§Ã®Ã­Ã²Ã Ã«Ã¨
+	int y = 5; // Ã„Ã¢Ã¨Ã¦Ã¥Ã­Ã¨Ã¥ Ã¯Ã® Ã¢Ã¥Ã°Ã²Ã¨ÃªÃ Ã«Ã¨
 
 	int x2 = ScreenWidth / 2;
 	int y2 = 8;
@@ -127,14 +127,14 @@ int CHudZB3ScoreBoard::Draw(float time)
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);                                       
 	newscoreboard->Bind();
 	                                    /**/   /**/            /**/
-	DrawUtils::Draw2DQuadScaled(x - 481 / 3.0,/*äëèíà*/ y - 4.5, x + 481 / 3.0, y + 77/*Òîëùèíà*/);
+	DrawUtils::Draw2DQuadScaled(x - 481 / 3.0,/*Ã¤Ã«Ã¨Ã­Ã */ y - 4.5, x + 481 / 3.0, y + 77/*Ã’Ã®Ã«Ã¹Ã¨Ã­Ã */);
 
 	int best_player = gHUD.m_Scoreboard.FindBestPlayer();
 
 	int scoreCT = gHUD.m_Scoreboard.m_iTeamScore_CT;
 	int scoreT = gHUD.m_Scoreboard.m_iTeamScore_T;
 	int scoreMax = gHUD.m_Scoreboard.m_iTeamScore_Max;
-	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT;
+	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT + 1;
 
 	int idx = gEngfuncs.GetLocalPlayer()->index;
 	int countZB = gHUD.m_Scoreboard.m_iTeamAlive_T;
