@@ -45,8 +45,8 @@ const char	*uiSoundGlow	= "media/launch_glow1.wav";
 const char	*uiSoundBuzz	= "media/launch_deny2.wav";
 const char	*uiSoundKey	= "media/launch_select1.wav";
 const char	*uiSoundRemoveKey	= "media/launch_deny1.wav";
-const char	*uiSoundMove	= "";		// Xash3D not use movesound
-const char	*uiSoundNull	= "";
+const char	*uiSoundMove	= "media/buttonrollover.wav";		// Xash3D not use movesound
+const char	*uiSoundNull	= "launch_select3.wav";
 
 int		uiColorHelp	= 0xFFFFFFFF;	// 255, 255, 255, 255	// hint letters color
 int		uiPromptBgColor	= 0x80404040;	// 64,  64,  64,  255	// dialog background color
@@ -465,8 +465,8 @@ void UI_LoadBackgroundImage( void )
 		if( g_engfuncs.pfnFileExists( "gfx/shell/splash.bmp", TRUE ))
 		{
 			// if we doesn't have logo.avi in gamedir we don't want to draw it
-			if( !g_engfuncs.pfnFileExists( "media/logo.mp4", TRUE ))
-				uiStatic.m_fDisableLogo = TRUE;
+			if (!g_engfuncs.pfnFileExists("media/valve.avi", TRUE));
+				//uiStatic.m_fDisableLogo = TRUE;
 		}
 	}
 }
