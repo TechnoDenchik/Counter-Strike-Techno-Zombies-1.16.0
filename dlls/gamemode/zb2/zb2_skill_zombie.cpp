@@ -1,18 +1,3 @@
-/*
-zb2_skill_zombie.cpp - CSMoE Gameplay server : Zombie Mod 2
-Copyright (C) 2019 Moemod Yanase
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-*/
-
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -107,7 +92,7 @@ void CZombieSkill_ZombieCrazy::Activate()
 	m_pPlayer->pev->health -= 500.0f;
 	m_pPlayer->ResetMaxSpeed();
 
-	EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb2/zombi_pressure.wav", VOL_NORM, ATTN_NORM);
+	EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/zombi_pressure.wav", VOL_NORM, ATTN_NORM);
 
 	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL, m_pPlayer->pev);
 	WRITE_BYTE(ZB2_MESSAGE_SKILL_ACTIVATE);
@@ -139,9 +124,9 @@ void CZombieSkill_ZombieCrazy::OnCrazyEffect()
 	m_flTimeZombieSkillEffect = gpGlobals->time + 3.0f;
 
 	if (RANDOM_LONG(0, 1))
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb2/zombi_pre_idle_1.wav", VOL_NORM, ATTN_NORM);
+		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/zombi_pre_idle_1.wav", VOL_NORM, ATTN_NORM);
 	else
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb2/zombi_pre_idle_2.wav", VOL_NORM, ATTN_NORM);
+		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/zombi_pre_idle_2.wav", VOL_NORM, ATTN_NORM);
 }
 
 float CZombieSkill_ZombieCrazy::GetDurationTime() const
