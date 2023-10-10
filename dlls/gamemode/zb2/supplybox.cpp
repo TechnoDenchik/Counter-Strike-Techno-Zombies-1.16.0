@@ -12,16 +12,18 @@
 
 static std::pair<const char *, void(*)(CBasePlayer *p)> g_SupplyboxItems[]=
 {
-	{ "NightVision", [](CBasePlayer *p) 
+	{ "Dual MP7A1", [](CBasePlayer* p)
+	{
+			DropPrimary(p);
+			p->GiveNamedItem("weapon_mp7a1d");
+			int iAmount = p->m_pModStrategy->ComputeMaxAmmo("46mm", MAX_AMMO_46MM);
+			p->GiveAmmo(iAmount, "46mm", iAmount);
 
-	    {
-			p->AddAccount(16000);
-			p->AddAccount(16000);
-			p->m_bNightVisionOn = false;
-			p->ClientCommand("weapon_mp7a1d");
-		}
-	}/*
-	{ "Grenades, Ammo Set", [](CBasePlayer *p) {
+			DropSecondary(p);
+			p->GiveNamedItem("weapon_deagled");
+		    p->m_pModStrategy->ComputeMaxAmmo("50ae", MAX_AMMO_50AE);
+			p->GiveAmmo(iAmount, "762Nato", iAmount);
+
 			p->AddAccount(16000);
 
 			while (BuyAmmo(p, PRIMARY_WEAPON_SLOT, false))
@@ -34,29 +36,8 @@ static std::pair<const char *, void(*)(CBasePlayer *p)> g_SupplyboxItems[]=
 			BuyItem(p, MENU_SLOT_ITEM_SMOKEGREN);
 
 			p->AddAccount(16000);
-		}
-	},
-	{ "Dual MP7A1", [](CBasePlayer *p) {
-			DropPrimary(p);
-			p->GiveNamedItem("weapon_mp7a1d");
-			int iAmount = p->m_pModStrategy->ComputeMaxAmmo("46mm", MAX_AMMO_46MM);
-			p->GiveAmmo(iAmount, "46mm", iAmount);
-		}
-	},
-	{ "AK-47 60R", [](CBasePlayer *p) {
-			DropPrimary(p);
-			p->GiveNamedItem("weapon_ak47l");
-			int iAmount = p->m_pModStrategy->ComputeMaxAmmo("762Nato", MAX_AMMO_762NATO);
-			p->GiveAmmo(iAmount, "762Nato", iAmount);
-		}
-	},
-	{ "Dual Desert Eagle", [](CBasePlayer *p) {
-			DropSecondary(p);
-			p->GiveNamedItem("weapon_deagled");
-			int iAmount = p->m_pModStrategy->ComputeMaxAmmo("50ae", MAX_AMMO_50AE);
-			p->GiveAmmo(iAmount, "762Nato", iAmount);
-		}
-	}*/
+	 }
+	}
 };
 
 LINK_ENTITY_TO_CLASS(supplybox, CSupplyBox);
@@ -108,7 +89,7 @@ void CSupplyBox::SupplyboxTouch(CBaseEntity *pOther)
 	UTIL_ClientPrintAll(HUD_PRINTCENTER, "%s1 obtained supply item (%s2).", STRING(p->pev->netname), nf.first);
 	ClientPrint(p->pev, HUD_PRINTCENTER, "You obtained supply item (%s1).", nf.first);
 	
-	EMIT_SOUND(ENT(p->pev), CHAN_BODY, "zombi/get_box.wav", VOL_NORM, ATTN_NORM);
+	EMIT_SOUND(ENT(p->pev), CHAN_BODY, "zb3/get_box.wav", VOL_NORM, ATTN_NORM);
 
 	pev->effects |= EF_NODRAW;
 	SendPositionMsg();
