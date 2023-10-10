@@ -1,18 +1,3 @@
-/*
-zb3_rage.cpp - CSMoE Client HUD : Zombie Hero Zombie Rage System
-Copyright (C) 2019 Moemod Hyakuya
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-*/
-
 #include "hud.h"
 #include "followicon.h"
 #include "cl_util.h"
@@ -55,7 +40,7 @@ int CHudZB3Rage::Draw(float time)
 		return 0;
 
 	int iX = ScreenWidth / 2 - gEngfuncs.pfnSPR_Width(gHUD.GetSprite(m_iRageBG), 0) / 2;
-	int iY = ScreenHeight * 0.97 - gEngfuncs.pfnSPR_Height(gHUD.GetSprite(m_iRageBG), 0) / static_cast<double>(2);
+	int iY = ScreenHeight - 100 - gEngfuncs.pfnSPR_Height(gHUD.GetSprite(m_iRageBG), 0) / static_cast<double>(2);
 	
 	gEngfuncs.pfnSPR_Set(gHUD.GetSprite(m_iRageBG), 255, 255, 255);
 	gEngfuncs.pfnSPR_DrawAdditive(0, iX, iY, &gHUD.GetSpriteRect(m_iRageBG));
