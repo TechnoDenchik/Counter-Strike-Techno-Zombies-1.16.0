@@ -1,18 +1,3 @@
-/*
-zb3_morale.cpp - CSMoE Client HUD : Zombie Hero Human Morale System
-Copyright (C) 2019 Moemod Hyakuya
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-*/
-
 #include "hud.h"
 #include "followicon.h"
 #include "cl_util.h"
@@ -43,10 +28,11 @@ int CHudZB3Morale::Draw(float time)
 {
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
 	if (g_PlayerExtraInfo[idx].zombie)
+
 		return 0;
 
-	int iX = ScreenWidth / 2 - 130;
-	int iY = ScreenHeight - 100;
+	int iX = ScreenWidth / 2 - 70;
+	int iY = ScreenHeight - 160;
 	
 	int iMorale = m_iMoraleLevel;
 	int iMaxMorale = 10;
@@ -112,7 +98,7 @@ int CHudZB3Morale::Draw(float time)
 	// text
 	char szBuffer[64];
 	sprintf(szBuffer, "ATT : %d %%", 100 + iMorale * 10);
-	DrawUtils::DrawHudString(ScreenWidth / 2 - 77, ScreenHeight - 113, ScreenWidth, szBuffer, r, g, b);
+	DrawUtils::DrawHudString(ScreenWidth / 2 + 1, ScreenHeight - 170, ScreenWidth, szBuffer, r, g, b);
 
 	return 1;
 }
@@ -121,7 +107,7 @@ void CHudZB3Morale::UpdateLevel(ZB3HumanMoraleType_e type, int level)
 {
 	if (level > m_iMoraleLevel)
 	{
-		// TODO : Level Up Tip
+		ClientCmd( "spk zb3/powerup.wav\n");	// TODO : Level Up Tip
 	}
 
 	std::tie(m_iMoraleType, m_iMoraleLevel) = std::make_pair(type, level);
