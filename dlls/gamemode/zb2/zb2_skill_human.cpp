@@ -1,18 +1,3 @@
-/*
-zb2_skill_human.cpp - CSMoE Gameplay server : Zombie Mod 2
-Copyright (C) 2019 Moemod Yanase
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-*/
-
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -66,7 +51,7 @@ public:
 
 		m_pPlayer->ResetMaxSpeed();
 
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb2/speedup.wav", VOL_NORM, ATTN_NORM);
+		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/speedup.wav", VOL_NORM, ATTN_NORM);
 
 		MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL, m_pPlayer->pev);
 		WRITE_BYTE(ZB2_MESSAGE_SKILL_ACTIVATE);
@@ -115,9 +100,9 @@ protected:
 		m_flTimeZombieSkillEffect = gpGlobals->time + 1.0f;
 
 		if (m_bDebuffStatus)
-			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb2/human_breath_male.wav\n");
+			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb3/human_breath_male.wav\n");
 		else
-			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb2/speedup_heartbeat.wav\n");
+			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb3/speedup_heartbeat.wav\n");
 	}
 
 private:
@@ -141,7 +126,7 @@ public:
 		m_flTimeZombieSkillEnd = gpGlobals->time + 4.5f;
 		m_flTimeZombieSkillNext = -1;
 
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb2/speedup.wav", VOL_NORM, ATTN_NORM);
+		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/speedup.wav", VOL_NORM, ATTN_NORM);
 
 		MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL, m_pPlayer->pev);
 		WRITE_BYTE(ZB2_MESSAGE_SKILL_ACTIVATE);
@@ -176,7 +161,7 @@ public:
 		m_flTimeZombieSkillEnd = gpGlobals->time + 10.f;
 		m_flTimeZombieSkillNext = -1;
 
-		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb2/speedup.wav", VOL_NORM, ATTN_NORM);
+		EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/speedup.wav", VOL_NORM, ATTN_NORM);
 
 		MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL, m_pPlayer->pev);
 		WRITE_BYTE(ZB2_MESSAGE_SKILL_ACTIVATE);
