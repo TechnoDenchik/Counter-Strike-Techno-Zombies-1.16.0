@@ -23,7 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "utils.h"
 #include "keydefs.h"
 #include "menu_btnsbmp_table.h"
-
+#include <iostream>
+#include <string>
 #include <algorithm>
 #include <functional>
 
@@ -88,15 +89,15 @@ typedef struct
 
 static uiCreateGame_t	uiCreateGame;
 
-#define MAX_GAMEMODES 8
+#define MAX_GAMEMODES 9
 static const char *g_szGameModeNames[MAX_GAMEMODES] = 
 {
-	"Classic", "Death Match", "Gun Dead Match", "Team Death Match", "Zombie Classic", "Zombie Mutation", "Zombie Hero", "Scenario Zombie"
+	"Classic", "Death Match", "Gun Dead Match", "Team Death Match", "Zombie Classic", "Zombie Mutation", "Zombie Hero", "Scenario Zombie", "Zombie Shelter"
 };
 
 static const char *g_szGameModeCodes[MAX_GAMEMODES] = 
 {
-	"none", "dm", "gd", "tdm", "zb1", "zb2", "zb3", "zbs"
+	"none", "dm", "gd", "tdm", "zb1", "zb2", "zb3", "zbs", "zbb"
 };
 
 /*
@@ -404,7 +405,7 @@ static void UI_CreateGame_Init(void)
 	uiCreateGame.hostName.generic.id = ID_HOSTNAME;
 	uiCreateGame.hostName.generic.type = QMTYPE_FIELD;
 	uiCreateGame.hostName.generic.flags = QMF_HIGHLIGHTIFFOCUS | QMF_DROPSHADOW;
-	uiCreateGame.hostName.generic.name = "Èìÿ Ñåðâåðà";
+	uiCreateGame.hostName.generic.name = "ÃˆÃ¬Ã¿ Ã‘Ã¥Ã°Ã¢Ã¥Ã°Ã ";
 	uiCreateGame.hostName.generic.x = 350;
 	uiCreateGame.hostName.generic.y = 260;
 	uiCreateGame.hostName.generic.width = 205;
@@ -481,9 +482,9 @@ static void UI_CreateGame_Init(void)
 	uiCreateGame.msgBox.generic.flags = QMF_INACTIVE | QMF_HIDDEN;
 	uiCreateGame.msgBox.generic.ownerdraw = UI_MsgBox_Ownerdraw; // just a fill rectangle
 	uiCreateGame.msgBox.generic.x = DLG_X + 192;
-	uiCreateGame.msgBox.generic.y = 256;
-	uiCreateGame.msgBox.generic.width = 720;
-	uiCreateGame.msgBox.generic.height = 680;
+	uiCreateGame.msgBox.generic.y = 260;
+	uiCreateGame.msgBox.generic.width = 630;
+	uiCreateGame.msgBox.generic.height = 250;
 
 	uiCreateGame.dlgMessage1.generic.id = ID_MSGTEXT;
 	uiCreateGame.dlgMessage1.generic.type = QMTYPE_ACTION;
