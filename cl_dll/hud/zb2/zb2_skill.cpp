@@ -1,18 +1,3 @@
-/*
-zb2_skill.cpp - CSMoE Client HUD : elements for Zombie Skills
-Copyright (C) 2019 Moemod Yanase
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-*/
-
 #include "hud.h"
 #include "followicon.h"
 #include "cl_util.h"
@@ -146,9 +131,9 @@ int CHudZB2_Skill::VidInit(void)
 	}
 
 	if(!m_pTexture_skillslotkeybg)
-		m_pTexture_skillslotkeybg = R_LoadTextureUnique("resource/zombi/skillslotkeybg");
+		m_pTexture_skillslotkeybg = R_LoadTextureUnique("resource/zb3/skillslotkeybg");
 	if (!m_pTexture_skillslotbg)
-		m_pTexture_skillslotbg = R_LoadTextureUnique("resource/zombi/skillslotbg");
+		m_pTexture_skillslotbg = R_LoadTextureUnique("resource/zb3/skillslotbg");
 
 	for (int i = 0; i < MAX_ZOMBIE_SKILL; ++i)
 	{
