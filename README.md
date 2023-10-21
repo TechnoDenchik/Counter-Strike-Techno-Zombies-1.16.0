@@ -1,4 +1,4 @@
-# Counter-Strike-Techno-Zombies
+# Counter-Strike-Techno-Zombies:RU
 >Это редактированный мною проект нацелен на исправление неисправностей в коде, ну и также добавку новшеств в игру CS 1.6 из Counter-Strike Nexon: Studio
 
 ## Режимы и обновления
@@ -10,7 +10,7 @@
 * [x] *Режим* : Сценарий зомби
 * [x] *Режим* : Бой насмерть "Оружие"
 
-*Сборка*
+## Сборка
 - Инструкция:
   - 1.0 - Установить Visual Studio 2022
   - 1.1 - Открыть проект файл "Counter Strike Techno Zombies 1.16.0.sln"
@@ -19,4 +19,24 @@
             и так для всех проектов.
   - 1.3 - Установить конфигурацию сборки Release / Debug и разрядность x86 обязательно иначе просто не будет собираться.
   - 1.4 - Собрать решение
-  
+
+# Couner-Strike Techno: Zombies:EN
+>This project, edited by me, is aimed at fixing malfunctions in the code, and also adding innovations to the CS 1.6 game from Counter-Strike Nexon: Studio
+
+## Modes and Updates
+* [x] Updated hood design from CSO
+* [x] Mode : Team Fight to the death
+* [x] Mode : Fight to the Death
+* [x] Mode : Zombie Mutation
+* [x] Mode : Zombie Hero
+* [x] Mode : Zombie Scenario
+* [x] Mode : Fight to the death "Weapon"
+
+## Assembling
+
+ - Instruction manual:
+   - 1.0 - Install Visual Studio 2022
+   - 1.1 - Open the project file "Counter Strike Techno Zombies 1.16.0.sln"
+   - 1.2 - Open the properties of the solution and set the parameters: The toolkit is Visual Studio 2022 (v143), the SDK version For windows is 10.0 (the latest installed version) and so on for all projects.
+   - 1.3 - Install the Release / Debug build configuration and the x86 bit rate is mandatory otherwise it will simply not be assembled.
+   - 1.4 - Build a solution
