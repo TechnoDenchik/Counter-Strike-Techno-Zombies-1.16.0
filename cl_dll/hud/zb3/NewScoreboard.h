@@ -15,26 +15,27 @@ public:
 protected:
 	UniqueTexture newscoreboard;
 	UniqueTexture healthboard;
+	UniqueTexture healthboard2;
+	UniqueTexture iconhm;
+	UniqueTexture iconzb;
 	UniqueTexture ammoboard;
 	UniqueTexture weaponboard;
 	UniqueTexture iconround;
+    UniqueTexture winhm;
+    UniqueTexture winzb;
+    UniqueTexture countplayer;
+
+
+
 	wrect_t m_rcTeamnumber[32];
-	UniqueTexture winhm;
 	wrect_t m_rcSelfnumber[32];
-	UniqueTexture winzb;
 	wrect_t m_rcToprecord[32];
-	UniqueTexture countplayer;
-	int m_iSelfKills;
-	float m_iSelfnumberScale;
-	float m_flSelfnumberScaleTime;
+	
 
 private:
 	int m_iBGIndex;
 	int m_iTextIndex;
 	int m_iTTextIndex, m_iCTTextIndex;
-
-	wrect_t m_rcNumber_Large[10];
-	wrect_t m_rcNumber_Small[10];
 
 	int m_iOriginalBG;
 	int m_iTeamDeathBG;
