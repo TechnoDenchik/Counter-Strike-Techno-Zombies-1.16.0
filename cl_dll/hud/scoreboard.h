@@ -61,6 +61,5 @@ private:
 	cvar_t *cl_showpacketloss;
 	
 private:
-	struct impl_t;
-	std::unique_ptr<impl_t> pimpl;
+	
 };

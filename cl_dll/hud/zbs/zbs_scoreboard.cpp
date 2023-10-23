@@ -100,11 +100,18 @@ inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef &tex, const wre
 
 int CHudZBSScoreBoard::VidInit(void)
 {
-	R_InitTexture(m_pBackground, "resource/hud/zbs/zbsboard");
+	R_InitTexture(m_pBackground, "resource/hud/zbs/hud_scoreboard_bg_zbs");
 	R_InitTexture(m_pTeamnumber, "resource/hud/zbs/teamnumber");
 	R_InitTexture(m_pSelfnumber, "resource/hud/zbs/selfnumber");
 	R_InitTexture(m_pToprecord, "resource/hud/challenge/toprecord");
 
+	R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
+	R_InitTexture(healthboard, "resource/hud/zb3/hud_character_bg_bottom");
+	R_InitTexture(healthboard2, "resource/hud/zb3/hud_character_bg_top");
+	R_InitTexture(ammoboard, "resource/hud/zb3/hud_weapon_bg");
+	R_InitTexture(countplayer, "resource/hud/zb3/hud_sb_num_center");
+	R_InitTexture(iconround, "resource/hud/zb3/hud_text_icon_round");
+	
 	BuildNumberRC(m_rcTeamnumber, 23, 24);
 	BuildNumberRC(m_rcSelfnumber, 19, 19);
 	BuildNumberRC(m_rcToprecord, 14, 14);
@@ -116,18 +123,42 @@ int CHudZBSScoreBoard::Draw(float time)
 {
 	int x = ScreenWidth / 2;
 	int y = 5;
+
+	int x2 = ScreenWidth / 2.050;
+	int y2 = 6;
+
+	int x7 = ScreenWidth / 1.1;
+	int y7 = 995;
+
+	int x8 = ScreenWidth / 10.4;
+	int y8 = 980;
+
+	int x9 = ScreenWidth / 2;
+	int y9 = 20;
 	const float flScale = 0.0f;
 
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransAlpha);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 	m_pBackground->Bind();
-	DrawUtils::Draw2DQuadScaled(x - 373 / 2, y, x + 373 / 2, y + 51);
+	DrawUtils::Draw2DQuadScaled(x - 170, y - 4.5 , x + 170, y + 77);
 	
+	healthboard->Bind();
+	DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
+
+	healthboard2->Bind();
+	DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
+
+	iconround->Bind();
+	DrawUtils::Draw2DQuadScaled(x9 - 39.7, y9 - 1.7, x9 + 39.7, y9 + 10.7);
+
+	ammoboard->Bind();
+	DrawUtils::Draw2DQuadScaled(x7 - 550 / 3.0,/*длина*/ y7 + 4.5, x7 + 550 / 3.0, y7 + 77/*Толщина*/);
+
 	int idx = gEngfuncs.GetLocalPlayer()->index;
 	int roundNumber = gHUD.m_Scoreboard.m_iTeamScore_CT + 1;
 	int selfKill = max(0, g_PlayerExtraInfo[idx].frags);
 	int teamKill = CalcTeamFrags();
-	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord, roundNumber, x + 25, y + 25); // ok
+	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord, roundNumber, x2 + 25, y2 + 25); // ok
 	DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, teamKill, x - 80, y + 10);
 
 	if (m_iSelfKills != selfKill)
@@ -139,13 +170,13 @@ int CHudZBSScoreBoard::Draw(float time)
 	if (time > m_flSelfnumberScaleTime + ZBS_SELFNUMBER_SCALE_TIME)
 	{
 		gEngfuncs.pTriAPI->Color4ub(160, 210, 250, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pSelfnumber, m_rcSelfnumber, selfKill, x + 105, y + 10);
+		DrawTexturedNumbersTopCenterAligned(*m_pSelfnumber, m_rcTeamnumber, selfKill, x + 105, y + 10);
 	}
 	else
 	{
 		m_iSelfnumberScale = max(1.0f, m_iSelfnumberScale - 0.1f);
 		gEngfuncs.pTriAPI->Color4ub(255, 160, 0, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pSelfnumber, m_rcSelfnumber, selfKill, x + 105, y + 10, m_iSelfnumberScale);
+		DrawTexturedNumbersTopCenterAligned(*m_pSelfnumber, m_rcTeamnumber, selfKill, x + 105, y + 10, m_iSelfnumberScale);
 	}
 
 

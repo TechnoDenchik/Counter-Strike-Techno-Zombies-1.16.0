@@ -11,6 +11,13 @@ public:
 	int Draw(float time) override;
 
 protected:
+	UniqueTexture healthboard;
+	UniqueTexture healthboard2;
+	UniqueTexture ammoboard;
+	UniqueTexture weaponboard;
+	UniqueTexture iconround;
+	UniqueTexture countplayer;
+
 	UniqueTexture m_pBackground;
 	wrect_t m_rcTeamnumber[10];
 	UniqueTexture m_pTeamnumber;

@@ -31,11 +31,13 @@ protected:
 	wrect_t m_rcSelfnumber[32];
 	wrect_t m_rcToprecord[32];
 	
-
 private:
 	int m_iBGIndex;
 	int m_iTextIndex;
 	int m_iTTextIndex, m_iCTTextIndex;
+
+	wrect_t m_rcNumber_Large[10];
+	wrect_t m_rcNumber_Small[10];
 
 	int m_iOriginalBG;
 	int m_iTeamDeathBG;

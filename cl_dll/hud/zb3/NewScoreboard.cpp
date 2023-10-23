@@ -4,6 +4,7 @@
 #include "draw_util.h"
 #include "triangleapi.h"
 #include "zb3.h"
+#include "scoreboard.h"
 #include "NewScoreboard.h"
 #include "gamemode/mods_const.h"
 #include "string.h"
@@ -166,21 +167,22 @@ int CHudZB3ScoreBoard::Draw(float time)
 	DrawUtils::Draw2DQuadScaled(x11 - 34.7, y11 - 1.7, x11 + 34.7, y11 + 10.7);
 	
 	int best_player = gHUD.m_Scoreboard.FindBestPlayer();
+
+    int countHM = gHUD.m_Scoreboard.m_iTeamAlive_CT;
+	int countZB = gHUD.m_Scoreboard.m_iTeamAlive_T; 
+
 	int scoreCT = gHUD.m_Scoreboard.m_iTeamScore_CT;
 	int scoreT = gHUD.m_Scoreboard.m_iTeamScore_T;
-	int countZB = gHUD.m_Scoreboard.m_iTeamAlive_T; 
 	int scoreMax = gHUD.m_Scoreboard.m_iNumTeams;
-	int countHM = gHUD.m_Scoreboard.m_iTeamAlive_CT;
-	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT + 1;
+	//int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT;
+
+	DrawTexturedNumbersTopCenterAligned(*winhm, m_rcTeamnumber, scoreCT, x4 + 70, y4 + 14, 1.20f);
 	DrawTexturedNumbersTopCenterAligned(*winzb, m_rcSelfnumber, scoreT, x3 - 65, y3 + 14, 1.20f);
-	DrawTexturedNumbersTopCenterAligned(*winhm, m_rcTeamnumber, scoreCT, x4 + 70, y4 + 14, 1.20f); // ok// ok
 	DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countHM, x5 + 77,  y5 );
     DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countZB, x6 - 77, y5 );
 	
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
    
-
-
 	if (!g_PlayerExtraInfo[idx].zombie)
 	{ 
 	ammoboard->Bind();
@@ -188,7 +190,6 @@ int CHudZB3ScoreBoard::Draw(float time)
 	return 1;
     }
     
-	
 	return 1;
 
 }

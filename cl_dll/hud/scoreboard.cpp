@@ -108,14 +108,14 @@ DECLARE_MESSAGE(m_Scoreboard, ScoreInfo)
 DECLARE_MESSAGE(m_Scoreboard, TeamInfo)
 DECLARE_MESSAGE(m_Scoreboard, TeamScore)
 
-struct CHudScoreboard::impl_t : THudSubDispatcher<CHudScoreBoardLegacy> {};
+//struct CHudScoreboard::impl_t : THudSubDispatcher< CHudZB3ScoreBoard> {};
 
 CHudScoreboard::CHudScoreboard() = default;
 CHudScoreboard::~CHudScoreboard() = default;
 
 int CHudScoreboard::Init(void)
 {
-	pimpl.reset(new impl_t());
+	//pimpl.reset(new impl_t());
 
 	gHUD.AddHudElem(this);
 
@@ -147,7 +147,7 @@ int CHudScoreboard::VidInit(void)
 	m_bForceDraw = false;
 
 	// Load sprites here
-	pimpl->for_each(&IBaseHudSub::VidInit);
+	//pimpl->for_each(&IBaseHudSub::VidInit);
 	return 1;
 }
 
@@ -171,12 +171,12 @@ void CHudScoreboard::InitHUDData(void)
 	m_iTeamAlive_CT = 0;
 	m_flNextCache = 0;
 
-	pimpl->for_each(&IBaseHudSub::InitHUDData);
+	//pimpl->for_each(&IBaseHudSub::InitHUDData);
 }
 
 void CHudScoreboard::Shutdown(void)
 {
-	pimpl = nullptr;
+	//pimpl = nullptr;
 }
 
 // Y positions
@@ -184,7 +184,7 @@ void CHudScoreboard::Shutdown(void)
 
 int CHudScoreboard::Draw(float time)
 {
-	pimpl->for_each(&IBaseHudSub::Draw, time);
+	//pimpl->for_each(&IBaseHudSub::Draw, time);
 
 	if (!m_bForceDraw)
 	{
@@ -214,12 +214,12 @@ void CHudScoreboard::Think()
 		CacheTeamAliveNumber();
 		m_flNextCache = gHUD.m_flTime + 1.0;
 	}
-	pimpl->for_each(&IBaseHudSub::Think);
+	//pimpl->for_each(&IBaseHudSub::Think);
 }
 
 void CHudScoreboard::Reset()
 {
-	pimpl->for_each(&IBaseHudSub::Reset);
+	//pimpl->for_each(&IBaseHudSub::Reset);
 }
 
 int CHudScoreboard::DrawScoreboard(float fTime)
@@ -330,7 +330,7 @@ int CHudScoreboard::DrawTeams(float list_slot)
 		int highest_frags = -99999; int lowest_deaths = 99999;
 		int best_team = 0;
 
-		for (int i = 1; i <= m_iNumTeams; i++)
+		for (int i = 0; i <= m_iNumTeams; i++)
 		{
 			// don't draw team without players
 			if (g_TeamInfo[i].players <= 0)
