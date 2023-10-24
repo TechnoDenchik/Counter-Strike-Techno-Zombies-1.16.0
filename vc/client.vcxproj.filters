@@ -624,6 +624,7 @@
     <ClCompile Include="..\cl_dll\hud\zb3\NewScoreboard.cpp">
       <Filter>cl_dll\hud\zb3</Filter>
     </ClCompile>
+    <ClCompile Include="..\cl_dll\events\event_gungnir.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\cvardef.h">

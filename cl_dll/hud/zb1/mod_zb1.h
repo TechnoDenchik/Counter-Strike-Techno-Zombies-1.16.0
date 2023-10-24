@@ -19,7 +19,7 @@ GNU General Public License for more details.
 #pragma once
 #endif
 
-#include "mod_base.h"
+#include "gamemode/mod_base.h"
 #include "zb1/zb1_zclass.h"
 
 #include <vector>
@@ -34,17 +34,17 @@ public:
 
 public: // CHalfLifeMultiplay
 	void CheckMapConditions() override;
-	BOOL IsTeamplay(void) override { return TRUE; }
+	
 	void UpdateGameMode(CBasePlayer *pPlayer) override;
 	void RestartRound() override;
 	void PlayerSpawn(CBasePlayer *pPlayer) override;
 	void Think() override;
-	BOOL ClientConnected(edict_t *pEntity, const char *pszName, const char *pszAddress, char *szRejectReason) override;
-	void ClientDisconnected(edict_t *pClient) override;
-	BOOL FPlayerCanTakeDamage(CBasePlayer *pPlayer, CBaseEntity *pAttacker) override;
+	
+	
+	
 	void CheckWinConditions() override;
 	int IPointsForKill(CBasePlayer *pAttacker, CBasePlayer *pKilled) override;
-	void PlayerKilled(CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor) override;
+	
 
 public: // IBaseMod
 	DamageTrack_e DamageTrack() override { return DT_ZB; }
@@ -60,10 +60,10 @@ protected:
 	void TeamCheck();
 	void InfectionSound();
 
-	virtual void HumanWin();
-	virtual void ZombieWin();
+	void HumanWin();
+	void ZombieWin();
 
-	BOOL FInfectionStarted();
+	
 
 	void MakeZombie(CBasePlayer *player, ZombieLevel iEvolutionLevel) { m_eventBecomeZombie.dispatch(player, iEvolutionLevel); }
 
@@ -83,7 +83,7 @@ public:
 	void OnThink() override { m_pCharacter->Think(); return CPlayerModStrategy_Zombie::OnThink(); }
 	void OnResetMaxSpeed() override { m_pCharacter->ResetMaxSpeed(); return CPlayerModStrategy_Zombie::OnResetMaxSpeed(); }
 	bool ApplyKnockback(CBasePlayer *attacker, const KnockbackData &data) override { return m_pCharacter->ApplyKnockback(attacker, data); }
-	float AdjustDamageTaken(entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType) override;
+	
 	void Pain(int m_LastHitGroup, bool HasArmour) override;
 	void DeathSound() override;
 

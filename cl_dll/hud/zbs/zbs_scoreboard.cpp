@@ -10,7 +10,7 @@
 #include "string.h"
 #include "assert.h"
 
-const float ZBS_SELFNUMBER_SCALE_TIME = 0.3f;
+//const float ZBS_SELFNUMBER_SCALE_TIME = 0.3f;
 
 inline int CalcTeamFrags()
 {
@@ -137,7 +137,7 @@ int CHudZBSScoreBoard::Draw(float time)
 	int y9 = 20;
 	const float flScale = 0.0f;
 
-	gEngfuncs.pTriAPI->RenderMode(kRenderTransAlpha);
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 	m_pBackground->Bind();
 	DrawUtils::Draw2DQuadScaled(x - 170, y - 4.5 , x + 170, y + 77);
@@ -163,20 +163,18 @@ int CHudZBSScoreBoard::Draw(float time)
 
 	if (m_iSelfKills != selfKill)
 	{
-		m_iSelfnumberScale = 2.0f;
 		m_flSelfnumberScaleTime = time;
 	}
 	
-	if (time > m_flSelfnumberScaleTime + ZBS_SELFNUMBER_SCALE_TIME)
-	{
-		gEngfuncs.pTriAPI->Color4ub(160, 210, 250, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pSelfnumber, m_rcTeamnumber, selfKill, x + 105, y + 10);
+	if (time > m_flSelfnumberScaleTime)
+	{                              //160, 210, 250, 255
+		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x + 105, y + 10);
 	}
 	else
 	{
-		m_iSelfnumberScale = max(1.0f, m_iSelfnumberScale - 0.1f);
 		gEngfuncs.pTriAPI->Color4ub(255, 160, 0, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pSelfnumber, m_rcTeamnumber, selfKill, x + 105, y + 10, m_iSelfnumberScale);
+		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x + 105, y + 10);
 	}
 
 

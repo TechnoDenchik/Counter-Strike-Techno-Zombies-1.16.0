@@ -38,7 +38,7 @@ int CHudZBSRoundClear::Draw(float time)
 	int y = ScreenHeight / 4;
 	const float flScale = 0.0f;
 
-	gEngfuncs.pTriAPI->RenderMode(kRenderTransAlpha);
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255 * std::min(5.0f - (time - m_flDisplayTime), 1.0f));
 	m_pCurTexture->Bind();
 	DrawUtils::Draw2DQuadScaled(x - 373 / 2, y, x + 373 / 2, y + 51);

@@ -2,6 +2,7 @@
 
 #include "hud_sub.h"
 #include "r_texture.h"
+//#include "gamerules.h"
 #include <memory>
 
 class CHudZB3ScoreBoard : public IBaseHudSub
@@ -16,6 +17,8 @@ protected:
 	UniqueTexture newscoreboard;
 	UniqueTexture healthboard;
 	UniqueTexture healthboard2;
+	UniqueTexture iconwinhm;
+	UniqueTexture iconwinzb;
 	UniqueTexture iconhm;
 	UniqueTexture iconzb;
 	UniqueTexture ammoboard;
@@ -24,7 +27,12 @@ protected:
     UniqueTexture winhm;
     UniqueTexture winzb;
     UniqueTexture countplayer;
-
+	SharedTexture m_pTexture_RoundClear;
+	SharedTexture m_pTexture_RoundFail;
+	SharedTexture m_pCurTexture;
+	float m_flDisplayTime;
+    virtual	void HumanWin();
+	virtual void ZombieWin();
 
 
 	wrect_t m_rcTeamnumber[32];

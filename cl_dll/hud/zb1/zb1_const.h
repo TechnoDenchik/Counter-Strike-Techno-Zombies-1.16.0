@@ -1,5 +1,5 @@
 /*
-zb3.cpp - CSMoE Client HUD : Zombie Hero
+zb1_const.h - CSMoE : Zombie Mod Shared Constants
 Copyright (C) 2019 Moemod Hyakuya
 
 This program is free software: you can redistribute it and/or modify
@@ -13,21 +13,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 */
 
-#pragma once
+#ifndef PROJECT_ZB1_CONST_H
+#define PROJECT_ZB1_CONST_H
 
-class CHudZB3 : public CHudBase
+enum ZombieLevel : int
 {
-public:
-	int Init(void) override;
-	int VidInit(void) override;
-	int Draw(float time) override;
-	void Think(void) override;
-	void Reset(void) override;
-	void InitHUDData(void) override;		// called every time a server is connected to
-	void Shutdown(void) override;
-	CHudMsgFunc(ZB3Msg);
-
-protected:
-	class impl_t;
-	impl_t *pimpl;
+	ZOMBIE_LEVEL_HOST,
+	ZOMBIE_LEVEL_ORIGIN,
+	ZOMBIE_LEVEL_ORIGIN_LV2, // TBD
 };
+
+#endif //PROJECT_ZB1_CONST_H

@@ -9,6 +9,7 @@
 #include "gamemode/mods_const.h"
 #include "string.h"
 #include "assert.h"
+#include "eventscripts.h"
 
 inline void BuildNumberRC(wrect_t(&rgrc)[32], int w, int h)
 {
@@ -89,6 +90,7 @@ inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef &tex, const wre
 
 int CHudZB3ScoreBoard::VidInit(void)
 {
+
 	R_InitTexture(newscoreboard, "resource/hud/zb3/hud_scoreboard_bg");
     R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
     R_InitTexture(healthboard, "resource/hud/zb3/hud_character_bg_bottom");
@@ -101,16 +103,17 @@ int CHudZB3ScoreBoard::VidInit(void)
 	R_InitTexture(iconround, "resource/hud/zb3/hud_text_icon_round");
 	R_InitTexture(iconhm, "resource/hud/zb3/hud_text_icon_hm_left");
 	R_InitTexture(iconzb, "resource/hud/zb3/hud_text_icon_zb_right");
+	R_InitTexture(iconwinhm, "resource/hud/zb3/humanwin");
+	R_InitTexture(iconwinzb, "resource/hud/zb3/zombiewin");
 
-    
 	BuildNumberRC(m_rcSelfnumber, 18, 22);
 	BuildNumberRC(m_rcTeamnumber, 18, 22);
 
 	BuildNumberRC(m_rcToprecord, 11, 13);
-
-	return 0;
+     return 0;
+	
 }
-#include "eventscripts.h"
+
 int CHudZB3ScoreBoard::Draw(float time)
 {   
 	
@@ -144,18 +147,16 @@ int CHudZB3ScoreBoard::Draw(float time)
 
 	int y11 = 10;
 
+	int x12 = ScreenWidth / 2;
+	int y12 = ScreenHeight / 4;
+
+
 	const float flScale = 0.0f;
-	gEngfuncs.pTriAPI->RenderMode(kRenderTransAlpha);
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 
     newscoreboard->Bind();                                 
 	DrawUtils::Draw2DQuadScaled(x - 481 / 3.0,/*длина*/ y - 4.5, x + 481 / 3.0, y + 77/*Толщина*/);
-   
-	healthboard->Bind();
-	DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
-
-	healthboard2->Bind();
-	DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
 
 	iconround->Bind();
 	DrawUtils::Draw2DQuadScaled(x9 - 39.7, y9 - 1.7, x9 + 39.7, y9 + 10.7);
@@ -166,6 +167,7 @@ int CHudZB3ScoreBoard::Draw(float time)
 	iconzb->Bind();
 	DrawUtils::Draw2DQuadScaled(x11 - 34.7, y11 - 1.7, x11 + 34.7, y11 + 10.7);
 	
+
 	int best_player = gHUD.m_Scoreboard.FindBestPlayer();
 
     int countHM = gHUD.m_Scoreboard.m_iTeamAlive_CT;
@@ -174,7 +176,7 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int scoreCT = gHUD.m_Scoreboard.m_iTeamScore_CT;
 	int scoreT = gHUD.m_Scoreboard.m_iTeamScore_T;
 	int scoreMax = gHUD.m_Scoreboard.m_iNumTeams;
-	//int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT;
+	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT + 1;
 
 	DrawTexturedNumbersTopCenterAligned(*winhm, m_rcTeamnumber, scoreCT, x4 + 70, y4 + 14, 1.20f);
 	DrawTexturedNumbersTopCenterAligned(*winzb, m_rcSelfnumber, scoreT, x3 - 65, y3 + 14, 1.20f);
@@ -182,14 +184,47 @@ int CHudZB3ScoreBoard::Draw(float time)
     DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countZB, x6 - 77, y5 );
 	
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
-   
-	if (!g_PlayerExtraInfo[idx].zombie)
+
+	if (!g_PlayerExtraInfo[idx].zombie && !g_PlayerExtraInfo[idx].dead)
 	{ 
 	ammoboard->Bind();
 	DrawUtils::Draw2DQuadScaled(x7 - 550 / 3.0,/*длина*/ y7 + 4.5, x7 + 550 / 3.0, y7 + 77/*Толщина*/);
-	return 1;
+	
     }
-    
-	return 1;
+    if (!g_PlayerExtraInfo[idx].dead)
+	{
+		healthboard->Bind();
+		DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
 
+		healthboard2->Bind();
+		DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
+		return 1;
+	}
+     return 1;
+	return 1;
+}
+
+void CHudZB3ScoreBoard::HumanWin()
+{
+    //if(ROUND_CTS_WIN)
+	{ 
+	int x12 = ScreenWidth / 2;
+	int y12 = ScreenHeight / 4;
+	iconwinhm->Bind();
+	DrawUtils::Draw2DQuadScaled(x12 - 373 / 2, y12, x12 + 373 / 2, y12 + 51);
+	}
+
+}
+
+void CHudZB3ScoreBoard::ZombieWin()
+{
+	//if(ROUND_TERRORISTS_WIN)
+	{ 
+	int x12 = ScreenWidth / 2;
+	int y12 = ScreenHeight / 4;
+	iconwinzb->Bind();
+	DrawUtils::Draw2DQuadScaled(x12 - 373 / 2, y12, x12 + 373 / 2, y12 + 51);
+	
+	}
+	
 }
