@@ -86,9 +86,7 @@ public:
 	AMMO GetAmmo( int iId ) { return iId; }
 
 	void SetAmmo( int iId, int iCount ) { riAmmo[ iId ] = iCount;	}
-
 	int CountAmmo( int iId );
-
 	HSPRITE* GetAmmoPicFromWeapon( int iAmmoId, wrect_t& rect );
 };
 

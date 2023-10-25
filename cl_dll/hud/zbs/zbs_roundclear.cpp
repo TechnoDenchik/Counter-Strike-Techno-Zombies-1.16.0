@@ -6,7 +6,6 @@
 
 #include "zbs.h"
 #include "zbs_roundclear.h"
-
 #include "string.h"
 #include "assert.h"
 #include <numeric>

@@ -105,10 +105,11 @@ int CHudZB3ScoreBoard::VidInit(void)
 	R_InitTexture(iconzb, "resource/hud/zb3/hud_text_icon_zb_right");
 	R_InitTexture(iconwinhm, "resource/hud/zb3/humanwin");
 	R_InitTexture(iconwinzb, "resource/hud/zb3/zombiewin");
+	R_InitTexture(ammocounts, "resource/hud/zb3/hud_character_num");
 
 	BuildNumberRC(m_rcSelfnumber, 18, 22);
 	BuildNumberRC(m_rcTeamnumber, 18, 22);
-
+	BuildNumberRC(m_rcAmmocount, 18, 22);
 	BuildNumberRC(m_rcToprecord, 11, 13);
      return 0;
 	
@@ -150,6 +151,8 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int x12 = ScreenWidth / 2;
 	int y12 = ScreenHeight / 4;
 
+	int x13 = ScreenWidth / 10.4;
+	int y13 = 980;
 
 	const float flScale = 0.0f;
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
@@ -177,12 +180,12 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int scoreT = gHUD.m_Scoreboard.m_iTeamScore_T;
 	int scoreMax = gHUD.m_Scoreboard.m_iNumTeams;
 	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT + 1;
-
+	int countammo = gHUD.m_Ammo.m_iAmmoLastCheck;
 	DrawTexturedNumbersTopCenterAligned(*winhm, m_rcTeamnumber, scoreCT, x4 + 70, y4 + 14, 1.20f);
 	DrawTexturedNumbersTopCenterAligned(*winzb, m_rcSelfnumber, scoreT, x3 - 65, y3 + 14, 1.20f);
 	DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countHM, x5 + 77,  y5 );
     DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countZB, x6 - 77, y5 );
-	
+	DrawTexturedNumbersTopCenterAligned(*ammocounts, m_rcAmmocount, countammo, x6 - 77, y5);
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
 
 	if (!g_PlayerExtraInfo[idx].zombie && !g_PlayerExtraInfo[idx].dead)

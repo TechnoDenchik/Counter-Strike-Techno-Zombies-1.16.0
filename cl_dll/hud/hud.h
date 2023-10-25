@@ -33,7 +33,7 @@
 #include "wrect.h"
 #include "cl_dll.h"
 #include "ammo.h"
-
+#include "ammohistory.h"
 #include "csprite.h"
 #include "cvardef.h" // cvar_t
 
@@ -952,6 +952,7 @@ public:
 	int m_iFontHeight;
 	CHudAmmo        m_Ammo;
 	CHudHealth      m_Health;
+	WeaponsResource CountAmmo2;
 	CHudSpectator   m_Spectator;
 	CHudGeiger      m_Geiger;
 	CHudBattery	    m_Battery;

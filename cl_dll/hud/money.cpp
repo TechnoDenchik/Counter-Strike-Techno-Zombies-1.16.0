@@ -17,6 +17,7 @@
 //#include "NewScoreboard.h"
 #include "legacy/hud_scoreboard_legacy.h"
 #include "gamemode/mods_const.h"
+#include "eventscripts.h"
 
 #include "string.h"
 //#include "assert.h"
@@ -85,8 +86,13 @@ int CHudMoney::Draw(float flTime)
 
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransAlpha);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
-	m_pTexture_Black->Bind();
-	DrawUtils::Draw2DQuadScaled(0, y - 0.5 * gHUD.m_iFontHeight, x + (gHUD.GetSpriteRect(gHUD.m_HUD_number_0).right - gHUD.GetSpriteRect(gHUD.m_HUD_number_0).left) * 10, y + 1.5 * gHUD.m_iFontHeight);
+	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
+	if (!g_PlayerExtraInfo[idx].dead)
+	{	
+       m_pTexture_Black->Bind();
+	   DrawUtils::Draw2DQuadScaled(0, y - 0.5 * gHUD.m_iFontHeight, x + (gHUD.GetSpriteRect(gHUD.m_HUD_number_0).right - gHUD.GetSpriteRect(gHUD.m_HUD_number_0).left) * 10, y + 1.5 * gHUD.m_iFontHeight);
+	}
+	
 
 	if(( gHUD.m_iHideHUDDisplay & ( HIDEHUD_HEALTH ) ))
 		return 1;

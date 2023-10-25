@@ -5,12 +5,12 @@
 #endif
 
 //m4a1
-#define M4A1_MAX_SPEED		230
-#define M4A1_DAMAGE		32
-#define M4A1_DAMAGE_SIL		33
-#define M4A1_RANGE_MODIFER      0.97
-#define M4A1_RANGE_MODIFER_SIL  0.95
-#define M4A1_RELOAD_TIME	3.05
+constexpr auto M4A1_MAX_SPEED = 230;
+constexpr auto M4A1_DAMAGE = 32;
+constexpr auto M4A1_DAMAGE_SIL = 33;
+constexpr auto M4A1_RANGE_MODIFER = 0.97;
+constexpr auto M4A1_RANGE_MODIFER_SIL = 0.95;
+constexpr auto M4A1_RELOAD_TIME = 3.05;
 
 class CM4A1 : public CBasePlayerWeapon
 {
@@ -33,7 +33,7 @@ public:
 #endif
 	}
 	KnockbackData GetKnockBackData() override { return { 350.0f, 250.0f, 300.0f, 100.0f, 0.6f }; }
-
+	
 public:
 	void M4A1Fire(float flSpread, float flCycleTime, BOOL fUseAutoAim);
 
@@ -42,6 +42,7 @@ public:
 
 private:
 	unsigned short m_usFireM4A1;
+
 };
 
 #endif
