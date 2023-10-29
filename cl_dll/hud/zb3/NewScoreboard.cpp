@@ -3,6 +3,7 @@
 #include "cl_util.h"
 #include "draw_util.h"
 #include "triangleapi.h"
+#include "weapons.h"
 #include "zb3.h"
 #include "scoreboard.h"
 #include "NewScoreboard.h"
@@ -10,6 +11,7 @@
 #include "string.h"
 #include "assert.h"
 #include "eventscripts.h"
+//#include "cs_wpn/cs_weapons.cpp"
 
 inline void BuildNumberRC(wrect_t(&rgrc)[32], int w, int h)
 {
@@ -189,7 +191,7 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
 
 	if (!g_PlayerExtraInfo[idx].zombie && !g_PlayerExtraInfo[idx].dead)
-	{ 
+	{
 	ammoboard->Bind();
 	DrawUtils::Draw2DQuadScaled(x7 - 550 / 3.0,/*длина*/ y7 + 4.5, x7 + 550 / 3.0, y7 + 77/*Толщина*/);
 	

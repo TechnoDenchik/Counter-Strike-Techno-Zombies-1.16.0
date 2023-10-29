@@ -111,13 +111,6 @@ int WeaponsResource :: CountAmmo( int iId )
 	return riAmmo[iId];
 }
 
-int CountAmmos2(int iId)
-{
-	if (iId < 0)
-		return 0;
-
-}
-
 int WeaponsResource :: HasAmmo( WEAPON *p )
 {
 	if ( !p )
@@ -1625,6 +1618,7 @@ void CHudAmmo::CalcCrosshairColor()
 		m_R = m_cvarR = bound( 0, m_cvarR, 255 );
 		m_G = m_cvarG = bound( 0, m_cvarG, 255 );
 		m_B = m_cvarB = bound( 0, m_cvarB, 255 );
+		
 	}
 }
 

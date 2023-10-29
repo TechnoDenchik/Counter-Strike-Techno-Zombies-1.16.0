@@ -15,8 +15,9 @@ static std::pair<const char *, void(*)(CBasePlayer *p)> g_SupplyboxItems[]=
 	{ "Dual MP7A1", [](CBasePlayer* p)
 	{
 			DropPrimary(p);
-			p->GiveNamedItem("weapon_mp7a1d");
-			int iAmount = p->m_pModStrategy->ComputeMaxAmmo("46mm", MAX_AMMO_46MM);
+	
+			p->GiveNamedItem("weapon_mp7a1d");		
+		    int iAmount = p->m_pModStrategy->ComputeMaxAmmo("46mm", MAX_AMMO_46MM);
 			p->GiveAmmo(iAmount, "46mm", iAmount);
 
 			DropSecondary(p);
@@ -78,7 +79,7 @@ void CSupplyBox::SupplyboxTouch(CBaseEntity *pOther)
 	if (!pOther->IsPlayer())
 		return;
 
-	CBasePlayer *p = static_cast<CBasePlayer *>(pOther);
+	CBasePlayer *p = dynamic_cast<CBasePlayer *>(pOther);
 
 	if (p->m_bIsVIP || p->m_bIsZombie)
 		return;
@@ -103,7 +104,7 @@ void CSupplyBox::SupplyboxThink()
 		if (m_flNextRadarTime <= gpGlobals->time)
 		{
 			SendPositionMsg();
-			m_flNextRadarTime = gpGlobals->time + 1;
+			m_flNextRadarTime = gpGlobals->time + 2;
 		}
 	}
 }
