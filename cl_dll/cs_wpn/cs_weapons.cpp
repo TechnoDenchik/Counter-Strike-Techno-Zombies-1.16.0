@@ -1225,7 +1225,7 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	flags = from->client.iuser3;
 	g_bHoldingKnife		= pWeapon->m_iId == WEAPON_KNIFE;
 	player.m_bCanShoot	= (flags & PLAYER_CAN_SHOOT) != 0;
-	g_iFreezeTimeOver	= !(flags & PLAYER_FREEZE_TIME_OVER);
+	g_iFreezeTimeOver	= ~(flags & PLAYER_FREEZE_TIME_OVER);
 	g_bInBombZone		= (flags & PLAYER_IN_BOMB_ZONE) != 0;
 	g_bHoldingShield	= (flags & PLAYER_HOLDING_SHIELD) != 0;
 

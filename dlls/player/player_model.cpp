@@ -2,6 +2,7 @@
 #include "util.h"
 #include "cbase.h"
 #include "player.h"
+#include "player_model.h"
 #include "gamerules.h"
 
 const char *sPlayerModelFiles[] =
@@ -24,6 +25,14 @@ const char *Client_ApperanceToModel(int iApperance)
 {
 	return sPlayerModelFiles[iApperance];
 }
+
+CPlayerClassManager& PlayerClassManager()
+{
+	static CPlayerClassManager x;
+	return x;
+}
+
+
 
 void PlayerModel_Precache()
 {

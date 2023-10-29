@@ -36,6 +36,12 @@
 #define DHN_FILLZERO 8
 #define DHN_4DIGITS 16
 #define DHN_5DIGITS 32
+constexpr int DHN_6DIGITS = 64;
+constexpr int DHN_7DIGITS = 128;
+constexpr int DHN_8DIGITS = 256;
+constexpr int DHN_9DIGITS = 512;
+constexpr int DHN_FROMRIGHT = 64;
+constexpr int DHN_CENTERALIGNED = 128;
 #define MIN_ALPHA 100
 
 

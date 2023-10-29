@@ -10,8 +10,9 @@
 #include "string.h"
 #include "assert.h"
 #include "eventscripts.h"
+//#include "cs_wpn/cs_weapons.cpp"
 
-inline void BuildNumberRC(wrect_t(&rgrc)[32], int w, int h)
+/*inline void BuildNumberRC(wrect_t(&rgrc)[10], int w, int h)
 {
 	int nw = 0;
 
@@ -26,7 +27,7 @@ inline void BuildNumberRC(wrect_t(&rgrc)[32], int w, int h)
 	}
 }
 
-inline void BuildNumberRC(wrect_t(&rgrc)[32], int tex)
+inline void BuildNumberRC(wrect_t(&rgrc)[10], int tex)
 {
 	int w = gRenderAPI.RenderGetParm(PARM_TEX_SRC_WIDTH, tex);
 	int h = gRenderAPI.RenderGetParm(PARM_TEX_SRC_HEIGHT, tex);
@@ -59,7 +60,7 @@ inline void DrawTexturePart(const CTextureRef &tex, const wrect_t &rect, int x1,
 	gEngfuncs.pTriAPI->End();
 }
 
-inline int DrawTexturedNumbersTopRightAligned(const CTextureRef &tex, const wrect_t(&rect)[32], int iNumber, int x, int y, float scale = 1.0f)
+inline int DrawTexturedNumbersTopRightAligned(const CTextureRef &tex, const wrect_t(&rect)[10], int iNumber, int x, int y, float scale = 1.0f)
 {
 	assert(iNumber >= 0);
 
@@ -81,7 +82,7 @@ inline unsigned math_log10(unsigned v)
 		(v >= 1000) ? 3 : (v >= 100) ? 2 : (v >= 10) ? 1 : 0;
 }
 
-inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef &tex, const wrect_t(&rect)[32], int iNumber, int x, int y, float scale = 1.0f)
+inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef &tex, const wrect_t(&rect)[10], int iNumber, int x, int y, float scale = 1.0f)
 {
 	int n = math_log10(iNumber);
 	x += (rect[0].right - rect[0].left) * (n - 1) * scale * 0.5f;
@@ -90,12 +91,12 @@ inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef &tex, const wre
 
 int CHudZB3ScoreBoard::VidInit(void)
 {
-
 	R_InitTexture(newscoreboard, "resource/hud/zb3/hud_scoreboard_bg");
     R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
     R_InitTexture(healthboard, "resource/hud/zb3/hud_character_bg_bottom");
 	R_InitTexture(healthboard2, "resource/hud/zb3/hud_character_bg_top");
     R_InitTexture(ammoboard,"resource/hud/zb3/hud_weapon_bg");
+	R_InitTexture(textstring, "resource/hud/zb3/hud_string_bg");
 
 	R_InitTexture(winhm, "resource/hud/zb3/hud_sb_num_big_blue");
 	R_InitTexture(winzb, "resource/hud/zb3/hud_sb_num_big_red");
@@ -106,18 +107,18 @@ int CHudZB3ScoreBoard::VidInit(void)
 	R_InitTexture(iconwinhm, "resource/hud/zb3/humanwin");
 	R_InitTexture(iconwinzb, "resource/hud/zb3/zombiewin");
 	R_InitTexture(ammocounts, "resource/hud/zb3/hud_character_num");
+	R_InitTexture(iconclassmilitia, "resource/hud/zb3/militia");
 
 	BuildNumberRC(m_rcSelfnumber, 18, 22);
 	BuildNumberRC(m_rcTeamnumber, 18, 22);
 	BuildNumberRC(m_rcAmmocount, 18, 22);
 	BuildNumberRC(m_rcToprecord, 11, 13);
      return 0;
-	
 }
 
 int CHudZB3ScoreBoard::Draw(float time)
-{   
-	
+{
+
 	int x = ScreenWidth / 2; // Движение по горизонтали
 	int y = 5; // Движение по вертикали
 
@@ -154,12 +155,15 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int x13 = ScreenWidth / 10.4;
 	int y13 = 980;
 
+	int x14 = ScreenWidth / 10.4;
+	int y14 = 980;
+
 	const float flScale = 0.0f;
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 
-    newscoreboard->Bind();                                 
-	DrawUtils::Draw2DQuadScaled(x - 481 / 3.0,/*длина*/ y - 4.5, x + 481 / 3.0, y + 77/*Толщина*/);
+	newscoreboard->Bind();
+	DrawUtils::Draw2DQuadScaled(x - 481 / 3.0, y - 4.5, x + 481 / 3.0, y + 77);
 
 	iconround->Bind();
 	DrawUtils::Draw2DQuadScaled(x9 - 39.7, y9 - 1.7, x9 + 39.7, y9 + 10.7);
@@ -169,40 +173,46 @@ int CHudZB3ScoreBoard::Draw(float time)
 
 	iconzb->Bind();
 	DrawUtils::Draw2DQuadScaled(x11 - 34.7, y11 - 1.7, x11 + 34.7, y11 + 10.7);
-	
+
 
 	int best_player = gHUD.m_Scoreboard.FindBestPlayer();
 
-    int countHM = gHUD.m_Scoreboard.m_iTeamAlive_CT;
-	int countZB = gHUD.m_Scoreboard.m_iTeamAlive_T; 
+	int countHM = gHUD.m_Scoreboard.m_iTeamAlive_CT;
+	int countZB = gHUD.m_Scoreboard.m_iTeamAlive_T;
 
 	int scoreCT = gHUD.m_Scoreboard.m_iTeamScore_CT;
 	int scoreT = gHUD.m_Scoreboard.m_iTeamScore_T;
 	int scoreMax = gHUD.m_Scoreboard.m_iNumTeams;
 	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT + 1;
 	int countammo = gHUD.m_Ammo.m_iAmmoLastCheck;
+
 	DrawTexturedNumbersTopCenterAligned(*winhm, m_rcTeamnumber, scoreCT, x4 + 70, y4 + 14, 1.20f);
 	DrawTexturedNumbersTopCenterAligned(*winzb, m_rcSelfnumber, scoreT, x3 - 65, y3 + 14, 1.20f);
-	DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countHM, x5 + 77,  y5 );
-    DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countZB, x6 - 77, y5 );
+	DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countHM, x5 + 77, y5);
+	DrawTexturedNumbersTopCenterAligned(*countplayer, m_rcToprecord, countZB, x6 - 77, y5);
 	DrawTexturedNumbersTopCenterAligned(*ammocounts, m_rcAmmocount, countammo, x6 - 77, y5);
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
 
 	if (!g_PlayerExtraInfo[idx].zombie && !g_PlayerExtraInfo[idx].dead)
-	{ 
-	ammoboard->Bind();
-	DrawUtils::Draw2DQuadScaled(x7 - 550 / 3.0,/*длина*/ y7 + 4.5, x7 + 550 / 3.0, y7 + 77/*Толщина*/);
-	
-    }
-    if (!g_PlayerExtraInfo[idx].dead)
+	{
+		ammoboard->Bind();
+		DrawUtils::Draw2DQuadScaled(x7 - 550 / 3.0, y7 + 4.5, x7 + 550 / 3.0, y7 + 77);
+
+	}
+	if (!g_PlayerExtraInfo[idx].dead)
 	{
 		healthboard->Bind();
 		DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
 
 		healthboard2->Bind();
 		DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
-		return 1;
+
 	}
+	if (sPlayerModelFiles[11])
+	{
+      iconclassmilitia->Bind();
+       DrawUtils::Draw2DQuadScaled(x14 - 550 / 3.0, y14 + 5.5, x14 + 550 / 3.0, y14 + 95);
+    }
      return 1;
 	return 1;
 }
@@ -230,4 +240,4 @@ void CHudZB3ScoreBoard::ZombieWin()
 	
 	}
 	
-}
+}*/

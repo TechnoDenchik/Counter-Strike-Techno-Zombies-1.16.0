@@ -111,13 +111,6 @@ int WeaponsResource :: CountAmmo( int iId )
 	return riAmmo[iId];
 }
 
-int CountAmmos2(int iId)
-{
-	if (iId < 0)
-		return 0;
-
-}
-
 int WeaponsResource :: HasAmmo( WEAPON *p )
 {
 	if ( !p )

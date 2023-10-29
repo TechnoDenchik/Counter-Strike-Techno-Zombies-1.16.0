@@ -33,7 +33,6 @@
 #include "wrect.h"
 #include "cl_dll.h"
 #include "ammo.h"
-#include "ammohistory.h"
 #include "csprite.h"
 #include "cvardef.h" // cvar_t
 
@@ -128,7 +127,6 @@ struct HUDLIST {
 #include "zb3/zb3.h"
 #include "retina.h"
 #include "moe/moe_touch.h"
-
 //
 //-----------------------------------------------------
 //
@@ -337,6 +335,7 @@ protected:
 	cvar_t *hud_centerid;
 };
 
+
 struct extra_player_info_t 
 {
 	short frags;
@@ -357,6 +356,18 @@ struct extra_player_info_t
 	float radarflashtime;
 	float radarflashtimedelta;
 	char location[32];
+};
+
+struct RoundPlayerInfo
+{
+	int kill[2];
+	int assist;
+	float assisttime[3][MAX_PLAYERS + 1];
+	float totaldmg[MAX_PLAYERS + 1];
+	int revenge;
+
+	int iHealth;
+	int iMaxHealth;
 };
 
 struct team_info_t 
@@ -632,7 +643,8 @@ public:
 	//could use a friend declaration instead...
 	void EnableIcon( const char *pszIconName, unsigned char red, unsigned char green, unsigned char blue );
 	void DisableIcon( const char *pszIconName );
-
+	
+	
 	friend class CHudScoreboard;
 
 private:
@@ -650,7 +662,7 @@ private:
 	icon_sprite_t m_IconList[MAX_ICONSPRITES];
 	int m_tgaC4[2];
 };
-
+ 
 
 //
 //-----------------------------------------------------
@@ -851,6 +863,8 @@ public:
 //-----------------------------------------------------
 //
 
+
+
 class CHud
 {
 public:
@@ -941,6 +955,7 @@ public:
 	cvar_t *hud_textmode;
 	cvar_t *hud_colored;
 	cvar_t *sv_skipshield;
+	cvar_t* m_hudstyle;
 
 	cvar_t *cl_headname;
 #ifdef __ANDROID__
@@ -952,7 +967,6 @@ public:
 	int m_iFontHeight;
 	CHudAmmo        m_Ammo;
 	CHudHealth      m_Health;
-	WeaponsResource CountAmmo2;
 	CHudSpectator   m_Spectator;
 	CHudGeiger      m_Geiger;
 	CHudBattery	    m_Battery;

@@ -5,7 +5,7 @@
 //#include "gamerules.h"
 #include <memory>
 
-
+/*
 
 class CHudZB3ScoreBoard : public IBaseHudSub
 {
@@ -17,30 +17,32 @@ public:
 
 protected:
 	UniqueTexture newscoreboard;
+	UniqueTexture textstring;
 	UniqueTexture healthboard;
 	UniqueTexture healthboard2;
-	UniqueTexture iconwinhm;
-	UniqueTexture iconwinzb;
+	SharedTexture iconwinhm;
+	SharedTexture iconwinzb;
 	UniqueTexture iconhm;
 	UniqueTexture iconzb;
 	UniqueTexture ammoboard;
 	UniqueTexture weaponboard;
 	UniqueTexture iconround;
+	UniqueTexture iconclassmilitia;
     UniqueTexture winhm;
     UniqueTexture winzb;
     UniqueTexture countplayer;
 	UniqueTexture ammocounts;
-	SharedTexture m_pTexture_RoundClear;
-	SharedTexture m_pTexture_RoundFail;
 	SharedTexture m_pCurTexture;
 	float m_flDisplayTime;
     virtual	void HumanWin();
 	virtual void ZombieWin();
 
-	wrect_t m_rcAmmocount[32];
-	wrect_t m_rcTeamnumber[32];
-	wrect_t m_rcSelfnumber[32];
-	wrect_t m_rcToprecord[32];
+
+
+	wrect_t m_rcAmmocount[10];
+	wrect_t m_rcTeamnumber[10];
+	wrect_t m_rcSelfnumber[10];
+	wrect_t m_rcToprecord[10];
 	
 private:
 	int m_iBGIndex;
@@ -65,3 +67,4 @@ private:
 	int m_iText_Kill;
 	int m_iText_Round;
 };
+*/
