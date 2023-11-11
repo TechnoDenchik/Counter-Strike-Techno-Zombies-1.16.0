@@ -1618,6 +1618,7 @@ void CHudAmmo::CalcCrosshairColor()
 		m_R = m_cvarR = bound( 0, m_cvarR, 255 );
 		m_G = m_cvarG = bound( 0, m_cvarG, 255 );
 		m_B = m_cvarB = bound( 0, m_cvarB, 255 );
+		
 	}
 }
 

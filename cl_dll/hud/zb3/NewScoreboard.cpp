@@ -3,6 +3,7 @@
 #include "cl_util.h"
 #include "draw_util.h"
 #include "triangleapi.h"
+#include "weapons.h"
 #include "zb3.h"
 #include "scoreboard.h"
 #include "NewScoreboard.h"
