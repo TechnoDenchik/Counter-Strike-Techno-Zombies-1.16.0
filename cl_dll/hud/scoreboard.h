@@ -60,6 +60,6 @@
 		SharedTexture m_pOSTexture[3];
 
 	private:
-		struct impl_t;
-		std::unique_ptr<impl_t> pimpl;
+		//struct impl_t;
+		//std::unique_ptr<impl_t> pimpl;
 	};

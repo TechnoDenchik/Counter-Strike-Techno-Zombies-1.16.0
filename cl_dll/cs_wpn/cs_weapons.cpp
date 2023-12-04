@@ -1097,6 +1097,10 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 			pWeapon = &g_Knife;
 			break;
 
+		case WEAPON_SHELTERAXE:
+			pWeapon = &g_Knife;
+			break;
+
 		case WEAPON_P90:
 			pWeapon = &g_P90;
 			break;

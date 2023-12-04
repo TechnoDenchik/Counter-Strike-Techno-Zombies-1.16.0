@@ -68,6 +68,39 @@
     <Filter Include="dlls\gamemode\zb3">
       <UniqueIdentifier>{4ef8c464-25b1-442b-9df5-829f8de2d72c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dlls\gamemode\zsh">
+      <UniqueIdentifier>{07722016-3148-4452-92a5-728e18f7cabc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\shelter">
+      <UniqueIdentifier>{4ecf4f4c-f304-49e0-9eb8-9e407c6c787f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\entity">
+      <UniqueIdentifier>{dabe2eba-b952-4484-8456-56f7854c5a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\resources">
+      <UniqueIdentifier>{d1b0d95e-3d60-453d-ab6e-d644c5c6a644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\skills">
+      <UniqueIdentifier>{5b7e214e-e95e-4ae8-bc95-e7f657b04f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\build">
+      <UniqueIdentifier>{178c5c43-c8bc-43fb-a473-dd63abbab79b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\tower">
+      <UniqueIdentifier>{02a02be8-2a76-4a83-9591-6decafb8cf54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\npc">
+      <UniqueIdentifier>{747ac739-4786-4064-a0d2-1a8fa6b13f4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\skills\survival">
+      <UniqueIdentifier>{79ee2bfc-a749-486c-8f8a-0c24d804207b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\skills\engineer">
+      <UniqueIdentifier>{25eae4b0-4331-4683-b370-f68e07c6be71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dlls\gamemode\zsh\skills\warrior">
+      <UniqueIdentifier>{022650af-cea8-40eb-badb-b6b2c3f81935}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\dlls\h_export.cpp">
@@ -647,6 +680,150 @@
       <Filter>dlls\gamemode\zb2</Filter>
     </ClCompile>
     <ClCompile Include="..\dlls\gamemode\zb2\zb2_zclass_speed.cpp">
+      <Filter>dlls\gamemode\zb2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\mod_zbshelter_pve.cpp">
+      <Filter>dlls\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\player\zombie_female.cpp">
+      <Filter>dlls\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\base.cpp">
+      <Filter>dlls\gamemode\zsh\shelter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\build.cpp">
+      <Filter>dlls\gamemode\zsh\build</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\skills.cpp">
+      <Filter>dlls\gamemode\zsh\skills</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\monsters.cpp">
+      <Filter>dlls\gamemode\zsh\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\resources.cpp">
+      <Filter>dlls\gamemode\zsh\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\automatic turret.cpp">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\fire turret.cpp">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\gatling turret.cpp">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\tower.cpp">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\plasma turret.cpp">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\electric turret.cpp">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\A special fight.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\air strike.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\An expert on the battlefield.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\combat reinforcements.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\combat skills.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\hp improvement.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\improving the Kevlar body armor.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Master of special weapons.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\The master of weapons 2.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\The master of weapons 3.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\The master of weapons.cpp">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\DEX.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Skill for survival.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\patience.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\transportation.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Collecting skills.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Collecting skills 2.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\extraction.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\The seeker.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Secure the camp.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\hunter.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Invisibility.cpp">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\battlefield repairs.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\technical skill.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\The skill of destruction.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\moving turrets.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Level 1 engineer.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Level 2 engineer.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\Level 3 engineer.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\The wreckers.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\project improvement.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\electrical engineer.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zsh\construction engineer.cpp">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\wpn_shared\shelter_axe.cpp">
+      <Filter>dlls\wpn_shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zb2\zb2_winhud.cpp">
       <Filter>dlls\gamemode\zb2</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1382,6 +1559,57 @@
     </ClInclude>
     <ClInclude Include="..\dlls\gamemode\zb2\zb2_skill.h">
       <Filter>dlls\gamemode\zb2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\mod_zbshelter_pve.h">
+      <Filter>dlls\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\player\zombie_female.h">
+      <Filter>dlls\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\base.h">
+      <Filter>dlls\gamemode\zsh\shelter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\build.h">
+      <Filter>dlls\gamemode\zsh\build</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\skills.h">
+      <Filter>dlls\gamemode\zsh\skills</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\monsters.h">
+      <Filter>dlls\gamemode\zsh\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\resources.h">
+      <Filter>dlls\gamemode\zsh\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\automatic turret.h">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\fire turret.h">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\gatling turret.h">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\tower.h">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\plasma turret.h">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\electric turret.h">
+      <Filter>dlls\gamemode\zsh\tower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\engineer.h">
+      <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\survival.h">
+      <Filter>dlls\gamemode\zsh\skills\survival</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\warrior.h">
+      <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\wpn_shared\shelter_axe.h">
+      <Filter>dlls\wpn_shared</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

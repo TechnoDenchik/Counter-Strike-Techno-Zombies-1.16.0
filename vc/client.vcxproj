@@ -72,6 +72,7 @@
     <ClCompile Include="..\cl_dll\events\event_scout.cpp" />
     <ClCompile Include="..\cl_dll\events\event_sg550.cpp" />
     <ClCompile Include="..\cl_dll\events\event_sg552.cpp" />
+    <ClCompile Include="..\cl_dll\events\event_shelteraxe.cpp" />
     <ClCompile Include="..\cl_dll\events\event_svdex.cpp" />
     <ClCompile Include="..\cl_dll\events\event_tar21.cpp" />
     <ClCompile Include="..\cl_dll\events\event_thompson.cpp" />

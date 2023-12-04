@@ -465,7 +465,7 @@ void UI_LoadBackgroundImage( void )
 		if( g_engfuncs.pfnFileExists( "gfx/shell/splash.bmp", TRUE ))
 		{
 			// if we doesn't have logo.avi in gamedir we don't want to draw it
-			if (!g_engfuncs.pfnFileExists("media/valve.avi", TRUE));
+			if (!g_engfuncs.pfnFileExists("media/logo.mp4", TRUE));
 				//uiStatic.m_fDisableLogo = TRUE;
 		}
 	}
@@ -961,6 +961,7 @@ bool UI_StartBackGroundMap( void )
 
 	char cmd[128];
 	sprintf( cmd, "maps/%s.bsp", uiStatic.bgmaps[bgmapid] );
+	//sprintf(cmd, "media/%s.mp4", uiStatic.bgmaps[bgmapid]);
 	if( !FILE_EXISTS( cmd )) return FALSE; 
 
 	sprintf( cmd, "map_background %s\n", uiStatic.bgmaps[bgmapid] );
@@ -1566,10 +1567,10 @@ void UI_ApplyCustomColors( void )
 
 static void UI_LoadBackgroundMapList( void )
 {
-	if( !g_engfuncs.pfnFileExists( "scripts/chapterbackgrounds.txt", TRUE ))
+	if( !g_engfuncs.pfnFileExists( "media/back.json", TRUE ))
 		return;
 
-	char *afile = (char *)LOAD_FILE( "scripts/chapterbackgrounds.txt", NULL );
+	char *afile = (char *)LOAD_FILE( "media/back.json", NULL );
 	char *pfile = afile;
 	char token[1024];
 
@@ -1577,7 +1578,7 @@ static void UI_LoadBackgroundMapList( void )
 
 	if( !afile )
 	{
-		Con_Printf( "UI_LoadBackgroundMapList: chapterbackgrounds.txt not found\n" );
+		Con_Printf( "UI_LoadBackgroundMapList: back.json not found\n" );
 		return;
 	}
 

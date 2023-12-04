@@ -14,6 +14,7 @@
 #include "hud_sub_impl.h"
 #include "gamemode/mods_const.h"
 
+#include "hud/zb3/NewScoreboard.h"
 #include "legacy/hud_scoreboard_legacy.h"
 #ifdef XASH_IMGUI
 #include "imgui.h"
@@ -82,14 +83,14 @@
 		DECLARE_MESSAGE(m_Scoreboard, TeamInfo)
 		DECLARE_MESSAGE(m_Scoreboard, TeamScore)
 
-		struct CHudScoreboard::impl_t : THudSubDispatcher<CHudScoreBoardLegacy> {};
+		//struct CHudScoreboard::impl_t : THudSubDispatcher<CHudScoreBoardLegacy> {};
 
 	CHudScoreboard::CHudScoreboard() = default;
 	CHudScoreboard::~CHudScoreboard() = default;
 
 	int CHudScoreboard::Init(void)
 	{
-		pimpl.reset(new impl_t());
+		//pimpl.reset(new impl_t());
 
 		gHUD.AddHudElem(this);
 
@@ -117,7 +118,7 @@
 		m_bForceDraw = false;
 
 		// Load sprites here
-		pimpl->for_each(&IBaseHudSub::VidInit);
+		 //pimpl->for_each(&IBaseHudSub::VidInit);
 
 		if (!m_pOSTexture[0])
 			R_InitTexture(m_pOSTexture[0], "resource/basic/windows");
@@ -149,18 +150,18 @@
 		m_iTeamAlive_CT = 0;
 		m_flNextCache = 0;
 
-		pimpl->for_each(&IBaseHudSub::InitHUDData);
+		//pimpl->for_each(&IBaseHudSub::InitHUDData);
 	}
 
 	void CHudScoreboard::Shutdown(void)
 	{
 		std::fill(std::begin(m_pOSTexture), std::end(m_pOSTexture), nullptr);
-		pimpl = nullptr;
+		//pimpl = nullptr;
 	}
 
 	int CHudScoreboard::Draw(float time)
 	{
-		pimpl->for_each(&IBaseHudSub::Draw, time);
+		//pimpl->for_each(&IBaseHudSub::Draw, time);
 
 		if (!m_bForceDraw)
 		{
@@ -186,12 +187,12 @@
 			CacheTeamAliveNumber();
 			m_flNextCache = gHUD.m_flTime + 1.0;
 		}
-		pimpl->for_each(&IBaseHudSub::Think);
+		//pimpl->for_each(&IBaseHudSub::Think);
 	}
 
 	void CHudScoreboard::Reset()
 	{
-		pimpl->for_each(&IBaseHudSub::Reset);
+		//pimpl->for_each(&IBaseHudSub::Reset);
 	}
 
 	const char* GetGameModeName()

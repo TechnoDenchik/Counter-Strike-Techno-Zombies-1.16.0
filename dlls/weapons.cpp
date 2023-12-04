@@ -428,6 +428,8 @@ void W_Precache()
 
 	// knife
 	UTIL_PrecacheOtherWeapon("weapon_knife");
+	UTIL_PrecacheOtherWeapon("weapon_shelteraxe");
+
 
 	UTIL_PrecacheOtherWeapon("weapon_glock18");
 	UTIL_PrecacheOtherWeapon("weapon_mp5navy");

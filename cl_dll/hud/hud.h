@@ -125,6 +125,7 @@ struct HUDLIST {
 #include "zbs/zbs.h"
 #include "zb2/zb2.h"
 #include "zb3/zb3.h"
+#include "zsh/zsh.h"
 #include "retina.h"
 #include "moe/moe_touch.h"
 //
@@ -955,7 +956,7 @@ public:
 	cvar_t *hud_textmode;
 	cvar_t *hud_colored;
 	cvar_t *sv_skipshield;
-	cvar_t* m_hudstyle;
+	cvar_t *m_hudstyle;
 
 	cvar_t *cl_headname;
 #ifdef __ANDROID__
@@ -965,6 +966,7 @@ public:
 	HSPRITE m_hGasPuff;
 
 	int m_iFontHeight;
+	int m_iMapHeight;
 	CHudAmmo        m_Ammo;
 	CHudHealth      m_Health;
 	CHudSpectator   m_Spectator;
@@ -998,6 +1000,7 @@ public:
 	CHudZBS	m_ZBS;
 	CHudZB2 m_ZB2;
 	CHudZB3 m_ZB3;
+	CHudZSH m_ZSH;
 	CHudMoeTouch m_MoeTouch;
 
 	// user messages

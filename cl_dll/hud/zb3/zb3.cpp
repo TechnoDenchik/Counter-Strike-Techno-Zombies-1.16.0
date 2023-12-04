@@ -20,7 +20,7 @@
 #include <vector>
 
 class CHudZB3::impl_t
-	: public THudSubDispatcher<CHudZB3Morale, CHudScoreBoardLegacy, CHudZB3Rage>
+	: public THudSubDispatcher<CHudZB3Morale, CHudZB3ScoreBoard, CHudZB3Rage>
 {
 public:
 };

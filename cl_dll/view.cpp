@@ -120,7 +120,7 @@ float	v_idlescale;  // used by TFC for concussion grenade effect
 
 
 //=============================================================================
-/*
+
 void V_NormalizeAngles( float *angles )
 {
 	int i;
@@ -137,7 +137,7 @@ void V_NormalizeAngles( float *angles )
 		}
 	}
 }
-*/
+
 /*
 ===================
 V_InterpolateAngles
@@ -147,7 +147,7 @@ FIXME:  Use Quaternions to avoid discontinuities
 Frac is 0.0 to 1.0 ( i.e., should probably be clamped, but doesn't have to be )
 ===================
 */
-/*
+
 void V_InterpolateAngles( float *start, float *end, float *output, float frac )
 {
 	int i;
@@ -176,7 +176,7 @@ void V_InterpolateAngles( float *start, float *end, float *output, float frac )
 	}
 
 	V_NormalizeAngles( output );
-} */
+} 
 
 // Quakeworld bob code, this fixes jitters in the mutliplayer since the clock (pparams->time) isn't quite linear
 float V_CalcBob ( struct ref_params_s *pparams )

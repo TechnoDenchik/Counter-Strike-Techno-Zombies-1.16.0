@@ -22,7 +22,7 @@ GNU General Public License for more details.
 #include "bmodels.h"
 
 #include "mod_zb1.h"
-
+#include "zb2/zb2_skill.h"
 #include <algorithm>
 #include <vector>
 #include <random>
@@ -78,7 +78,7 @@ void CMod_Zombi::UpdateGameMode(CBasePlayer *pPlayer)
 BOOL CMod_Zombi::ClientConnected(edict_t *pEntity, const char *pszName, const char *pszAddress, char *szRejectReason)
 {
 	CLIENT_COMMAND(pEntity, "mp3 loop sound/zb2/Zombi_Ambience.mp3\n");
-
+	
 	return IBaseMod::ClientConnected(pEntity, pszName, pszAddress, szRejectReason);
 }
 
@@ -198,7 +198,9 @@ void CMod_Zombi::HumanWin()
 	EndRoundMessage("HumanWin", ROUND_CTS_WIN);
 	TerminateRound(5, WINSTATUS_CTS);
 	RoundEndScore(WINSTATUS_CTS);
-
+	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL);
+	WRITE_BYTE(ZB2_MESSAGE_WINHUD);
+	MESSAGE_END();
 	++m_iNumCTWins;
 	UpdateTeamScores();
 }

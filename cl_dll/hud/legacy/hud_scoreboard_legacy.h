@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #include "r_texture.h"
 #include <memory>
 #include "hud_sub.h"
@@ -9,7 +9,7 @@
 		~CHudScoreBoardLegacy() override;
 		int VidInit(void) override;
 		int Draw(float time) override;
-		int DrawNewHud(float time);
+		//int DrawNewHud(float time);
 		void Reset(void) override;		// called every time a server is connected to
 
 	protected:
@@ -146,3 +146,4 @@
 		UniqueTexture m_iIcon_ZB_Left;
 		UniqueTexture m_iIcon_ZB_Right;
 	};
+*/

@@ -47,7 +47,7 @@ public:
 			}
 		);
 	}
-	int ComputeMaxAmmo(const char *szAmmoClassName, int iOriginalMax) override { return 600; }
+	int  ComputeMaxAmmo( const char *szAmmoClassName, int iOriginalMax) override { return 600; }
 	bool CanPlayerBuy(bool display) override
 	{
 		// is the player alive?
@@ -123,7 +123,7 @@ float CMod_ZombieScenario::GetAdjustedEntityDamage(CBaseEntity *victim, entvars_
 		CBaseEntity *pAttackingEnt = CBaseEntity::Instance(pevAttacker);
 		if (pAttackingEnt->IsPlayer())
 		{
-			CBasePlayer *pAttacker = static_cast<CBasePlayer *>(pAttackingEnt);
+			CBasePlayer *pAttacker = dynamic_cast<CBasePlayer *>(pAttackingEnt);
 			m_eventAdjustDamage.dispatch(pAttacker, flDamage);
 		}
 	}
@@ -341,7 +341,7 @@ void CMod_ZombieScenario::TeamCheck()
 		CBaseEntity *entity = UTIL_PlayerByIndex(iIndex);
 		if (!entity)
 			continue;
-		CBasePlayer *player = static_cast<CBasePlayer *>(entity);
+		CBasePlayer *player = dynamic_cast<CBasePlayer *>(entity);
 
 		if (player->m_iTeam == TERRORIST)
 		{
@@ -363,7 +363,7 @@ BOOL CMod_ZombieScenario::FRoundStarted()
 
 CZombieSpawn *CMod_ZombieScenario::SelectZombieSpawnPoint()
 {
-	size_t iSize = m_vecZombieSpawns.size();
+	size_t const iSize = m_vecZombieSpawns.size();
 	if (!iSize)
 		return nullptr;
 	return m_vecZombieSpawns[RANDOM_LONG(0, iSize - 1)];
@@ -397,7 +397,7 @@ CBaseEntity *CMod_ZombieScenario::MakeZombieNPC()
 
 	// default settings
 	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
-	monster->pev->maxspeed = 100.0f + (m_iNumCTWins / 3) * 15;
+	monster->pev->maxspeed = 100.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
 	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
 
 	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))

@@ -197,7 +197,7 @@ void CZB3HumanMorale::UpdateHUD(CBasePlayer *player, ZB3HumanMoraleType_e type) 
 
 CMod_ZombieHero::CMod_ZombieHero()
 {
-
+	
 }
 
 void CMod_ZombieHero::InstallPlayerModStrategy(CBasePlayer *player)
@@ -209,7 +209,7 @@ void CMod_ZombieHero::PickZombieOrigin()
 {
 	CMod_Zombi::PickZombieOrigin();
 	// TODO : pick hero
-	// PickHero();
+	 PickHero();
 }
 
 void CMod_ZombieHero::UpdateGameMode(CBasePlayer * pPlayer)

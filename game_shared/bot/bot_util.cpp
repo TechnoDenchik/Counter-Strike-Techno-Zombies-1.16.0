@@ -611,6 +611,7 @@ bool IsGameEventAudible(GameEventType event, CBaseEntity *entity, CBaseEntity *o
 			return false;
 		// quiet
 		case WEAPON_KNIFE:
+		case WEAPON_SHELTERAXE:
 		case WEAPON_TMP:
 			*range = ShortRange;
 			break;

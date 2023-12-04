@@ -191,7 +191,7 @@ float CHalfLifeRules::FlItemRespawnTime(CItem *pItem)
 	return -1;
 }
 
-Vector CHalfLifeRules::VecItemRespawnSpot(CItem *pItem)
+Vector CHalfLifeRules::VecItemRespawnSpot(CItem* pItem)
 {
 	return pItem->pev->origin;
 }

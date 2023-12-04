@@ -82,6 +82,15 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 			pimpl->m_RetinaIndexes.push_back(gHUD.m_Retina.AddItem(pimpl->m_pTexture_DamageDoubleRetina, CHudRetina::RETINA_DRAW_TYPE_BLINK | CHudRetina::RETINA_DRAW_TYPE_QUARTER, flHoldTime));
 		break;
 	}
+	case ZB2_MESSAGE_WINHUD:
+	{
+		SharedTexture iconwinhm;
+		R_InitTexture(iconwinhm, "resource/hud/zb3/humanwin");
+		int x12 = ScreenWidth / 2;
+		int y12 = ScreenHeight / 4;
+		iconwinhm->Bind();
+		DrawUtils::Draw2DQuadScaled(x12 - 373 / 2, y12, x12 + 373 / 2, y12 + 51);
+	}
 		
 		
 	}

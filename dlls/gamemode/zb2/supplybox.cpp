@@ -24,7 +24,7 @@ static std::pair<const char *, void(*)(CBasePlayer *p)> g_SupplyboxItems[]=
 			p->GiveNamedItem("weapon_deagled");
 		    p->m_pModStrategy->ComputeMaxAmmo("50ae", MAX_AMMO_50AE);
 			p->GiveAmmo(iAmount, "762Nato", iAmount);
-
+			p->GiveNamedItem("weapon_shelteraxe");
 			p->AddAccount(16000);
 
 			while (BuyAmmo(p, PRIMARY_WEAPON_SLOT, false))

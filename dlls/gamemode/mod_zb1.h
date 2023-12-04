@@ -21,10 +21,9 @@ GNU General Public License for more details.
 
 #include "mod_base.h"
 #include "zb1/zb1_zclass.h"
-
 #include <vector>
 #include <utility>
-
+#include "player/player_mod_strategy.h"
 #include "EventDispatcher.h"
 
 class CMod_Zombi : public TBaseMod_RemoveObjects<TBaseMod_RandomSpawn<>>
@@ -45,7 +44,8 @@ public: // CHalfLifeMultiplay
 	void CheckWinConditions() override;
 	int IPointsForKill(CBasePlayer *pAttacker, CBasePlayer *pKilled) override;
 	void PlayerKilled(CBasePlayer *pVictim, entvars_t *pKiller, entvars_t *pInflictor) override;
-
+	virtual void HumanWin();
+	virtual void ZombieWin();
 public: // IBaseMod
 	DamageTrack_e DamageTrack() override { return DT_ZB; }
 	void InstallPlayerModStrategy(CBasePlayer *player) override;
@@ -55,13 +55,12 @@ protected:
 	virtual void PickZombieOrigin();
 	virtual void HumanInfectionByZombie(CBasePlayer *player, CBasePlayer *attacker);
 	virtual void RoundEndScore(int iWinStatus);
-
+	//CBasePlayer* const *m_pPlayer; 
 protected:
 	void TeamCheck();
 	void InfectionSound();
 
-	virtual void HumanWin();
-	virtual void ZombieWin();
+	
 
 	BOOL FInfectionStarted();
 

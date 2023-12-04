@@ -202,6 +202,16 @@ struct StaticItemInfo<WEAPON_KNIFE> : StaticItemInfo<>
 	static constexpr int iWeight = KNIFE_WEIGHT;
 };
 template<>
+struct StaticItemInfo<WEAPON_SHELTERAXE> : StaticItemInfo<>
+{
+	static constexpr const char* szName = "weapon_shelteraxe";
+	static constexpr int iSlot = 2;
+	static constexpr int iPosition = 1;
+	static constexpr WeaponIdType iId = WEAPON_SHELTERAXE;
+	static constexpr int iWeight = KNIFE_WEIGHT;
+};
+
+template<>
 struct StaticItemInfo<WEAPON_M3> : StaticItemInfo<>
 {
 	static constexpr const char *szName = "weapon_m3";

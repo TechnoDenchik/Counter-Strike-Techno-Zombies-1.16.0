@@ -97,7 +97,7 @@ static const char *g_szGameModeNames[MAX_GAMEMODES] =
 
 static const char *g_szGameModeCodes[MAX_GAMEMODES] = 
 {
-	"none", "dm", "gd", "tdm", "zb1", "zb2", "zb3", "zbs", "zbb"
+	"none", "dm", "gd", "tdm", "zb1", "zb2", "zb3", "zbs", "zsh_pve"
 };
 
 /*
