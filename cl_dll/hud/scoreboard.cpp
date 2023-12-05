@@ -206,6 +206,7 @@
 		case MOD_ZB2: return "Zombie Mod 2";
 		case MOD_ZB3: return "Zombie Hero";
 		case MOD_ZBS: return "Zombie Scenario";
+		case MOD_ZSH: return "Zombie Shelter";
 		case MOD_ZE: return "Zombie Escape";
 		case MOD_ZB4: return "Zombie Darkness";
 		case MOD_GD: return "GunDeath Match";

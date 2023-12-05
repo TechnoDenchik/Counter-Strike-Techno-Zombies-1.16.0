@@ -1611,5 +1611,8 @@
     <ClInclude Include="..\dlls\wpn_shared\shelter_axe.h">
       <Filter>dlls\wpn_shared</Filter>
     </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zsh\zsh_const.h">
+      <Filter>dlls\gamemode\zsh</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
