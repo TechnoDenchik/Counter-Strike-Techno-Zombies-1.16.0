@@ -82,7 +82,7 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 			pimpl->m_RetinaIndexes.push_back(gHUD.m_Retina.AddItem(pimpl->m_pTexture_DamageDoubleRetina, CHudRetina::RETINA_DRAW_TYPE_BLINK | CHudRetina::RETINA_DRAW_TYPE_QUARTER, flHoldTime));
 		break;
 	}
-	case ZB2_MESSAGE_WINHUD:
+	case ZB1_MESSAGE_WINHUD:
 	{
 		SharedTexture iconwinhm;
 		R_InitTexture(iconwinhm, "resource/hud/zb3/humanwin");
