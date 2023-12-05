@@ -195,10 +195,10 @@ void CMod_Zombi::HumanWin()
 	for(CBasePlayer *player : moe::range::PlayersList())
 		CLIENT_COMMAND(player->edict(), "spk win_human\n");
 
-	EndRoundMessage("HumanWin", ROUND_CTS_WIN);
+	//EndRoundMessage("HumanWin", ROUND_CTS_WIN);
 	TerminateRound(5, WINSTATUS_CTS);
 	RoundEndScore(WINSTATUS_CTS);
-	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL);
+	MESSAGE_BEGIN(MSG_ONE, gmsgGameMode, nullptr, pPlayer->edict());
 	WRITE_BYTE(ZB2_MESSAGE_WINHUD);
 	MESSAGE_END();
 	++m_iNumCTWins;
