@@ -198,9 +198,7 @@ void CMod_Zombi::HumanWin()
 	//EndRoundMessage("HumanWin", ROUND_CTS_WIN);
 	TerminateRound(5, WINSTATUS_CTS);
 	RoundEndScore(WINSTATUS_CTS);
-	MESSAGE_BEGIN(MSG_ONE, gmsgGameMode, nullptr, pPlayer->edict());
-	WRITE_BYTE(ZB2_MESSAGE_WINHUD);
-	MESSAGE_END();
+	
 	++m_iNumCTWins;
 	UpdateTeamScores();
 }
