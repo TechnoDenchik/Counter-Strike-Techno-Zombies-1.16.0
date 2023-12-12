@@ -14,6 +14,13 @@ enum ZB2MessageType : byte
 
 };
 
+enum ZB2MessageWin : byte
+{
+	ZB2_MESSAGE_WINHUDHM,
+	ZB2_MESSAGE_WINHUDZB
+
+};
+
 enum ZombieSkillSlot : byte
 {
 	SKILL_SLOT_CLASS,

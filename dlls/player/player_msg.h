@@ -104,6 +104,7 @@ extern int gmsgShowTimer;
 extern int gmsgZBSTip;
 extern int gmsgZBSLevel;
 extern int gmsgBTEWeapon;
+extern int gmsgZB1Msg;
 extern int gmsgZB2Msg;
 extern int gmsgZB3Msg;
 extern int gmsgZSHMsg;

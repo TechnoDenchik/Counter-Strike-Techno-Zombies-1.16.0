@@ -29,6 +29,7 @@ public:
 public:
 	bool ActivateSkill(int iSlot);
 	CHudMsgFunc(ZB2Msg);
+	CHudMsgFunc(ZB2Win);
 
 public:
 	class CHudZB2_impl_t *pimpl = nullptr;

@@ -22,6 +22,7 @@ GNU General Public License for more details.
 #include "bmodels.h"
 
 #include "mod_zb1.h"
+#include "zb2/zb2_const.h"
 #include "zb2/zb2_skill.h"
 #include <algorithm>
 #include <vector>
@@ -195,12 +196,12 @@ void CMod_Zombi::HumanWin()
 	for(CBasePlayer *player : moe::range::PlayersList())
 		CLIENT_COMMAND(player->edict(), "spk win_human\n");
 
-	EndRoundMessage("HumanWin", ROUND_CTS_WIN);
-	TerminateRound(5, WINSTATUS_CTS);
-	RoundEndScore(WINSTATUS_CTS);
-	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL);
-	WRITE_BYTE(ZB2_MESSAGE_WINHUD);
+	MESSAGE_BEGIN(MSG_ALL, gmsgZB2Msg);
+	WRITE_BYTE(ZB2_MESSAGE_WINHUDHM);
 	MESSAGE_END();
+	//TerminateRound(5, WINSTATUS_CTS);
+	RoundEndScore(WINSTATUS_CTS);
+	
 	++m_iNumCTWins;
 	UpdateTeamScores();
 }
@@ -211,10 +212,12 @@ void CMod_Zombi::ZombieWin()
 	for(CBasePlayer *player : moe::range::PlayersList())
 		CLIENT_COMMAND(player->edict(), "spk win_zombi\n");
 
-	EndRoundMessage("Zombie Win", ROUND_TERRORISTS_WIN);
-	TerminateRound(5, WINSTATUS_TERRORISTS);
+	MESSAGE_BEGIN(MSG_ALL, gmsgZB2Msg);
+	WRITE_BYTE(ZB2_MESSAGE_WINHUDZB);
+	MESSAGE_END();
+	//TerminateRound(5, WINSTATUS_TERRORISTS);
 	RoundEndScore(WINSTATUS_TERRORISTS);
-
+	
 	++m_iNumTerroristWins;
 	UpdateTeamScores();
 }

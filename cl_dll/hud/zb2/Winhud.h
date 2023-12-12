@@ -3,18 +3,19 @@
 #include "hud_sub.h"
 #include "r_texture.h"
 
-class CHudZBSRoundClear : public IBaseHudSub
+class CHudWinhudZB1 : public IBaseHudSub
 {
 public:
 	int VidInit(void) override;
 	int Draw(float time) override;
 
-	void OnRoundClear();
-	void OnRoundFail();
+	void WinHuman();
+	void WinZombie();
 
 protected:
-	SharedTexture m_pTexture_RoundClear;
-	SharedTexture m_pTexture_RoundFail;
+	SharedTexture iconwinhm;
+	SharedTexture iconwinzb;
 	SharedTexture m_pCurTexture;
 	float m_flDisplayTime;
 };
+

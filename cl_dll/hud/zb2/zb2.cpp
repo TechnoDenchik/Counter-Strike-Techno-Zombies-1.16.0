@@ -22,6 +22,7 @@ GNU General Public License for more details.
 #include "parsemsg.h"
 
 #include "zb2.h"
+#include "Winhud.h"
 #include "zb2_skill.h"
 #include "hud_sub_impl.h"
 
@@ -29,7 +30,7 @@ GNU General Public License for more details.
 
 #include <vector>
 
-class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill>
+class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1>
 {
 public:
 	SharedTexture m_pTexture_RageRetina;
@@ -39,6 +40,10 @@ public:
 };
 
 DECLARE_MESSAGE(m_ZB2, ZB2Msg)
+DECLARE_MESSAGE(m_ZB2, ZB2Win)
+
+
+
 int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 {
 	BufferReader buf(pszName, pbuf, iSize);
@@ -82,19 +87,29 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 			pimpl->m_RetinaIndexes.push_back(gHUD.m_Retina.AddItem(pimpl->m_pTexture_DamageDoubleRetina, CHudRetina::RETINA_DRAW_TYPE_BLINK | CHudRetina::RETINA_DRAW_TYPE_QUARTER, flHoldTime));
 		break;
 	}
-	case ZB2_MESSAGE_WINHUD:
-	{
-		SharedTexture iconwinhm;
-		R_InitTexture(iconwinhm, "resource/hud/zb3/humanwin");
-		int x12 = ScreenWidth / 2;
-		int y12 = ScreenHeight / 4;
-		iconwinhm->Bind();
-		DrawUtils::Draw2DQuadScaled(x12 - 373 / 2, y12, x12 + 373 / 2, y12 + 51);
-	}
-		
 		
 	}
 	
+	return 1;
+}
+
+int CHudZB2::MsgFunc_ZB2Win(const char* pszName, int iSize, void* pbuf)
+{
+	BufferReader buf(pszName, pbuf, iSize);
+	auto type = static_cast<ZB2MessageWin>(buf.ReadByte());
+	switch (type)
+	{
+		case ZB2_MESSAGE_WINHUDHM:
+		{
+			pimpl->get<CHudWinhudZB1>().WinHuman();
+			break;
+		}
+		case ZB2_MESSAGE_WINHUDZB:
+		{
+			pimpl->get<CHudWinhudZB1>().WinZombie();
+			break;
+		}
+    }
 	return 1;
 }
 
@@ -105,6 +120,7 @@ int CHudZB2::Init()
 	gHUD.AddHudElem(this);
 
 	HOOK_MESSAGE(ZB2Msg);
+	HOOK_MESSAGE(ZB2Win);
 
 	return 1;
 }

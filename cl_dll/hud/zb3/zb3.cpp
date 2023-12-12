@@ -10,6 +10,7 @@
 
 #include "zb3.h"
 #include "zb3_morale.h"
+#include "zb2/Winhud.h"
 #include "NewScoreboard.h"
 #include "hud/legacy/hud_scoreboard_legacy.h"
 #include "zb3_rage.h"
@@ -20,7 +21,7 @@
 #include <vector>
 
 class CHudZB3::impl_t
-	: public THudSubDispatcher<CHudZB3Morale, CHudZB3Rage>
+	: public THudSubDispatcher<CHudZB3Morale, CHudZB3Rage, CHudWinhudZB1>
 {
 public:
 };

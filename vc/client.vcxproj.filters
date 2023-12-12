@@ -67,6 +67,9 @@
     <Filter Include="cl_dll\hud\zsh\zsh_pve_ui">
       <UniqueIdentifier>{4d6785f3-5b60-4449-9f56-f00f8279814a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cl_dll\hud\zb1">
+      <UniqueIdentifier>{1330a6d5-9f31-4629-b1ae-7e0968662ea9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cl_dll\events\ev_cs16.cpp">
@@ -645,6 +648,9 @@
     <ClCompile Include="..\cl_dll\hud\zsh\ZSHScoreboard.cpp">
       <Filter>cl_dll\hud\zsh\zsh_pve_ui</Filter>
     </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\zb2\Winhud.cpp">
+      <Filter>cl_dll\hud\zb2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\cvardef.h">
@@ -934,6 +940,18 @@
     </ClInclude>
     <ClInclude Include="..\cl_dll\hud\zsh\ZSHScoreboard.h">
       <Filter>cl_dll\hud\zsh\zsh_pve_ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\zb2\Winhud.h">
+      <Filter>cl_dll\hud\zb2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\zb1\mod_zb1.h">
+      <Filter>cl_dll\hud\zb1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\zb1\zb1_const.h">
+      <Filter>cl_dll\hud\zb1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\zb1\zb1_zclass.h">
+      <Filter>cl_dll\hud\zb1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

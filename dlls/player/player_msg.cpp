@@ -106,6 +106,7 @@ int gmsgShowTimer = 0;
 int gmsgZBSTip = 0;
 int gmsgZBSLevel = 0;
 int gmsgBTEWeapon = 0;
+int gmsgZB1Msg = 0;
 int gmsgZB2Msg = 0;
 int gmsgZB3Msg = 0;
 int gmsgZSHMsg = 0;
@@ -205,6 +206,7 @@ void LinkUserMessages()
 	gmsgZBSTip = REG_USER_MSG("ZBSTip", -1);
 	gmsgZBSLevel = REG_USER_MSG("ZBSLevel", -1);
 	gmsgBTEWeapon = REG_USER_MSG("BTEWeapon", -1);
+	gmsgZB1Msg = REG_USER_MSG("ZB1Msg", -1);
 	gmsgZB2Msg = REG_USER_MSG("ZB2Msg", -1);
 	gmsgZB3Msg = REG_USER_MSG("ZB3Msg", -1);
 	gmsgZSHMsg = REG_USER_MSG("ZSHMsg", -1);
