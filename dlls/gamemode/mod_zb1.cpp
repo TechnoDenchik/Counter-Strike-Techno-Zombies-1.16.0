@@ -199,7 +199,7 @@ void CMod_Zombi::HumanWin()
 	MESSAGE_BEGIN(MSG_ALL, gmsgZB2Msg);
 	WRITE_BYTE(ZB2_MESSAGE_WINHUDHM);
 	MESSAGE_END();
-	//TerminateRound(5, WINSTATUS_CTS);
+	TerminateRound(5, WINSTATUS_CTS);
 	RoundEndScore(WINSTATUS_CTS);
 	
 	++m_iNumCTWins;
@@ -215,7 +215,7 @@ void CMod_Zombi::ZombieWin()
 	MESSAGE_BEGIN(MSG_ALL, gmsgZB2Msg);
 	WRITE_BYTE(ZB2_MESSAGE_WINHUDZB);
 	MESSAGE_END();
-	//TerminateRound(5, WINSTATUS_TERRORISTS);
+	TerminateRound(5, WINSTATUS_TERRORISTS);
 	RoundEndScore(WINSTATUS_TERRORISTS);
 	
 	++m_iNumTerroristWins;

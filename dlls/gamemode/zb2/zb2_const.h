@@ -10,16 +10,18 @@ enum ZB2MessageType : byte
 	ZB2_MESSAGE_HEALTH_RECOVERY,
 	ZB2_MESSAGE_SKILL_INIT,
 	ZB2_MESSAGE_SKILL_ACTIVATE,
-	ZB2_MESSAGE_WINHUD
-
-};
-
-enum ZB2MessageWin : byte
-{
+	ZB2_MESSAGE_WINHUD,
 	ZB2_MESSAGE_WINHUDHM,
 	ZB2_MESSAGE_WINHUDZB
 
 };
+
+//enum ZB2MessageWin : byte
+//{
+	//ZB2_MESSAGE_WINHUDHM,
+//	ZB2_MESSAGE_WINHUDZB
+
+//};
 
 enum ZombieSkillSlot : byte
 {

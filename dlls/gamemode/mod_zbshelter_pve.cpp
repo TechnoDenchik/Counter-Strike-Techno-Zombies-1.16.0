@@ -72,11 +72,6 @@ void CMod_ZombieShelter_coop::ClientDisconnected(edict_t* pClient)
 
 void CMod_ZombieShelter_coop::PlayerSpawn(CBasePlayer* pPlayer)
 {
-	pPlayer->m_bNotKilled = false;
-	IBaseMod::PlayerSpawn(pPlayer);
-	pPlayer->AddAccount(16000);
-	//EMIT_SOUND(pEntity, CHAN_BODY, "zsh/BGM_start.wav", VOL_NORM, ATTN_NORM);
-	// Open buy menu on spawn
-	//ShowVGUIMenu(pPlayer, VGUI_Menu_Buy, (MENU_KEY_1 | MENU_KEY_2 | MENU_KEY_3 | MENU_KEY_4 | MENU_KEY_5 | MENU_KEY_6 | MENU_KEY_7 | MENU_KEY_8 | MENU_KEY_0), "#Buy");
-	//pPlayer->m_iMenu = Menu_Buy;
+	for (CBasePlayer* player : moe::range::PlayersList())
+		CLIENT_COMMAND(player->edict(), "spk BGM_start\n");
 }

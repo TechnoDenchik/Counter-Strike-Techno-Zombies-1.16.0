@@ -270,11 +270,9 @@ void CMod_ZombieScenario::Think()
 		}
 	}
 
-	//return IBaseMod::Think();
-
 	if (FRoundStarted() && !m_bRoundTerminating)
 	{
-		// spawn zombie
+	
 		if (gpGlobals->time > m_flNextSpawnNPC)
 		{
 			MakeZombieNPC();
@@ -311,7 +309,6 @@ void CMod_ZombieScenario::HumanWin()
 	MESSAGE_END();
 
 	TerminateRound(5, WINSTATUS_CTS);
-
 	++m_iNumCTWins;
 	UpdateTeamScores();
 	ClearZombieNPC();
@@ -329,7 +326,6 @@ void CMod_ZombieScenario::ZombieWin()
 	MESSAGE_END();
 
 	TerminateRound(5, WINSTATUS_TERRORISTS);
-
 	++m_iNumTerroristWins;
 	UpdateTeamScores();
 }
