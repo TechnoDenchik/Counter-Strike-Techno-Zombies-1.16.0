@@ -16,9 +16,9 @@ CHudZBSLevel::CHudZBSLevel(void)
 
 int CHudZBSLevel::VidInit(void)
 {
-	if (!m_pTexture_ZBSBoard_BG) 
+	if (!m_pTexture_ZBSBoard_BG)
 		m_pTexture_ZBSBoard_BG = R_LoadTextureUnique("resource/hud/zbs/zbslevelupbg");
-	if (!m_pTexture_ZBSBoard_BG_Wall) 
+	if (!m_pTexture_ZBSBoard_BG_Wall)
 		m_pTexture_ZBSBoard_BG_Wall = R_LoadTextureUnique("resource/hud/zbs/zbslevelupwallbg");
 	//m_iFlags |= HUD_DRAW;
 
@@ -36,7 +36,7 @@ int CHudZBSLevel::Draw(float time)
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 	m_pTexture_ZBSBoard_BG->Bind();
 	DrawUtils::Draw2DQuadScaled(x, y, x + 204, y + 85);
-	
+
 	const int r = 255, g = 255, b = 255;
 
 	DrawUtils::DrawHudString(x + 20, y + 5, ScreenWidth, "HP", r, g, b, flScale);
@@ -64,7 +64,7 @@ int CHudZBSLevel::Draw(float time)
 	else
 		sprintf(szBuffer, "%d%%", m_iLevel_ATK * 10 + 90);
 	DrawUtils::DrawHudString(x + 130, y + 65, ScreenWidth, szBuffer, r, g, b, flScale);
-	
+
 	// Wall Level
 	if (m_iLevel_Wall)
 	{
@@ -79,7 +79,7 @@ int CHudZBSLevel::Draw(float time)
 			sprintf(szBuffer, "Level %d", m_iLevel_Wall);
 		DrawUtils::DrawHudString(x + 100, y + 5, ScreenWidth, szBuffer, r, g, b, flScale);
 	}
-	
+
 
 	return 1;
 }

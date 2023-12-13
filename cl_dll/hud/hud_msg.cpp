@@ -116,7 +116,7 @@ int CHud :: MsgFunc_GameMode(const char *pszName, int iSize, void *pbuf )
 	// reset mod-specific settings
 	gHUD.m_ZB2.m_iFlags &= ~HUD_ACTIVE;
 	gHUD.m_ZB3.m_iFlags &= ~HUD_ACTIVE;
-	//gHUD.m_ZSH.m_iFlags &= ~HUD_ACTIVE;
+	gHUD.m_ZSH.m_iFlags &= ~HUD_ACTIVE;
 	gHUD.m_ZBS.m_iFlags &= ~HUD_ACTIVE;
 
 	switch (m_iModRunning)

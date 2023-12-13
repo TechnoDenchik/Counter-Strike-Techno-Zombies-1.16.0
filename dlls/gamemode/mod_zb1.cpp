@@ -102,10 +102,14 @@ void CMod_Zombi::Think()
 		iLastCountDown = iCountDown;
 		if (iCountDown > 0 && iCountDown < 20 && !m_bFreezePeriod)
 		{
+			MESSAGE_BEGIN(MSG_ALL, gmsgZB2Msg);
+			WRITE_BYTE(ZB2_TEXT_STRING);
+			MESSAGE_END();
 
 			UTIL_ClientPrintAll(HUD_PRINTCENTER, "Time Remaining for Zombie Selection: %s1 Sec", UTIL_dtos1(20 - iCountDown)); // #CSO_ZombiSelectCount
 
-			static const char *szCountDownSound[11] = {
+			static const char *szCountDownSound[11] = 
+			{
 				"", "one", "two", "three", "four", "five", "six",
 				"seven", "eight", "nine", "ten"
 			};

@@ -11,11 +11,11 @@ public:
 	void InitHUDData(void);		// called every time a server is connected to
 	void Shutdown(void);
 	CHudMsgFunc(ZSHMsg);
-	class CHudZSH_impl_t* pimpl = nullptr;
+	//class CHudZSH_impl_t* pimpl = nullptr;
 	
 protected:
 	class impl_t;
-	impl_t* pimpll;
+	impl_t* pimpl;
 };
 
 //CHudZSH zsh_pve;

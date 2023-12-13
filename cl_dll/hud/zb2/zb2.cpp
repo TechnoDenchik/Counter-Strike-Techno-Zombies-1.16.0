@@ -23,6 +23,7 @@ GNU General Public License for more details.
 
 #include "zb2.h"
 #include "Winhud.h"
+#include "Textstring.h"
 #include "zb2_skill.h"
 #include "hud_sub_impl.h"
 
@@ -30,7 +31,7 @@ GNU General Public License for more details.
 
 #include <vector>
 
-class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1>
+class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1, CHudTextZB1>
 {
 public:
 	SharedTexture m_pTexture_RageRetina;
@@ -95,6 +96,11 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 	case ZB2_MESSAGE_WINHUDZB:
 	{
 		pimpl->get<CHudWinhudZB1>().WinZombie();
+		break;
+	}
+	case ZB2_TEXT_STRING:
+	{
+		pimpl->get<CHudTextZB1>().Settext();
 		break;
 	}
 	}

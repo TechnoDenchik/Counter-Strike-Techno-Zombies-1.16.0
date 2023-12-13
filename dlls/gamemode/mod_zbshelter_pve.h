@@ -17,16 +17,16 @@ typedef struct entvars_s entvars_t;
 class CMod_ZombieShelter_coop : public IBaseMod, public CHalfLifeMultiplay, ruleof350::unique
 {
 public:
-	// CMod_ZombieShelter_coop();
+	//CMod_ZombieShelter_coop();
 	 virtual void Precache();
 public:
    
 	void CheckMapConditions() override;
-	BOOL IsTeamplay(void) override { return TRUE; }
+	//BOOL IsTeamplay(void) override { return TRUE; }
 	void UpdateGameMode(CBasePlayer* pPlayer) override;
 	//void RestartRound() override;
 	void PlayerSpawn(CBasePlayer* pPlayer) override;
-	//void Think() override;
+//	void Think() override;
 	BOOL ClientConnected(edict_t* pEntity, const char* pszName, const char* pszAddress, char* szRejectReason) override;
 	void ClientDisconnected(edict_t* pClient) override;
 	//BOOL FPlayerCanTakeDamage(CBasePlayer* pPlayer, CBaseEntity* pAttacker) override;

@@ -248,7 +248,6 @@
     <ClCompile Include="..\dlls\gamemode\zb2\supplybox.cpp" />
     <ClCompile Include="..\dlls\gamemode\zb2\zb2_skill_human.cpp" />
     <ClCompile Include="..\dlls\gamemode\zb2\zb2_skill_zombie.cpp" />
-    <ClCompile Include="..\dlls\gamemode\zb2\zb2_winhud.cpp" />
     <ClCompile Include="..\dlls\gamemode\zb2\zb2_zclass.cpp" />
     <ClCompile Include="..\dlls\gamemode\zb2\zb2_zclass_speed.cpp" />
     <ClCompile Include="..\dlls\gamemode\zb2\zb2_zclass_tank.cpp" />

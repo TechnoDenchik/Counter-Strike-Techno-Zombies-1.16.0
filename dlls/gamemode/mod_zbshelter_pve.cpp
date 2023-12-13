@@ -72,6 +72,7 @@ void CMod_ZombieShelter_coop::ClientDisconnected(edict_t* pClient)
 
 void CMod_ZombieShelter_coop::PlayerSpawn(CBasePlayer* pPlayer)
 {
+	IBaseMod::PlayerSpawn(pPlayer);
 	for (CBasePlayer* player : moe::range::PlayersList())
 		CLIENT_COMMAND(player->edict(), "spk BGM_start\n");
 }

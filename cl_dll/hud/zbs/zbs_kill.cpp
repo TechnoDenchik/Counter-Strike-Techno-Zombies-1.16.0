@@ -19,9 +19,9 @@ void CHudZBSKill::OnKillMessage()
 
 int CHudZBSKill::VidInit(void)
 {
-	if(!m_iKillTexture) 
+	if (!m_iKillTexture)
 		m_iKillTexture = R_LoadTextureUnique("resource/hud/zbs/zbskill");
-	
+
 	return 1;
 }
 
@@ -33,8 +33,8 @@ void CHudZBSKill::Reset(void)
 int CHudZBSKill::Draw(float time)
 {
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
-	
-	for (auto &flStartTime : m_killTimes)
+
+	for (auto& flStartTime : m_killTimes)
 	{
 		float shownTime = time - flStartTime;
 		if (shownTime > 1.0f)
@@ -47,7 +47,7 @@ int CHudZBSKill::Draw(float time)
 
 		float a = (flStartTime - gHUD.m_flTime) / ZBS_KILL_DISPLAY_TIME;
 		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255 * a);
-		
+
 		DrawUtils::Draw2DQuadScaled(x, y, x + 234, y + 55);
 	}
 

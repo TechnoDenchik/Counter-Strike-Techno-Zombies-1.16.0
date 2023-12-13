@@ -124,6 +124,7 @@
     <ClCompile Include="..\cl_dll\hud\text_message.cpp" />
     <ClCompile Include="..\cl_dll\hud\timer.cpp" />
     <ClCompile Include="..\cl_dll\hud\train.cpp" />
+    <ClCompile Include="..\cl_dll\hud\zb2\Textstring.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb2\Winhud.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb2\zb2.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb2\zb2_skill.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="..\cl_dll\hud\zb1\mod_zb1.h" />
     <ClInclude Include="..\cl_dll\hud\zb1\zb1_const.h" />
     <ClInclude Include="..\cl_dll\hud\zb1\zb1_zclass.h" />
+    <ClInclude Include="..\cl_dll\hud\zb2\Textstring.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\Winhud.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\zb2.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\zb2_skill.h" />

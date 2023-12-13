@@ -393,7 +393,7 @@ CBaseEntity *CMod_ZombieScenario::MakeZombieNPC()
 
 	// default settings
 	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
-	monster->pev->maxspeed = 100.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster->pev->maxspeed = 200.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
 	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
 
 	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))

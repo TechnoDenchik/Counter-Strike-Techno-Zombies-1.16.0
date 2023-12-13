@@ -195,7 +195,7 @@ int CHudZSH::MsgFunc_ZSHMsg(const char* pszName, int iSize, void* pbuf)
 
 int CHudZSH::Init(void)
 {
-	//pimpll = new CHudZSH::impl_tt;
+	pimpl = new CHudZSH::impl_t;
 
 	gHUD.AddHudElem(this);
 
@@ -206,34 +206,34 @@ int CHudZSH::Init(void)
 
 int CHudZSH::VidInit(void)
 {
-	//pimpll->for_each(&IBaseHudSub::VidInit);
+	pimpl->for_each(&IBaseHudSub::VidInit);
 
 	return 1;
 }
 
 int CHudZSH::Draw(float time)
 {
-	//pimpll->for_each(&IBaseHudSub::Draw, time);
+	pimpl->for_each(&IBaseHudSub::Draw, time);
 	return 1;
 }
 
 void CHudZSH::Think(void)
 {
-	//pimpll->for_each(&IBaseHudSub::Think);
+	pimpl->for_each(&IBaseHudSub::Think);
 }
 
 void CHudZSH::Reset(void)
 {
-	//pimpll->for_each(&IBaseHudSub::Reset);
+	pimpl->for_each(&IBaseHudSub::Reset);
 }
 
 void CHudZSH::InitHUDData(void)
 {
-	//pimpll->for_each(&IBaseHudSub::InitHUDData);
+	pimpl->for_each(&IBaseHudSub::InitHUDData);
 }
 
 void CHudZSH::Shutdown(void)
 {
-	//delete pimpll;
-	//pimpll = nullptr;
+	delete pimpl;
+	pimpl = nullptr;
 }

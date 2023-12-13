@@ -120,7 +120,7 @@ public:
 		if (IsJumping() && CanJump())
 		{
 			Vector dir;
-			const float pushSpeed = 100.0f;
+			constexpr auto pushSpeed = 100.0f;
 
 			if (!m_hasJumped)
 			{
@@ -148,7 +148,7 @@ public:
 
 		if (m_isLookingAt)
 		{
-			Vector angles = UTIL_VecToAngles(m_viewGoal - GetEyes());
+			Vector const angles = UTIL_VecToAngles(m_viewGoal - GetEyes());
 			float pitch = angles.x - m_hostage->pev->angles.x;
 			float yaw = angles.y - m_hostage->pev->angles.y;
 
@@ -193,7 +193,7 @@ public:
 					m_bCalculatingPath = true;
 					m_fbCalcPathResult = std::async([&] {
 						HostagePathCost pathCost;
-						bool result = m_path.Compute(&GetFeet(), &m_moveGoal, pathCost);
+						bool const result = m_path.Compute(&GetFeet(), &m_moveGoal, pathCost);
 						m_bCalculatingPath = false;
 						return result;
 					});
@@ -222,7 +222,7 @@ public:
 			}
 		}
 
-		const float friction = 3.0f;
+		constexpr auto friction = 3.0f;
 
 		m_vel.x += m_vel.x * -friction * deltaT;
 		m_vel.y += m_vel.y * -friction * deltaT;
@@ -259,7 +259,7 @@ public:
 
 		if (FClassnameIs(other->pev, "worldspawn"))
 		{
-			const float lookAheadRange = 30.0f;
+			constexpr auto lookAheadRange = 30.0f;
 			float ground;
 			Vector normal = Vector(0, 0, 1);
 			Vector alongFloor;
@@ -278,7 +278,7 @@ public:
 
 			alongFloor = CrossProduct(normal, gpGlobals->v_right);
 
-			Vector pos = alongFloor * lookAheadRange;
+			Vector const pos = alongFloor * lookAheadRange;
 
 			for (double offset = 1.0f; offset <= 18.0f; offset += 3.0f)
 			{
@@ -308,7 +308,7 @@ public:
 
 					if (GetSimpleGroundHeightWithFloor(&stepAhead, &stepAheadGround, &stepAheadNormal))
 					{
-						float dz = stepAheadGround - GetFeet().z;
+						float const dz = stepAheadGround - GetFeet().z;
 
 						if (dz > 0.0f && dz < 18.0f)
 						{
@@ -321,7 +321,7 @@ public:
 			else if (!IsMoving() && !IsUsingLadder())
 			{
 				bool isSeam = false;
-				const float checkSeamRange = 50.0f;
+				constexpr auto checkSeamRange = 50.0f;
 				Vector posBehind;
 
 				posBehind = GetEyes() - alongFloor * checkSeamRange;
@@ -333,7 +333,7 @@ public:
 				}
 				else
 				{
-					Vector posAhead = GetEyes() + alongFloor * checkSeamRange;
+					Vector const posAhead = GetEyes() + alongFloor * checkSeamRange;
 					UTIL_TraceLine(posAhead, posAhead - Vector(0, 0, 9999), ignore_monsters, dont_ignore_glass, m_hostage->pev->pContainingEntity, &result);
 
 					if (result.flFraction < 1.0f && DotProduct(result.vecPlaneNormal, normal) < 1.0f)
@@ -347,14 +347,14 @@ public:
 						CONSOLE_ECHO("Hostage stuck on seam.\n");
 					}
 
-					const float nudge = 3.0f;
+					constexpr auto nudge = 3.0f;
 					m_hostage->pev->origin.z += nudge;
 				}
 			}
 		}
 		else if (FClassnameIs(other->pev, STRING(m_hostage->pev->classname)))
 		{
-			const float pushForce = 10.0f;
+			constexpr auto pushForce = 10.0f;
 			Vector2D to = (m_hostage->pev->origin - other->pev->origin).Make2D();
 			to.NormalizeInPlace();
 
@@ -755,7 +755,7 @@ bool CMonster::CheckAttack()
 	if (m_flNextAttack > gpGlobals->time)
 		return false;
 
-	CBaseEntity *pHit = CheckTraceHullAttack(m_flAttackDist, m_flAttackDamage, DMG_BULLET);
+	CBaseEntity *const pHit = CheckTraceHullAttack(m_flAttackDist, m_flAttackDamage, DMG_BULLET);
 
 	if (!pHit)
 		return false;
@@ -770,6 +770,8 @@ bool CMonster::CheckAttack()
 	case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_1.wav", VOL_NORM, ATTN_NORM); break;
 	case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_2.wav", VOL_NORM, ATTN_NORM); break;
 	case 3: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_3.wav", VOL_NORM, ATTN_NORM); break;
+	default:
+		break;
 	}
 
 	return true;
@@ -804,9 +806,9 @@ void CMonster::Wander()
 		while ((target = UTIL_FindEntityByClassname(target, "func_buyzone")) != NULL)
 		{
 			ShortestPathCost cost;
-			Vector vecCenter = target->Center();
+			Vector const vecCenter = target->Center();
 
-			float range = NavAreaTravelDistance(m_improv->GetLastKnownArea(), TheNavAreaGrid.GetNearestNavArea(&vecCenter), cost);
+			float const range = NavAreaTravelDistance(m_improv->GetLastKnownArea(), TheNavAreaGrid.GetNearestNavArea(&vecCenter), cost);
 
 			if (range < shorestDistance)
 			{
@@ -1194,7 +1196,7 @@ CBasePlayer *CMonster::GetClosestPlayer(bool bVisible) const
 
 	for (int i = 1; i <= gpGlobals->maxClients; ++i)
 	{
-		CBasePlayer *player = static_cast<CBasePlayer *>(UTIL_PlayerByIndex(i));
+		CBasePlayer *player = dynamic_cast<CBasePlayer *>(UTIL_PlayerByIndex(i));
 
 		if (player == NULL)
 			continue;
@@ -1211,7 +1213,7 @@ CBasePlayer *CMonster::GetClosestPlayer(bool bVisible) const
 		if (bVisible && !m_improv->IsVisible(m_improv->GetEyes(), true))
 			continue;
 
-		float rangeSq = (m_improv->GetCentroid() - player->pev->origin).LengthSquared();
+		float const rangeSq = (m_improv->GetCentroid() - player->pev->origin).LengthSquared();
 
 		if (rangeSq < closeRangeSq)
 		{
@@ -1245,5 +1247,7 @@ void CMonsterModStrategy_Default::DeathSound() const
 	{
 	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zb3/zombi_death_1.wav", VOL_NORM, ATTN_NORM); break;
 	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zb3/zombi_death_2.wav", VOL_NORM, ATTN_NORM); break;
+	default:
+		break;
 	}
 }

@@ -823,9 +823,6 @@
     <ClCompile Include="..\dlls\wpn_shared\shelter_axe.cpp">
       <Filter>dlls\wpn_shared</Filter>
     </ClCompile>
-    <ClCompile Include="..\dlls\gamemode\zb2\zb2_winhud.cpp">
-      <Filter>dlls\gamemode\zb2</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\archtypes.h">

@@ -651,6 +651,9 @@
     <ClCompile Include="..\cl_dll\hud\zb2\Winhud.cpp">
       <Filter>cl_dll\hud\zb2</Filter>
     </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\zb2\Textstring.cpp">
+      <Filter>cl_dll\hud\zb2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\cvardef.h">
@@ -952,6 +955,9 @@
     </ClInclude>
     <ClInclude Include="..\cl_dll\hud\zb1\zb1_zclass.h">
       <Filter>cl_dll\hud\zb1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\zb2\Textstring.h">
+      <Filter>cl_dll\hud\zb2</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
