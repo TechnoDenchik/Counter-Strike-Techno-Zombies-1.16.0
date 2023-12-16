@@ -823,6 +823,12 @@
     <ClCompile Include="..\dlls\wpn_shared\shelter_axe.cpp">
       <Filter>dlls\wpn_shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zbs\monster_entity2.cpp">
+      <Filter>dlls\gamemode\zbs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\gamemode\zbs\monster_manager2.cpp">
+      <Filter>dlls\gamemode\zbs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\archtypes.h">
@@ -1610,6 +1616,12 @@
     </ClInclude>
     <ClInclude Include="..\dlls\gamemode\zsh\zsh_const.h">
       <Filter>dlls\gamemode\zsh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zbs\monster_entity2.h">
+      <Filter>dlls\gamemode\zbs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\gamemode\zbs\monster_manager2.h">
+      <Filter>dlls\gamemode\zbs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

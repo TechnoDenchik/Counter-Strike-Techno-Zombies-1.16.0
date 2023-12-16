@@ -1,4 +1,3 @@
-
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
@@ -7,24 +6,25 @@
 #include "trains.h"
 
 #include "monster_entity.h"
+#include "monster_entity2.h"
 #include "zs_subs.h"
 
 #include "game.h"
 #include "bot_include.h" // nav
 
 #include "zbs_const.h"
-#include "monster_manager.h"
+#include "monster_manager2.h"
 #include "gamemode/mods.h"
 
 #include <future>
 #include <atomic>
 
-LINK_ENTITY_TO_CLASS(monster_entity, CMonster);
+LINK_ENTITY_TO_CLASS(monster_entity2, CMonster2);
 
 class CMonsterImprov : public CHostageImprov
 {
 public:
-	CMonsterImprov(CBaseEntity *entity) : CHostageImprov(entity), 
+	CMonsterImprov(CBaseEntity* entity) : CHostageImprov(entity),
 		m_bCalculatingPath(false)
 	{
 
@@ -33,13 +33,13 @@ public:
 
 	// remove some hostage staffs
 	void Crouch() override { /* no code needed */ }
-	void OnMoveToFailure(const Vector &goal, MoveToFailureType reason) override { /* no code needed */ }
+	void OnMoveToFailure(const Vector& goal, MoveToFailureType reason) override { /* no code needed */ }
 
 	// jumping control
-	bool GetSimpleGroundHeightWithFloor(const Vector *pos, float *height, Vector *normal) override
+	bool GetSimpleGroundHeightWithFloor(const Vector* pos, float* height, Vector* normal) override
 	{
 		Vector to(*pos);
-		to.z -=  9999.9f;
+		to.z -= 9999.9f;
 
 		TraceResult tr;
 
@@ -68,10 +68,10 @@ public:
 	}
 	bool CanJump() const override
 	{
-		CBasePlayer *player = NULL;
+		CBasePlayer* player = NULL;
 		if (IsFollowing())
 		{
-			player = (CBasePlayer *)GetFollowLeader();
+			player = (CBasePlayer*)GetFollowLeader();
 			if ((m_hostage->Center() - player->Center()).Length() < 48.0)
 				return false;
 		}
@@ -110,7 +110,7 @@ public:
 
 	void UpdatePosition(float deltaT)
 	{
-		CNavArea *area = TheNavAreaGrid.GetNavArea(&m_hostage->pev->origin);
+		CNavArea* area = TheNavAreaGrid.GetNavArea(&m_hostage->pev->origin);
 
 		if (area != NULL)
 		{
@@ -196,10 +196,10 @@ public:
 						bool const result = m_path.Compute(&GetFeet(), &m_moveGoal, pathCost);
 						m_bCalculatingPath = false;
 						return result;
-					});
+						});
 				}
 
-				if(m_fbCalcPathResult.valid() && m_fbCalcPathResult.get())
+				if (m_fbCalcPathResult.valid() && m_fbCalcPathResult.get())
 				{
 					m_follower.SetPath(&m_path);
 					m_follower.SetImprov(this);
@@ -253,7 +253,7 @@ public:
 		m_moveFlags = 0;
 	}
 
-	void OnTouch(CBaseEntity *other) override
+	void OnTouch(CBaseEntity* other) override
 	{
 		m_collisionTimer.Start();
 
@@ -367,7 +367,7 @@ public:
 	std::future<bool> m_fbCalcPathResult;
 };
 
-void CMonster::Spawn()
+void CMonster2::Spawn()
 {
 	Precache();
 
@@ -376,7 +376,7 @@ void CMonster::Spawn()
 		RemoveEntityHashValue(pev, STRING(pev->classname), CLASSNAME);
 	}
 
-	MAKE_STRING_CLASS("monster_entity", pev);
+	MAKE_STRING_CLASS("monster_entity2", pev);
 	AddEntityHashValue(pev, STRING(pev->classname), CLASSNAME);
 
 	pev->movetype = MOVETYPE_STEP;
@@ -397,7 +397,8 @@ void CMonster::Spawn()
 	if (pev->skin < 0)
 		pev->skin = 0;
 
-	SET_MODEL(edict(), "models/player/zombi_origin/zombi_origin.mdl");
+	SET_MODEL(edict(), "models/player/speed_zombi_origin/speed_zombi_origin.mdl");
+	//SET_MODEL(edict(), "models/player/speed_zombi_host/speed_zombi_host.mdl");
 	SetAnimation(MONSTERANIM_IDLE);
 
 	m_flNextChange = 0;
@@ -429,7 +430,7 @@ void CMonster::Spawn()
 
 	DROP_TO_FLOOR(edict());
 
-	SetThink(&CMonster::IdleThink);
+	SetThink(&CMonster2::IdleThink);
 	pev->nextthink = gpGlobals->time + RANDOM_FLOAT(0.1, 0.2);
 
 	m_flNextFullThink = gpGlobals->time + RANDOM_FLOAT(0.1, 0.2);
@@ -464,10 +465,10 @@ void CMonster::Spawn()
 	m_flAttackAnimTime = 0.6f;
 	m_flTimeLastActive = gpGlobals->time;
 
-	m_pMonsterStrategy->OnSpawn();
+	m_pMonsterStrategy2->OnSpawn();
 }
 
-void CMonster::Precache()
+void CMonster2::Precache()
 {
 	PRECACHE_SOUND("zb3/zombi_death_1.wav");
 	PRECACHE_SOUND("zb3/zombi_death_2.wav");
@@ -476,16 +477,17 @@ void CMonster::Precache()
 	PRECACHE_SOUND("zb3/zombi_attack_1.wav");
 	PRECACHE_SOUND("zb3/zombi_attack_2.wav");
 	PRECACHE_SOUND("zb3/zombi_attack_3.wav");
-	PRECACHE_MODEL("models/player/zombi_origin/zombi_origin.mdl");
+	PRECACHE_MODEL("models/player/speed_zombi_origin/speed_zombi_origin.mdl");
+	PRECACHE_MODEL("models/player/speed_zombi_host/speed_zombi_host.mdl");
 }
 
-void CMonster::Use(CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value)
-{ 
+void CMonster2::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
+{
 	// skip CHostage::Use
-	return CBaseMonster::Use(pActivator, pCaller, useType, value); 
+	return CBaseMonster::Use(pActivator, pCaller, useType, value);
 }
 
-void CMonster::Touch(CBaseEntity *pOther)
+void CMonster2::Touch(CBaseEntity* pOther)
 {
 	if (m_improv != NULL)
 	{
@@ -493,38 +495,38 @@ void CMonster::Touch(CBaseEntity *pOther)
 	}
 }
 
-float CMonster::GetModifiedDamage(float flDamage, int nHitGroup) const
+float CMonster2::GetModifiedDamage(float flDamage, int nHitGroup) const
 {
 	switch (nHitGroup)
 	{
-		case HITGROUP_GENERIC: flDamage *= 1; break;
-		case HITGROUP_HEAD: flDamage *= 4; break;
-		case HITGROUP_CHEST: flDamage *= 1; break;
-		case HITGROUP_STOMACH: flDamage *= 1.25; break;
-		case HITGROUP_LEFTARM:
-		case HITGROUP_RIGHTARM: flDamage *= 1; break;
-		case HITGROUP_LEFTLEG:
-		case HITGROUP_RIGHTLEG: flDamage *= 0.75; break;
-		default: flDamage *= 1; break;
+	case HITGROUP_GENERIC: flDamage *= 1; break;
+	case HITGROUP_HEAD: flDamage *= 4; break;
+	case HITGROUP_CHEST: flDamage *= 1; break;
+	case HITGROUP_STOMACH: flDamage *= 1.25; break;
+	case HITGROUP_LEFTARM:
+	case HITGROUP_RIGHTARM: flDamage *= 1; break;
+	case HITGROUP_LEFTLEG:
+	case HITGROUP_RIGHTLEG: flDamage *= 0.75; break;
+	default: flDamage *= 1; break;
 	}
 
 	return flDamage;
 }
 
-int CMonster::TakeDamage(entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType)
+int CMonster2::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, float flDamage, int bitsDamageType)
 {
 	float flActualDamage;
-	CBasePlayer *pAttacker = NULL;
+	CBasePlayer* pAttacker = NULL;
 
 	flActualDamage = GetModifiedDamage(flDamage, m_LastHitGroup);
 
 	if (pevAttacker != NULL)
 	{
-		CBaseEntity *pAttackingEnt = GetClassPtr<CBaseEntity>(pevAttacker);
+		CBaseEntity* pAttackingEnt = GetClassPtr<CBaseEntity>(pevAttacker);
 
 		if (pAttackingEnt->Classify() == CLASS_VEHICLE)
 		{
-			CBaseEntity *pDriver = ((CFuncVehicle *)pAttackingEnt)->m_pDriver;
+			CBaseEntity* pDriver = ((CFuncVehicle*)pAttackingEnt)->m_pDriver;
 
 			if (pDriver != NULL)
 			{
@@ -577,8 +579,8 @@ int CMonster::TakeDamage(entvars_t *pevInflictor, entvars_t *pevAttacker, float 
 	return 0;
 }
 
-void CMonster::BecomeDead(void) 
-{ 
+void CMonster2::BecomeDead(void)
+{
 	pev->health = 0;
 	pev->movetype = MOVETYPE_TOSS;
 	pev->flags &= ~FL_ONGROUND;
@@ -588,7 +590,7 @@ void CMonster::BecomeDead(void)
 	pev->solid = SOLID_NOT;
 }
 
-void CMonster::Killed(entvars_t *pevAttacker, int iGib)
+void CMonster2::Killed(entvars_t* pevAttacker, int iGib)
 {
 	if (!IsAlive())
 		return;
@@ -602,7 +604,7 @@ void CMonster::Killed(entvars_t *pevAttacker, int iGib)
 	SetConditions(bits_COND_LIGHT_DAMAGE);
 
 	// tell owner ( if any ) that we're dead.This is mostly for MonsterMaker functionality.
-	CBaseEntity *pOwner = CBaseEntity::Instance(pev->owner);
+	CBaseEntity* pOwner = CBaseEntity::Instance(pev->owner);
 	if (pOwner)
 	{
 		pOwner->DeathNotice(pev);
@@ -618,14 +620,14 @@ void CMonster::Killed(entvars_t *pevAttacker, int iGib)
 	SetAnimation(MONSTERANIM_DIE);
 
 	pev->nextthink = gpGlobals->time + 3;
-	SetThink(&CMonster::Remove);
+	SetThink(&CMonster2::Remove);
 
 	m_flTimeLastActive = -1;
 
-	m_pMonsterStrategy->OnKilled(pevAttacker, iGib);
+	m_pMonsterStrategy2->OnKilled(pevAttacker, iGib);
 }
 
-void CMonster::Remove()
+void CMonster2::Remove()
 {
 	pev->movetype = MOVETYPE_NONE;
 	pev->solid = SOLID_NOT;
@@ -638,21 +640,21 @@ void CMonster::Remove()
 	SUB_Remove();
 }
 
-CMonster::CMonster() : CHostage(), 
-	m_iKillBonusMoney(500), 
-	m_iKillBonusFrags(1), 
-	m_flTimeLastActive(0.0f), 
-	m_pMonsterStrategy(new CMonsterModStrategy_Default(this))
+CMonster2::CMonster2() : CHostage(),
+m_iKillBonusMoney(500),
+m_iKillBonusFrags(1),
+m_flTimeLastActive(0.0f),
+m_pMonsterStrategy2(new CMonsterModStrategy_Default2(this))
 {
-	MonsterManager().OnEntityAdd(this);
+	MonsterManager2().OnEntityAdd(this);
 }
 
-CMonster::~CMonster()
+CMonster2::~CMonster2()
 {
-	MonsterManager().OnEntityRemove(this);
+	MonsterManager2().OnEntityRemove(this);
 }
 
-void CMonster::IdleThink()
+void CMonster2::IdleThink()
 {
 	constexpr float upkeepRate = 0.03f;
 	constexpr float giveUpTime = (1 / 30.0f);
@@ -667,7 +669,7 @@ void CMonster::IdleThink()
 
 	// Outer...
 	const float flInterval = StudioFrameAdvance(0);
-	std::future<void> handleDispatchAnimEvents = std::async(&CMonster::DispatchAnimEvents, this, flInterval);
+	std::future<void> handleDispatchAnimEvents = std::async(&CMonster2::DispatchAnimEvents, this, flInterval);
 	std::future<void> handleUpkeepImprov = std::async(&CHostageImprov::OnUpkeep, m_improv, upkeepRate);
 	// wait for them...
 	handleDispatchAnimEvents.get();
@@ -677,31 +679,31 @@ void CMonster::IdleThink()
 	{
 		m_flNextFullThink = gpGlobals->time + 0.1;
 		std::future<bool> results[] = {
-			std::async(&CMonster::CheckTarget, this),
-			std::async(&CMonster::CheckAttack, this),
-			std::async(&CMonster::CheckSequence, this),
+			std::async(&CMonster2::CheckTarget, this),
+			std::async(&CMonster2::CheckAttack, this),
+			std::async(&CMonster2::CheckSequence, this),
 			std::async([=] {return m_improv->OnUpdate(updateRate), false; })
 		};
 
 		bool bActive = false;
-		for (auto &&f : results)
+		for (auto&& f : results)
 			bActive |= f.get();
 		if (bActive)
 			m_flTimeLastActive = gpGlobals->time;
 	}
 
-	m_pMonsterStrategy->OnThink();
+	m_pMonsterStrategy2->OnThink();
 }
 
-bool CMonster::CheckTarget()
+bool CMonster2::CheckTarget()
 {
 	if (m_flTargetChange <= gpGlobals->time)
 	{
 		auto result = FindTarget();
 
-		CBasePlayer *player = result.first;
+		CBasePlayer* player = result.first;
 
-		if(!player)
+		if (!player)
 		{
 			Wander();
 			m_hTargetEnt = player;
@@ -730,12 +732,12 @@ bool CMonster::CheckTarget()
 	return false;
 }
 
-std::pair<CBasePlayer *, bool> CMonster::FindTarget() const
+std::pair<CBasePlayer*, bool> CMonster2::FindTarget() const
 {
-	std::future<CBasePlayer *> fpNear = std::async(&CMonster::GetClosestPlayer, this, true);
-	std::future<CBasePlayer *> fpFar = std::async(&CMonsterImprov::GetClosestPlayerByTravelDistance, m_improv, UNASSIGNED, nullptr);
+	std::future<CBasePlayer*> fpNear = std::async(&CMonster2::GetClosestPlayer, this, true);
+	std::future<CBasePlayer*> fpFar = std::async(&CMonsterImprov::GetClosestPlayerByTravelDistance, m_improv, UNASSIGNED, nullptr);
 
-	CBasePlayer *player = nullptr;
+	CBasePlayer* player = nullptr;
 
 	if ((player = fpNear.get()))
 	{
@@ -747,15 +749,15 @@ std::pair<CBasePlayer *, bool> CMonster::FindTarget() const
 		return { player, false };
 	}
 
-	return { nullptr, false};
+	return { nullptr, false };
 }
 
-bool CMonster::CheckAttack()
+bool CMonster2::CheckAttack()
 {
 	if (m_flNextAttack > gpGlobals->time)
 		return false;
 
-	CBaseEntity *const pHit = CheckTraceHullAttack(m_flAttackDist, m_flAttackDamage, DMG_BULLET);
+	CBaseEntity* const pHit = CheckTraceHullAttack(m_flAttackDist, m_flAttackDamage, DMG_BULLET);
 
 	if (!pHit)
 		return false;
@@ -777,7 +779,7 @@ bool CMonster::CheckAttack()
 	return true;
 }
 
-bool CMonster::CheckSequence()
+bool CMonster2::CheckSequence()
 {
 	// sequence settings.
 	if (gpGlobals->time >= m_flFlinchTime)
@@ -794,14 +796,14 @@ bool CMonster::CheckSequence()
 	return false;
 }
 
-void CMonster::Wander()
+void CMonster2::Wander()
 {
 	if (m_improv)
 	{
-		CBaseEntity *target = NULL;
+		CBaseEntity* target = NULL;
 
 		float shorestDistance = 9.9999998e10f;
-		CBaseEntity *shorestTarget = NULL;
+		CBaseEntity* shorestTarget = NULL;
 
 		while ((target = UTIL_FindEntityByClassname(target, "func_buyzone")) != NULL)
 		{
@@ -826,7 +828,7 @@ void CMonster::Wander()
 	}
 }
 
-void CMonster::SetAnimation(MonsterAnim anim) // similar to CBasePlayer::SetAnimation
+void CMonster2::SetAnimation(MonsterAnim anim) // similar to CBasePlayer::SetAnimation
 {
 	int animDesired = 0;
 	float speed;
@@ -862,7 +864,7 @@ void CMonster::SetAnimation(MonsterAnim anim) // similar to CBasePlayer::SetAnim
 	case MONSTERANIM_DIE:
 	{
 		m_IdealActivity = ACT_DIESIMPLE;
-		m_pMonsterStrategy->DeathSound();
+		m_pMonsterStrategy2->DeathSound();
 		break;
 	}
 	case MONSTERANIM_ATTACK:
@@ -1116,7 +1118,7 @@ void CMonster::SetAnimation(MonsterAnim anim) // similar to CBasePlayer::SetAnim
 		break;
 	}
 	}
-	
+
 	if (pev->sequence != animDesired)
 	{
 		pev->sequence = animDesired;
@@ -1127,19 +1129,19 @@ void CMonster::SetAnimation(MonsterAnim anim) // similar to CBasePlayer::SetAnim
 
 }
 
-int CMonster::LookupSequence(const char *label)
+int CMonster2::LookupSequence(const char* label)
 {
 	// only called from SetAnimation, no need to lock...
 
 	auto iter = m_mapLookupSequenceCache.find(label);
-	if(iter == m_mapLookupSequenceCache.end())
+	if (iter == m_mapLookupSequenceCache.end())
 	{
 		iter = m_mapLookupSequenceCache.emplace(label, CBaseAnimating::LookupSequence(label)).first;
 	}
 	return iter->second;
 }
 
-CBaseEntity *CMonster::CheckTraceHullAttack(float flDist, int iDamage, int iDmgType)
+CBaseEntity* CMonster2::CheckTraceHullAttack(float flDist, int iDamage, int iDmgType)
 {
 	TraceResult tr;
 
@@ -1155,7 +1157,7 @@ CBaseEntity *CMonster::CheckTraceHullAttack(float flDist, int iDamage, int iDmgT
 
 	if (tr.pHit)
 	{
-		CBaseEntity *pEntity = CBaseEntity::Instance(tr.pHit);
+		CBaseEntity* pEntity = CBaseEntity::Instance(tr.pHit);
 
 		if (!ShouldAttack(pEntity))
 			return nullptr;
@@ -1171,32 +1173,32 @@ CBaseEntity *CMonster::CheckTraceHullAttack(float flDist, int iDamage, int iDmgT
 	return NULL;
 }
 
-bool CMonster::ShouldAttack(CBaseEntity *target) const
+bool CMonster2::ShouldAttack(CBaseEntity* target) const
 {
 	if (target->pev->takedamage == DAMAGE_NO)
 		return false;
 
-	if (target->IsPlayer() && !m_pMonsterStrategy->IsTeamMate(target))
+	if (target->IsPlayer() && !m_pMonsterStrategy2->IsTeamMate(target))
 		return true;
 
-	CZBSBreak *zbs_break = dynamic_cast<CZBSBreak *>(target);
+	CZBSBreak* zbs_break = dynamic_cast<CZBSBreak*>(target);
 	if (zbs_break)
 		return zbs_break->m_flZombiDamageRatio > 0.0f;
 
 	return false;
 }
 
-CBasePlayer *CMonster::GetClosestPlayer(bool bVisible) const
+CBasePlayer* CMonster2::GetClosestPlayer(bool bVisible) const
 {
 	if (!m_improv)
 		return NULL;
 
-	CBasePlayer *close = NULL;
+	CBasePlayer* close = NULL;
 	float closeRangeSq = 1e8f;
 
 	for (int i = 1; i <= gpGlobals->maxClients; ++i)
 	{
-		CBasePlayer *player = dynamic_cast<CBasePlayer *>(UTIL_PlayerByIndex(i));
+		CBasePlayer* player = dynamic_cast<CBasePlayer*>(UTIL_PlayerByIndex(i));
 
 		if (player == NULL)
 			continue;
@@ -1226,27 +1228,27 @@ CBasePlayer *CMonster::GetClosestPlayer(bool bVisible) const
 }
 
 
-void CMonsterModStrategy_Default::OnSpawn()
-{
-	
-}
-
-void CMonsterModStrategy_Default::OnThink()
-{
-	
-}
-
-void CMonsterModStrategy_Default::OnKilled(entvars_t *pKiller, int iGib)
+void CMonsterModStrategy_Default2::OnSpawn()
 {
 
 }
 
-void CMonsterModStrategy_Default::DeathSound() const
+void CMonsterModStrategy_Default2::OnThink()
+{
+
+}
+
+void CMonsterModStrategy_Default2::OnKilled(entvars_t* pKiller, int iGib)
+{
+
+}
+
+void CMonsterModStrategy_Default2::DeathSound() const
 {
 	switch (RANDOM_LONG(1, 2))
 	{
-	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_1.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_1.wav", VOL_NORM, ATTN_NORM); break;
+	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_female_1.wav", VOL_NORM, ATTN_NORM); break;
+	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_female_1.wav", VOL_NORM, ATTN_NORM); break;
 	default:
 		break;
 	}

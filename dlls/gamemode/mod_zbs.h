@@ -12,6 +12,7 @@
 
 class CZombieSpawn;
 class CMonster;
+class CMonster2;
 
 class CMod_ZombieScenario : public TBaseMod_RemoveObjects<>
 {
@@ -43,6 +44,8 @@ public:
 
 	CZombieSpawn *SelectZombieSpawnPoint();
 	CBaseEntity *MakeZombieNPC();
+	CBaseEntity* MakeZombieNPC2();
+	CBaseEntity* MakeZombieNPC3();
 	void ClearZombieNPC();
 
 public:
@@ -51,6 +54,7 @@ public:
 
 	EventDispatcher<void(CBasePlayer *attacker, float &)> m_eventAdjustDamage;
 	EventDispatcher<void(CMonster *victim, CBaseEntity *attacker)> m_eventMonsterKilled;
+	EventDispatcher<void(CMonster2* victim, CBaseEntity* attacker)> m_eventMonsterKilled2;
 };
 
 #endif

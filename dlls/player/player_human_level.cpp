@@ -33,16 +33,9 @@ void PlayerExtraHumanLevel_ZBS::LevelUpHealth()
 	if (m_iHealth >= 40)
 		return;
 
-	if (m_pPlayer->m_iAccount < 3000)
-	{
-		ClientPrint(m_pPlayer->pev, HUD_PRINTCENTER, "#Not_Enough_Money");
-		BlinkAccount(m_pPlayer, 2);
-		return;
-	}
-
-	m_pPlayer->AddAccount(-3000);
+	//BlinkAccount(m_pPlayer, 2);
 	m_iHealth++;
-	CLIENT_COMMAND(m_pPlayer->edict(), "spk zombi/td_heal.wav\n");
+	CLIENT_COMMAND(m_pPlayer->edict(), "spk zbs/lvup.wav\n");
 	UpdateHUD();
 
 	if (!m_pPlayer->IsAlive())
@@ -56,16 +49,9 @@ void PlayerExtraHumanLevel_ZBS::LevelUpAttack()
 	if (m_iAttack >= 40)
 		return;
 
-	if (m_pPlayer->m_iAccount < 3000)
-	{
-		ClientPrint(m_pPlayer->pev, HUD_PRINTCENTER, "#Not_Enough_Money");
-		BlinkAccount(m_pPlayer, 2);
-		return;
-	}
-
-	m_pPlayer->AddAccount(-3000);
+	//BlinkAccount(m_pPlayer, 2);
 	m_iAttack++;
-	CLIENT_COMMAND(m_pPlayer->edict(), "spk zombi/td_heal.wav\n");
+	CLIENT_COMMAND(m_pPlayer->edict(), "spk zbs/lvup.wav\n");
 	UpdateHUD();
 }
 
