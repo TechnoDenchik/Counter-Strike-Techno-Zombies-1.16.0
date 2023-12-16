@@ -767,11 +767,11 @@ bool CMonster2::CheckAttack()
 	m_flNextAttack = gpGlobals->time + m_flAttackRate;
 	m_flNextFullThink = gpGlobals->time + m_flAttackAnimTime;
 
-	switch (RANDOM_LONG(1, 3))
+	switch (RANDOM_LONG(1, 2))
 	{
-	case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_1.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_2.wav", VOL_NORM, ATTN_NORM); break;
-	case 3: EMIT_SOUND(ENT(pev), CHAN_VOICE, "zb3/zombi_attack_3.wav", VOL_NORM, ATTN_NORM); break;
+	case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "player/bhit_helmet-1.wav", VOL_NORM, ATTN_NORM); break;
+	case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "player/bhit_kevlar-1.wav", VOL_NORM, ATTN_NORM); break;
+
 	default:
 		break;
 	}

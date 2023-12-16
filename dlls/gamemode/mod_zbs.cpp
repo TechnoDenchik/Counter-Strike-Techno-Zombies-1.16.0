@@ -32,7 +32,7 @@ public:
 			}
 		);
 		m_listenerMonsterKilled = mp->m_eventMonsterKilled.subscribe(
-			[=](CMonster *victim, CBaseEntity *attacker)
+			[=](CMonster *victim,  CBaseEntity *attacker)
 			{
 				if (attacker == m_pPlayer)
 				{
@@ -75,6 +75,68 @@ protected:
 	PlayerExtraHumanLevel_ZBS m_HumanLevel;
 
 };
+
+
+
+class PlayerModStrategy_ZBS2 : public CPlayerModStrategy_Default
+{
+public:
+	PlayerModStrategy_ZBS2(CBasePlayer* player, CMod_ZombieScenario* mp) : CPlayerModStrategy_Default(player), m_HumanLevel2(player)
+	{
+		m_listenerAdjustDamage2 = mp->m_eventAdjustDamage.subscribe(
+			[=](CBasePlayer* attacker, float& out)
+			{
+				if (attacker == m_pPlayer)
+					out *= m_HumanLevel2.GetAttackBonus();
+			}
+		);
+		m_listenerMonsterKilled2 = mp->m_eventMonsterKilled2.subscribe(
+			[=](CMonster2* victim, CBaseEntity* attacker)
+			{
+				if (attacker == m_pPlayer)
+				{
+					if (victim->m_iKillBonusFrags)
+						m_pPlayer->AddPoints(victim->m_iKillBonusFrags, FALSE);
+					if (victim->m_iKillBonusMoney)
+						m_pPlayer->AddAccount(victim->m_iKillBonusMoney);
+					m_HumanLevel2.LevelUpHealth();
+					m_HumanLevel2.LevelUpAttack();
+					MESSAGE_BEGIN(MSG_ONE, gmsgZBSTip, NULL, m_pPlayer->pev);
+					WRITE_BYTE(ZBS_TIP_KILL);
+					MESSAGE_END();
+				}
+			}
+		);
+	}
+	int  ComputeMaxAmmo(const char* szAmmoClassName, int iOriginalMax) override { return 600; }
+	bool CanPlayerBuy(bool display) override
+	{
+		// is the player alive?
+		if (m_pPlayer->pev->deadflag != DEAD_NO)
+			return false;
+
+		return true;
+	}
+
+	void OnSpawn() override
+	{
+		m_pPlayer->pev->health += m_HumanLevel2.GetHealthBonus();
+	}
+
+	void OnInitHUD() override
+	{
+		m_HumanLevel2.UpdateHUD();
+	}
+
+protected:
+	EventListener m_listenerAdjustDamage2;
+	EventListener m_listenerMonsterKilled2;
+	PlayerExtraHumanLevel_ZBS m_HumanLevel2;
+
+};
+
+
+
 
 class CMonsterModStrategy_ZBS : public CMonsterModStrategy_Default
 {
@@ -129,6 +191,7 @@ protected:
 void CMod_ZombieScenario::InstallPlayerModStrategy(CBasePlayer *player)
 {
 	player->m_pModStrategy.reset(new PlayerModStrategy_ZBS(player, this));
+	player->m_pModStrategy.reset(new PlayerModStrategy_ZBS2(player, this));
 }
 
 float CMod_ZombieScenario::GetAdjustedEntityDamage(CBaseEntity *victim, entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType)
