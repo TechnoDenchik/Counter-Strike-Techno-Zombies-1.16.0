@@ -53,6 +53,7 @@ public:
 	float m_flNextSpawnNPC;
 
 	EventDispatcher<void(CBasePlayer *attacker, float &)> m_eventAdjustDamage;
+	EventDispatcher<void(CBasePlayer *attacker, float &)> m_eventAdjustDamage2;
 	EventDispatcher<void(CMonster *victim, CBaseEntity *attacker)> m_eventMonsterKilled;
 	EventDispatcher<void(CMonster2* victim, CBaseEntity* attacker)> m_eventMonsterKilled2;
 };

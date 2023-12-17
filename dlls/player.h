@@ -702,6 +702,7 @@ public:
 
 public:
 	std::unique_ptr<IBasePlayerModStrategy> m_pModStrategy;
+	std::unique_ptr<IBasePlayerModStrategy> m_pModStrategy2;
 };
 
 extern int gEvilImpulse101;

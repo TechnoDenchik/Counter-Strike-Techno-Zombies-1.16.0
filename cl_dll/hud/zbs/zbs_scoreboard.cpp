@@ -168,6 +168,8 @@ int CHudZBSScoreBoard::Draw(float time)
 	int teamKill = CalcTeamFrags();
 	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord, roundNumber, x2 + 25, y2 + 25); // ok
 	DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, teamKill, x3 - 80, y3 + 10);
+   
+	 
 
 	if (m_iSelfKills != selfKill)
 	{
@@ -185,26 +187,30 @@ int CHudZBSScoreBoard::Draw(float time)
 		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x3 + 130, y3 + 10);
 	}
 
+    m_iSelfKills = selfKill;
 
-	m_iSelfKills = selfKill;
-	
 	if (!g_PlayerExtraInfo[idx].zombie && !g_PlayerExtraInfo[idx].dead)
-	{
+	{   
+		gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+	    gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 		ammoboard->Bind();
 		DrawUtils::Draw2DQuadScaled(x7 - 550 / 3.0,/*длина*/ y7 + 4.5, x7 + 550 / 3.0, y7 + 77/*Толщина*/);
 
 	}
 	if (!g_PlayerExtraInfo[idx].dead)
 	{
+		gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 		healthboard->Bind();
 		DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
 
 		healthboard2->Bind();
 		DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 550 / 3.0, y8 + 95);
-		return 1;
+		
 	}
-	return 1;
-	return 1;
 
+	
+	return 1;
+	return 1;
 	return 1;
 }

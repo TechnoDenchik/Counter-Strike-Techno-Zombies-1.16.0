@@ -396,10 +396,10 @@ void CMonster2::Spawn()
 
 	if (pev->skin < 0)
 		pev->skin = 0;
-
-	SET_MODEL(edict(), "models/player/speed_zombi_origin/speed_zombi_origin.mdl");
-	//SET_MODEL(edict(), "models/player/speed_zombi_host/speed_zombi_host.mdl");
-	SetAnimation(MONSTERANIM_IDLE);
+	
+	 SET_MODEL(edict(), "models/player/speed_zombi_origin/speed_zombi_origin.mdl");
+     SetAnimation(MONSTERANIM_IDLE);
+	
 
 	m_flNextChange = 0;
 	m_State = STAND;
@@ -470,8 +470,7 @@ void CMonster2::Spawn()
 
 void CMonster2::Precache()
 {
-	PRECACHE_SOUND("zb3/zombi_death_1.wav");
-	PRECACHE_SOUND("zb3/zombi_death_2.wav");
+	PRECACHE_SOUND("zbs/zbs_death_female_1.wav");
 	PRECACHE_SOUND("zb3/zombi_hurt_01.wav");
 	PRECACHE_SOUND("zb3/zombi_hurt_02.wav");
 	PRECACHE_SOUND("zb3/zombi_attack_1.wav");
@@ -1245,11 +1244,5 @@ void CMonsterModStrategy_Default2::OnKilled(entvars_t* pKiller, int iGib)
 
 void CMonsterModStrategy_Default2::DeathSound() const
 {
-	switch (RANDOM_LONG(1, 2))
-	{
-	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_female_1.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_female_1.wav", VOL_NORM, ATTN_NORM); break;
-	default:
-		break;
-	}
+	 EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_female_1.wav", VOL_NORM, ATTN_NORM);
 }

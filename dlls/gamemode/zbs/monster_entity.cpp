@@ -469,7 +469,7 @@ void CMonster::Spawn()
 
 void CMonster::Precache()
 {
-	PRECACHE_SOUND("zb3/zombi_death_1.wav");
+	PRECACHE_SOUND("zbs/zbs_death_1.wav");
 	PRECACHE_SOUND("zb3/zombi_death_2.wav");
 	PRECACHE_SOUND("zb3/zombi_hurt_01.wav");
 	PRECACHE_SOUND("zb3/zombi_hurt_02.wav");
@@ -1243,11 +1243,5 @@ void CMonsterModStrategy_Default::OnKilled(entvars_t *pKiller, int iGib)
 
 void CMonsterModStrategy_Default::DeathSound() const
 {
-	switch (RANDOM_LONG(1, 2))
-	{
-	case 1: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_1.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_1.wav", VOL_NORM, ATTN_NORM); break;
-	default:
-		break;
-	}
+	EMIT_SOUND(ENT(m_pMonster->pev), CHAN_VOICE, "zbs/zbs_death_1.wav", VOL_NORM, ATTN_NORM);
 }

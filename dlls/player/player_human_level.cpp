@@ -14,14 +14,14 @@ PlayerExtraHumanLevel_ZBS::PlayerExtraHumanLevel_ZBS(CBasePlayer *player) : Base
 
 float PlayerExtraHumanLevel_ZBS::GetHealthBonus() const
 {
-	if (m_iHealth >= 40)
+	if (m_iHealth >= 100)
 		return 800.0f;
 
 	return (m_iHealth - 1) * 20.0f;
 }
 float PlayerExtraHumanLevel_ZBS::GetAttackBonus() const
 {
-	if (m_iAttack >= 40)
+	if (m_iAttack >= 100)
 		return 5.0f;
 
 	return 1.0 + (m_iAttack - 1) * 0.1f;
@@ -30,7 +30,7 @@ float PlayerExtraHumanLevel_ZBS::GetAttackBonus() const
 void PlayerExtraHumanLevel_ZBS::LevelUpHealth()
 {
 
-	if (m_iHealth >= 40)
+	if (m_iHealth >= 100)
 		return;
 
 	//BlinkAccount(m_pPlayer, 2);
@@ -46,7 +46,7 @@ void PlayerExtraHumanLevel_ZBS::LevelUpHealth()
 
 void PlayerExtraHumanLevel_ZBS::LevelUpAttack()
 {
-	if (m_iAttack >= 40)
+	if (m_iAttack >= 100)
 		return;
 
 	//BlinkAccount(m_pPlayer, 2);

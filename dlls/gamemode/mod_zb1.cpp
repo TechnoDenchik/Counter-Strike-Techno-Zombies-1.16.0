@@ -16,6 +16,7 @@ GNU General Public License for more details.
 #include "extdll.h"
 #include "util.h"
 #include "cbase.h"
+#include "common.h"
 #include "player.h"
 #include "game.h"
 #include "client.h"
@@ -95,7 +96,7 @@ void CMod_Zombi::Think()
 	//IBaseMod::Think();
 
 	static int iLastCountDown = -1;
-	int iCountDown = static_cast<int>(gpGlobals->time - m_fRoundCount);
+	int const iCountDown = static_cast<int>(gpGlobals->time - m_fRoundCount);
 
 	if (iCountDown != iLastCountDown)
 	{

@@ -45,22 +45,22 @@ int CHudZBSLevel::Draw(float time)
 	char szBuffer[64];
 
 	// HP Level
-	if (m_iLevel_HP >= 40)
-		sprintf(szBuffer, "Level MAX");
+	if (m_iLevel_HP >= 100)
+		sprintf(szBuffer, "Lv. MAX");
 	else
-		sprintf(szBuffer, "Level %d", m_iLevel_HP);
+		sprintf(szBuffer, "Уровень. %d", m_iLevel_HP);
 	DrawUtils::DrawHudString(x + 100, y + 5, ScreenWidth, szBuffer, r, g, b, flScale);
 
 	// ATK Level
-	if (m_iLevel_ATK >= 40)
-		sprintf(szBuffer, "Level MAX");
+	if (m_iLevel_ATK >= 100)
+		sprintf(szBuffer, "Уровень. MAX");
 	else
-		sprintf(szBuffer, "Level %d", m_iLevel_ATK);
+		sprintf(szBuffer, "Lv. %d", m_iLevel_ATK);
 	DrawUtils::DrawHudString(x + 100, y + 40, ScreenWidth, szBuffer, r, g, b, flScale);
 
 	// ATK Value
-	if (m_iLevel_ATK >= 40)
-		strcpy(szBuffer, "500%");
+	if (m_iLevel_ATK >= 100)
+		strcpy(szBuffer, "1000%");
 	else
 		sprintf(szBuffer, "%d%%", m_iLevel_ATK * 10 + 90);
 	DrawUtils::DrawHudString(x + 130, y + 65, ScreenWidth, szBuffer, r, g, b, flScale);
@@ -73,10 +73,10 @@ int CHudZBSLevel::Draw(float time)
 		DrawUtils::Draw2DQuadScaled(x, y, x + 204, y + 28);
 
 		DrawUtils::DrawHudString(x + 20, y + 5, ScreenWidth, "Durability", r, g, b, flScale);
-		if (m_iLevel_Wall >= 40)
-			sprintf(szBuffer, "Level MAX");
+		if (m_iLevel_Wall >= 100)
+			sprintf(szBuffer, "Lv. MAX");
 		else
-			sprintf(szBuffer, "Level %d", m_iLevel_Wall);
+			sprintf(szBuffer, "Lv. %d", m_iLevel_Wall);
 		DrawUtils::DrawHudString(x + 100, y + 5, ScreenWidth, szBuffer, r, g, b, flScale);
 	}
 
