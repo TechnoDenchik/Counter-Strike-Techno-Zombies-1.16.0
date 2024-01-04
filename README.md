@@ -1,5 +1,6 @@
 # Counter-Strike-Techno-Zombies:RU
 >Это редактированный мною проект нацелен на исправление неисправностей в коде, ну и также добавку новшеств в игру CS 1.6 из Counter-Strike Nexon: Studio
+>
 >Присоединяйтесь к моему Discord серверу - https://discord.gg/U9sdYbZrRU
 
 ## Режимы и обновления
@@ -23,6 +24,7 @@
 
 # Couner-Strike Techno: Zombies:EN
 >This project, edited by me, is aimed at fixing malfunctions in the code, and also adding innovations to the CS 1.6 game from Counter-Strike Nexon: Studio
+>
 >Join my discord server - https://discord.gg/U9sdYbZrRU
 
 ## Modes and Updates
