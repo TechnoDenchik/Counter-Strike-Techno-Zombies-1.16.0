@@ -215,7 +215,8 @@ typedef struct render_api_s
 	void		(*GL_Reserved1)( void );
 	void		(*GL_Reserved2)( void );
 	void		(*GL_Reserved3)( void );
-		
+	void		(*GL_Scissor)(int enable, int x, int y, int width, int height);
+
 	// Misc renderer functions
 	void		(*GL_DrawParticles)( const float *vieworg, const float *fwd, const float *rt, const float *up, unsigned int clipFlags );
 	void		(*EnvShot)( const float *vieworg, const char *name, qboolean skyshot, int shotsize ); // creates a cubemap or skybox into gfx\env folder

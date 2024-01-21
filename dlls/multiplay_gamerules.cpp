@@ -59,6 +59,8 @@
 #include "tutor_cs_states.h"
 #include "tutor_cs_tutor.h"
 
+#include "player/player_mod_strategy.h"
+#include "../dlls/gamemode/zb2/zb2_const.h"
 #include "gamerules.h"
 #include "career_tasks.h"
 #include "maprules.h"
@@ -1202,8 +1204,11 @@ bool CHalfLifeMultiplay::VIPRoundEndCheck(bool bNeededPlayers)
 			{
 				TheBots->OnEvent(EVENT_VIP_ESCAPED);
 			}
-			TerminateRound(5, WINSTATUS_CTS);
 
+			TerminateRound(5, WINSTATUS_CTS);
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINCT);
+			MESSAGE_END();
 			if (IsCareer())
 			{
 				QueueCareerRoundEndMenu(5, WINSTATUS_CTS);
@@ -1231,6 +1236,9 @@ bool CHalfLifeMultiplay::VIPRoundEndCheck(bool bNeededPlayers)
 			{
 				TheBots->OnEvent(EVENT_VIP_ASSASSINATED);
 			}
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINT);
+			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_TERRORISTS);
 
 			if (IsCareer())
@@ -1265,6 +1273,9 @@ bool CHalfLifeMultiplay::PrisonRoundEndCheck(int NumAliveTerrorist, int NumAlive
 			}
 
 			EndRoundMessage("#Terrorists_Escaped", ROUND_TERRORISTS_ESCAPED);
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINT);
+			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_TERRORISTS);
 
 			if (IsCareer())
@@ -1289,6 +1300,9 @@ bool CHalfLifeMultiplay::PrisonRoundEndCheck(int NumAliveTerrorist, int NumAlive
 			}
 
 			EndRoundMessage("#CTs_PreventEscape", ROUND_CTS_PREVENT_ESCAPE);
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINCT);
+			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_CTS);
 
 			if (IsCareer())
@@ -1313,6 +1327,9 @@ bool CHalfLifeMultiplay::PrisonRoundEndCheck(int NumAliveTerrorist, int NumAlive
 			}
 
 			EndRoundMessage("#Escaping_Terrorists_Neutralized", ROUND_ESCAPING_TERRORISTS_NEUTRALIZED);
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINCT);
+			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_CTS);
 
 			if (IsCareer())
@@ -1344,6 +1361,9 @@ bool CHalfLifeMultiplay::BombRoundEndCheck(bool bNeededPlayers)
 		}
 
 		EndRoundMessage("#Target_Bombed", ROUND_TARGET_BOMB);
+		MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+		WRITE_BYTE(ORIG_WINT);
+		MESSAGE_END();
 		TerminateRound(5, WINSTATUS_TERRORISTS);
 
 		if (IsCareer())
@@ -1367,6 +1387,9 @@ bool CHalfLifeMultiplay::BombRoundEndCheck(bool bNeededPlayers)
 		}
 
 		EndRoundMessage("#Bomb_Defused", ROUND_BOMB_DEFUSED);
+		MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+		WRITE_BYTE(ORIG_WINCT);
+		MESSAGE_END();
 		TerminateRound(5, WINSTATUS_CTS);
 
 		if (IsCareer())
@@ -1391,7 +1414,7 @@ bool CHalfLifeMultiplay::TeamExterminationCheck(int NumAliveTerrorist, int NumAl
 
 			while ((temp = UTIL_FindEntityByClassname(temp, "grenade")) != NULL)
 			{
-				CGrenade *C4 = static_cast<CGrenade *>(temp);
+				CGrenade *C4 = dynamic_cast<CGrenade *>(temp);
 
 				if (C4->m_bIsC4 && !C4->m_bJustBlew)
 				{
@@ -1412,7 +1435,10 @@ bool CHalfLifeMultiplay::TeamExterminationCheck(int NumAliveTerrorist, int NumAl
 					UpdateTeamScores();
 				}
 
-				EndRoundMessage("#CTs_Win", ROUND_CTS_WIN);
+				//EndRoundMessage("#CTs_Win", ROUND_CTS_WIN);
+				MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+				WRITE_BYTE(ORIG_WINCT);
+				MESSAGE_END();
 				TerminateRound(5, WINSTATUS_CTS);
 
 				if (IsCareer())
@@ -1437,7 +1463,10 @@ bool CHalfLifeMultiplay::TeamExterminationCheck(int NumAliveTerrorist, int NumAl
 				UpdateTeamScores();
 			}
 
-			EndRoundMessage("#Terrorists_Win", ROUND_TERRORISTS_WIN);
+			//EndRoundMessage("#Terrorists_Win", ROUND_TERRORISTS_WIN);
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINT);
+			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_TERRORISTS);
 
 			if (IsCareer())
@@ -1510,7 +1539,9 @@ bool CHalfLifeMultiplay::HostageRescueRoundEndCheck(bool bNeededPlayers)
 					TheCareerTasks->HandleEvent(EVENT_ALL_HOSTAGES_RESCUED);
 				}
 			}
-
+			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			WRITE_BYTE(ORIG_WINCT);
+			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_CTS);
 			if (IsCareer())
 			{
@@ -4337,8 +4368,8 @@ int CountPlayers()
 void ExtractCommandString(char *s, char *szCommand)
 {
 	// Now make rules happen
-	char pkey[512];
-	char value[512]; // use two buffers so compares
+	char pkey[512]{};
+	char value[512]{}; // use two buffers so compares
 
 	// work without stomping on each other
 	char *o;
@@ -4551,8 +4582,8 @@ void CHalfLifeMultiplay::ChangeLevel()
 
 	char szNextMap[32];
 	char szFirstMapInList[32];
-	char szCommands[1500];
-	char szRules[1500];
+	char szCommands[1500]{};
+	char szRules[1500]{};
 	int minplayers = 0, maxplayers = 0;
 
 	// the absolute default level is hldm1

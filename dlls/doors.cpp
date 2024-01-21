@@ -88,8 +88,8 @@ void PlayLockSounds (entvars_t *pev, locksound_t *pls, int flocked, int fbutton)
 
 	if (flocked)
 	{
-		int fplaysound = (pls->sLockedSound && gpGlobals->time > pls->flwaitSound);
-		int fplaysentence = (pls->sLockedSentence && !pls->bEOFLocked && gpGlobals->time > pls->flwaitSentence);
+		const int fplaysound = (pls->sLockedSound & gpGlobals->time > pls->flwaitSound);
+		const int fplaysentence = (pls->sLockedSentence && !pls->bEOFLocked && gpGlobals->time > pls->flwaitSentence);
 		float fvol;
 
 		if (fplaysound && fplaysentence)
@@ -109,7 +109,7 @@ void PlayLockSounds (entvars_t *pev, locksound_t *pls, int flocked, int fbutton)
 		if (fplaysentence)
 		{
 			// play next 'door locked' sentence in group
-			int iprev = pls->iLockedSentence;
+			const int iprev = pls->iLockedSentence;
 
 			pls->iLockedSentence = SENTENCEG_PlaySequentialSz (ENT (pev), STRING (pls->sLockedSentence), 0.85, ATTN_NORM, 0, 100, pls->iLockedSentence, FALSE);
 			pls->iUnlockedSentence = 0;
@@ -123,8 +123,8 @@ void PlayLockSounds (entvars_t *pev, locksound_t *pls, int flocked, int fbutton)
 	{
 		// UNLOCKED SOUND
 
-		int fplaysound = (pls->sUnlockedSound && gpGlobals->time > pls->flwaitSound);
-		int fplaysentence = (pls->sUnlockedSentence && !pls->bEOFUnlocked && gpGlobals->time > pls->flwaitSentence);
+		const int fplaysound = (pls->sUnlockedSound & gpGlobals->time > pls->flwaitSound);
+		const int  fplaysentence = (pls->sUnlockedSentence && !pls->bEOFUnlocked && gpGlobals->time > pls->flwaitSentence);
 		float fvol;
 
 		// if playing both sentence and sound, lower sound volume so we hear sentence
@@ -143,7 +143,7 @@ void PlayLockSounds (entvars_t *pev, locksound_t *pls, int flocked, int fbutton)
 		// play next 'door unlocked' sentence in group
 		if (fplaysentence)
 		{
-			int iprev = pls->iUnlockedSentence;
+			const int iprev = pls->iUnlockedSentence;
 
 			pls->iUnlockedSentence = SENTENCEG_PlaySequentialSz (ENT (pev), STRING (pls->sUnlockedSentence), 0.85, ATTN_NORM, 0, 100, pls->iUnlockedSentence, FALSE);
 			pls->iLockedSentence = 0;
@@ -161,8 +161,8 @@ void CBaseDoor::KeyValue (KeyValueData *pkvd)
 {
 	//skin is used for content type
 	if (FStrEq (pkvd->szKeyName, "skin"))
-	{
-		pev->skin = (int)Q_atof (pkvd->szValue);
+	{ 
+		pev->skin = (int)Q_atof (pkvd->szValue);	
 		pkvd->fHandled = TRUE;
 	}
 	else if (FStrEq (pkvd->szKeyName, "movesnd"))
@@ -466,7 +466,7 @@ void CBaseDoor::Precache ()
 
 void CBaseDoor::DoorTouch (CBaseEntity *pOther)
 {
-	entvars_t *pevToucher = pOther->pev;
+	entvars_t *const pevToucher = pOther->pev;
 
 	// Ignore touches by dead players
 	if (pevToucher->deadflag != DEAD_NO)
@@ -942,8 +942,6 @@ void CRotDoor::Spawn ()
 	//m_flWait = 2; who the hell did this? (sjb)
 	m_vecAngle1 = pev->angles;
 	m_vecAngle2 = pev->angles + pev->movedir * m_flMoveDistance;
-
-	assert (("rotating door start/end positions are equal" && (m_vecAngle1 != m_vecAngle2)));
 
 	if (pev->spawnflags & SF_DOOR_PASSABLE)
 		pev->solid = SOLID_NOT;

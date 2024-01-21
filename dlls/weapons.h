@@ -40,7 +40,7 @@
 
 class CBasePlayer;
 
-#define MAX_WEAPONS			32
+#define MAX_WEAPONS			33
 #define MAX_NORMAL_BATTERY		100.0f
 
 #define ITEM_FLAG_SELECTONEMPTY		1

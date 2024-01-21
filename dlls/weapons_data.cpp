@@ -72,6 +72,7 @@ float GetArmorRatioModifier(WeaponIdType iGunType)
 	case WEAPON_P228:	flRatio *= 1.25; break;
 	case WEAPON_SCOUT:
 	case WEAPON_KNIFE:	flRatio *= 1.7; break;
+	case WEAPON_SHELTERAXE:	flRatio *= 1.7; break;
 	case WEAPON_FAMAS:
 	case WEAPON_SG552:	flRatio *= 1.4; break;
 	case WEAPON_GALIL:
@@ -107,6 +108,10 @@ WeaponBuyAmmoConfig GetBuyAmmoConfig(WeaponIdType id)
 	case WEAPON_UMP45:
 	case WEAPON_USP:
 		cost = AMMO_45ACP_PRICE;
+		classname = "ammo_45acp";
+		break;
+	case WEAPON_KRISS:
+		cost = AMMO_KRISS_PRICE;
 		classname = "ammo_45acp";
 		break;
 	case WEAPON_M249:

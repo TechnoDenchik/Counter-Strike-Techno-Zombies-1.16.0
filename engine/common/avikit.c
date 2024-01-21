@@ -797,3 +797,4 @@ void AVI_Shutdown( void )
 	avi_initialized = false;
 #endif
 }
+

@@ -82,21 +82,21 @@
 #define LS_UNUSED			0xFE
 #define LS_NONE			0xFF
 
-#define MAX_MAP_MODELS		1024		// can be increased up to 2048 if needed
-#define MAX_MAP_BRUSHES		32768		// unsigned short limit
-#define MAX_MAP_ENTITIES		8192		// can be increased up to 32768 if needed
+#define MAX_MAP_MODELS		2048		// can be increased up to 2048 if needed
+#define MAX_MAP_BRUSHES		64768		// unsigned short limit
+#define MAX_MAP_ENTITIES		16192		// can be increased up to 32768 if needed
 #define MAX_MAP_ENTSTRING		0x80000		// 512 kB should be enough
 #define MAX_MAP_PLANES		65536		// can be increased without problems
-#define MAX_MAP_NODES		32767		// because negative shorts are leafs
-#define MAX_MAP_CLIPNODES		32767		// because negative shorts are contents
-#define MAX_MAP_LEAFS		32767		// signed short limit
+#define MAX_MAP_NODES		64767		// because negative shorts are leafs
+#define MAX_MAP_CLIPNODES		64767		// because negative shorts are contents
+#define MAX_MAP_LEAFS		64767		// signed short limit
 #define MAX_MAP_VERTS		65535		// unsigned short limit
 #define MAX_MAP_FACES		65535		// unsigned short limit
 #define MAX_MAP_MARKSURFACES		65535		// unsigned short limit
 #define MAX_MAP_TEXINFO		MAX_MAP_FACES	// in theory each face may have personal texinfo
 #define MAX_MAP_EDGES		0x100000		// can be increased but not needed
 #define MAX_MAP_SURFEDGES		0x200000		// can be increased but not needed
-#define MAX_MAP_TEXTURES		2048		// can be increased but not needed
+#define MAX_MAP_TEXTURES		4048		// can be increased but not needed
 #define MAX_MAP_MIPTEX		0x2000000		// 32 Mb internal textures data
 #define MAX_MAP_LIGHTING		0x2000000		// 32 Mb lightmap raw data (can contain deluxemaps)
 #define MAX_MAP_VISIBILITY		0x800000		// 8 Mb visdata

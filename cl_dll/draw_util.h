@@ -36,12 +36,6 @@
 #define DHN_FILLZERO 8
 #define DHN_4DIGITS 16
 #define DHN_5DIGITS 32
-constexpr int DHN_6DIGITS = 64;
-constexpr int DHN_7DIGITS = 128;
-constexpr int DHN_8DIGITS = 256;
-constexpr int DHN_9DIGITS = 512;
-constexpr int DHN_FROMRIGHT = 64;
-constexpr int DHN_CENTERALIGNED = 128;
 #define MIN_ALPHA 100
 
 
@@ -56,6 +50,10 @@ public:
 
 	static int DrawHudNumber2( int x, int y, int iNumber,
 						   int r, int g, int b);
+
+	static int DrawNEWHudNumber(int index, int iX, int iY, int number, int r, int g, int b, int a, int iDrawZero, int maxsize, int widthplus = 0);
+
+	static int GetNEWHudNumberWidth(int type, int number, int iDrawZero, int maxsize, int widthplus = 0);
 
 	static int DrawHudString(int x, int y, int iMaxX, const char *szString,
 						 int r, int g, int b, float scale = 0.0f, bool drawing = false );

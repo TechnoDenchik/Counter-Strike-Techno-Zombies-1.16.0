@@ -21,7 +21,7 @@ This file contains "stubs" of class member implementations so that we can predic
  add in the functionality you need.
 ==========================
 */
-#include    "port.h"
+
 #include	"extdll.h"
 #include	"util.h"
 #include	"cbase.h"
@@ -31,8 +31,13 @@ This file contains "stubs" of class member implementations so that we can predic
 #include	"soundent.h"
 #include	"skill.h"
 
+
+
+
 // Globals used by game logic
-const Vector g_vecZero = Vector( 0, 0, 0 );
+
+const Vector g_vecZero = Vector(0, 0, 0);
+const Vector g_vecZero2 = Vector( 0, 0, 0 );
 int gmsgWeapPickup = 0;
 enginefuncs_t g_engfuncs;
 globalvars_t  *gpGlobals;

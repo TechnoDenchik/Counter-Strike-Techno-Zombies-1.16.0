@@ -1,3 +1,8 @@
+/* =================================================================================== *
+	  * =================== TechnoSoftware & Valve Developing =================== *
+ * =================================================================================== */
+
+
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
@@ -23,7 +28,7 @@
 #include "cl_util.h"
 #include "parsemsg.h"
 #include "pm_shared.h"
-
+#include "triangleapi.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -31,6 +36,7 @@
 #include "eventscripts.h"
 #include "com_weapons.h"
 #include "draw_util.h"
+#include "ammo.h"
 
 enum WeaponIdType
 {
@@ -63,6 +69,7 @@ enum WeaponIdType
 	WEAPON_DEAGLE,
 	WEAPON_SG552,
 	WEAPON_AK47,
+	WEAPON_KRISS,
 	WEAPON_KNIFE,
 	WEAPON_SHELTERAXE,
 	WEAPON_P90,
@@ -334,8 +341,90 @@ DECLARE_COMMAND(m_Ammo, Autobuy)
 
 #define HISTORY_DRAW_TIME	"5"
 
+inline void BuildNumberRC(wrect_t(&rgrc)[10], int w, int h)
+{
+	int nw = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		rgrc[i].left = nw;
+		rgrc[i].top = 0;
+		rgrc[i].right = rgrc[i].left + w;
+		rgrc[i].bottom = h;
+
+		nw += w;
+	}
+}
+
+inline void BuildNumberRC(wrect_t(&rgrc)[10], int tex)
+{
+	int w = gRenderAPI.RenderGetParm(PARM_TEX_SRC_WIDTH, tex);
+	int h = gRenderAPI.RenderGetParm(PARM_TEX_SRC_HEIGHT, tex);
+	return BuildNumberRC(rgrc, w / 10, h);
+}
+
+inline void DrawTexturePart(const CTextureRef& tex, const wrect_t& rect, int x1, int y1, float scale = 1.0f)
+{
+	tex.Bind();
+
+	float w = tex.w();
+	float h = tex.h();
+
+	x1 *= gHUD.m_flScale;
+	y1 *= gHUD.m_flScale;
+	scale *= gHUD.m_flScale;
+
+	int x2 = x1 + (rect.right - rect.left) * scale;
+	int y2 = y1 + (rect.bottom - rect.top) * scale;
+
+	gEngfuncs.pTriAPI->Begin(TRI_QUADS);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.left / w, rect.top / h);
+	gEngfuncs.pTriAPI->Vertex3f(x1, y1, 0);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.left / w, rect.bottom / h);
+	gEngfuncs.pTriAPI->Vertex3f(x1, y2, 0);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.right / w, rect.bottom / h);
+	gEngfuncs.pTriAPI->Vertex3f(x2, y2, 0);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.right / w, rect.top / h);
+	gEngfuncs.pTriAPI->Vertex3f(x2, y1, 0);
+	gEngfuncs.pTriAPI->End();
+}
+
+inline int DrawTexturedNumbersTopRightAligned(const CTextureRef& tex, const wrect_t(&rect)[10], int iNumber, int x, int y, float scale = 1.0f)
+{
+
+	do
+	{
+		int k = iNumber % 10;
+		iNumber /= 10;
+		DrawTexturePart(tex, rect[k], x, y, scale);
+		x -= (rect[k].right - rect[k].left) * scale;
+	} while (iNumber > 0);
+
+	return x;
+}
+
+inline unsigned math_log10(unsigned v)
+{
+	return (v >= 1000000000) ? 9 : (v >= 100000000) ? 8 : (v >= 10000000) ? 7 :
+		(v >= 1000000) ? 6 : (v >= 100000) ? 5 : (v >= 10000) ? 4 :
+		(v >= 1000) ? 3 : (v >= 100) ? 2 : (v >= 10) ? 1 : 0;
+}
+
+inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef& tex, const wrect_t(&rect)[10], int iNumber, int x, int y, float scale = 1.0f)
+{
+	int n = math_log10(iNumber);
+	x += (rect[0].right - rect[0].left) * (n - 1) * scale * 0.5f;
+	return DrawTexturedNumbersTopRightAligned(tex, rect, iNumber, x, y, scale);
+}
+
 int CHudAmmo::Init(void)
 {
+
+	R_InitTexture(ammoclips, "resource/hud/zb3/hud_sb_num_big_white");
+	R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
+	R_InitTexture(ammoboard, "resource/hud/zb3/hud_weapon_bg");
+	BuildNumberRC(m_rcAmmoclip, 18, 22);
+	BuildNumberRC(m_rcAmmofloat, 18, 22);
 	gHUD.AddHudElem(this);
 
 	HOOK_MESSAGE(CurWeapon);
@@ -1135,9 +1224,13 @@ void CHudAmmo::UserCmd_Rebuy()
 
 int CHudAmmo::Draw(float flTime)
 {
-	int a, x, y, r, g, b;
+	int a, x, y, r, g, b, x8;
+	x8 = ScreenWidth / 1.1;
 	int AmmoWidth;
 	static bool switchCrosshairType = false;
+ 
+	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH))
+		return 1;
 
 	if (!(gHUD.m_iWeaponBits & (1<<(WEAPON_SUIT)) ))
 		return 1;
@@ -1165,22 +1258,18 @@ int CHudAmmo::Draw(float flTime)
 	if ( (gHUD.m_iHideHUDDisplay & ( HIDEHUD_WEAPONS | HIDEHUD_ALL )) )
 		return 1;
 
-	// Draw Weapon Menu
 	DrawWList(flTime);
-
-	// Draw ammo pickup history
 	gHR.DrawAmmoHistory( flTime );
 
 	if (!m_pWeapon)
 		return 0;
 
-	WEAPON *pw = m_pWeapon; // shorthand
-
-	// SPR_Draw Ammo
+	WEAPON *pw = m_pWeapon;
+       
 	if ((pw->iAmmoType < 0) && (pw->iAmmo2Type < 0))
 		return 0;
 
-	int iFlags = DHN_DRAWZERO; // draw 0 values
+	int iFlags = true; // draw 0 values
 
 	AmmoWidth = gHUD.GetSpriteRect(gHUD.m_HUD_number_0).right - gHUD.GetSpriteRect(gHUD.m_HUD_number_0).left;
 
@@ -1189,63 +1278,56 @@ int CHudAmmo::Draw(float flTime)
 	if (m_fFade > 0)
 		m_fFade -= (gHUD.m_flTimeDelta * 20);
 
-	// Does this weapon have a clip?
 	y = ScreenHeight - gHUD.m_iFontHeight - gHUD.m_iFontHeight/2;
 
-	// Does weapon have any ammo at all?
 	if (m_pWeapon->iAmmoType > 0)
 	{
-		DrawUtils::UnpackRGB(r, g, b, RGB_YELLOWISH);
-		DrawUtils::ScaleColors(r, g, b, a);
-
+		DrawUtils::UnpackRGB(r, g, b, RGB_WHITE);
+		DrawUtils::ScaleColors(r, g, b, MIN_ALPHA);
+       
 		int iIconWidth = m_pWeapon->rcAmmo.right - m_pWeapon->rcAmmo.left;
 		
 		if (pw->iClip >= 0)
 		{
-			// room for the number and the '|' and the current ammo
-			
 			x = ScreenWidth - (8 * AmmoWidth) - iIconWidth;
-			x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, pw->iClip, r, g, b);
-
+			
 			int iBarWidth =  AmmoWidth/10;
 
 			x += AmmoWidth/2;
 
-			DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH);
+			DrawUtils::UnpackRGB(r,g,b, RGB_WHITE);
 
-			// draw the | bar
-			FillRGBA(x, y, iBarWidth, gHUD.m_iFontHeight, r, g, b, a);
+			int ammos = gHUD.m_Ammo.m_pWeapon->iClip;
+			int ammos2 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmoType);
+			int ammos3 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmo2Type);
+		    int x3 = ScreenWidth / 1.1;
+		    int y3 = 995;;
 
+		    int x4 = ScreenWidth / 1.1;
+		    int y4 = 995;
+
+			int x7 = ScreenWidth / 1.1;
+			int y7 = 995;
+
+            gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+	        gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+
+			ammoboard->Bind();
+			DrawUtils::Draw2DQuadScaled(x7 - 480 / 3.0, y7 + 4.5, x7 + 520 / 3.0, y7 + 77);
+
+			gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+
+	        DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos, x3 - 30, y3 + 45, 1.0f);
+	        DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos2, x4 + 100, y4 + 45, 1.0f);
+			
+			FillRGBA(x + 30, y - 2, iBarWidth, gHUD.m_iFontHeight, r, g, b, a);
 			x += iBarWidth + AmmoWidth/2;;
-
-			// GL Seems to need this
-			DrawUtils::ScaleColors(r, g, b, a );
-			x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmoType), r, g, b);
-
-
 		}
-		else
-		{
-			if (pw->iSlot < 3)
-			{
-				// No clip weapon, draws blue special ammo
-				DrawUtils::UnpackRGB(r, g, b, RGB_LIGHTBLUE);
-				//DrawUtils::ScaleColors(r, g, b, a);
-			}
-
-			// SPR_Draw a bullets only line
-			x = ScreenWidth - 4 * AmmoWidth - iIconWidth;
-			x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmoType), r, g, b);
-		}
-
-		// Draw the ammo Icon
 		int iOffset = (m_pWeapon->rcAmmo.bottom - m_pWeapon->rcAmmo.top)/8;
 		SPR_Set(m_pWeapon->hAmmo, r, g, b);
-		SPR_DrawAdditive(0, x, y - iOffset, &m_pWeapon->rcAmmo);
+		SPR_DrawAdditive(0, x8 + 125, y - iOffset, &m_pWeapon->rcAmmo);
 	}
-
-	// Does weapon have seconday ammo?
-	if (pw->iAmmo2Type > 0) 
+	if (pw->iAmmo2Type > 0)
 	{
 		// No clip weapon, draws blue special ammo
 		DrawUtils::UnpackRGB(r, g, b, RGB_LIGHTBLUE);
@@ -1256,13 +1338,25 @@ int CHudAmmo::Draw(float flTime)
 		// Do we have secondary ammo?
 		if ((pw->iAmmo2Type != 0) && (gWR.CountAmmo(pw->iAmmo2Type) > 0))
 		{
-			y -= gHUD.m_iFontHeight + gHUD.m_iFontHeight/4;
+			y -= gHUD.m_iFontHeight + gHUD.m_iFontHeight / 4;
 			x = ScreenWidth - 4 * AmmoWidth - iIconWidth;
-			x = DrawUtils::DrawHudNumber(x, y, iFlags|DHN_3DIGITS, gWR.CountAmmo(pw->iAmmo2Type), r, g, b);
+
+			if (gWR.CountAmmo(pw->iAmmo2Type) >= 255)
+			{
+				x = ScreenWidth - AmmoWidth - iIconWidth;
+				//int width = gHUD.GetSpriteRect(m_iInfinite).right - gHUD.GetSpriteRect(m_iInfinite).left;
+				//x -= width;
+
+			//	SPR_Set(gHUD.GetSprite(m_iInfinite), r, g, b);
+			//	SPR_DrawAdditive(0, x, y, &gHUD.GetSpriteRect(m_iInfinite));
+				x = ScreenWidth - AmmoWidth - iIconWidth;
+			}
+			else
+				x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmo2Type), r, g, b);
 
 			// Draw the ammo Icon
 			SPR_Set(m_pWeapon->hAmmo2, r, g, b);
-			int iOffset = (m_pWeapon->rcAmmo2.bottom - m_pWeapon->rcAmmo2.top)/8;
+			int iOffset = (m_pWeapon->rcAmmo2.bottom - m_pWeapon->rcAmmo2.top) / 8;
 			SPR_DrawAdditive(0, x, y - iOffset, &m_pWeapon->rcAmmo2);
 		}
 	}
@@ -1367,6 +1461,7 @@ void CHudAmmo::DrawCrosshair( float flTime )
 				case WEAPON_M4A1: // m4a1
 				case WEAPON_SG552: // sg552
 				case WEAPON_AK47: // ak47
+				case WEAPON_KRISS:
 					iWeaponSpeed = 140;
 					break;
 				}
@@ -1645,7 +1740,7 @@ int DrawBar(int x, int y, int width, int height, float f)
 		width -= w;
 	}
 
-	DrawUtils::UnpackRGB(r, g, b, RGB_YELLOWISH);
+	DrawUtils::UnpackRGB(r, g, b, RGB_WHITE);
 
 	FillRGBA(x, y, width, height, r, g, b, 128);
 
@@ -1721,7 +1816,7 @@ int CHudAmmo::DrawWList(float flTime)
 	{
 		int iWidth;
 
-		DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH);
+		DrawUtils::UnpackRGB(r,g,b, RGB_WHITE);
 	
 		if ( iActiveSlot == i )
 			a = 255;
@@ -1777,7 +1872,7 @@ int CHudAmmo::DrawWList(float flTime)
 				// if active, then we must have ammo.
 				if ( gWR.HasAmmo(p) )
 				{
-					DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH );
+					DrawUtils::UnpackRGB(r,g,b, RGB_WHITE);
 					DrawUtils::ScaleColors(r, g, b, 192);
 				}
 				else
@@ -1816,7 +1911,7 @@ int CHudAmmo::DrawWList(float flTime)
 		{
 			// Draw Row of weapons.
 
-			DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH);
+			DrawUtils::UnpackRGB(r,g,b, RGB_WHITE);
 
 			for ( int iPos = 0; iPos < MAX_WEAPON_POSITIONS; iPos++ )
 			{
@@ -1827,7 +1922,7 @@ int CHudAmmo::DrawWList(float flTime)
 
 				if ( gWR.HasAmmo(p) )
 				{
-					DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH);
+					DrawUtils::UnpackRGB(r,g,b, RGB_WHITE);
 					a = 128;
 				}
 				else

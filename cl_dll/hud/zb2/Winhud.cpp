@@ -9,8 +9,6 @@
 #include <numeric>
 #include <tuple>
 
-
-
 CHudWinhudZB1 m_hudzb1;
 
 int CHudWinhudZB1::VidInit(void)
@@ -40,7 +38,7 @@ int CHudWinhudZB1::Draw(float time)
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255 * std::min(5.0f - (time - m_flDisplayTime), 1.0f));
 	m_pCurTexture->Bind();
-	DrawUtils::Draw2DQuadScaled(x - 881 / 3.0, y - 3.5, x + 881 / 3.0, y + 87);
+	DrawUtils::Draw2DQuadScaled(x - 881 / 3.0, y - 3.5, x + 881 / 3.0, y + 120);
 	return 1;
 }
 
@@ -56,3 +54,37 @@ void CHudWinhudZB1::WinZombie()
 	m_flDisplayTime = gHUD.m_flTime;
 }
 
+int CHudInfection::VidInit(void)
+{
+	if (!infect)
+		infect = R_LoadTextureShared("resource/zb3/infection", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	return 1;
+}
+
+int CHudInfection::Draw(float time)
+{
+	if (!m_pCurTexture)
+		return 1;
+
+	if (time > m_flDisplayTime + 1.0f)
+	{
+		m_pCurTexture = nullptr;
+		return 1;
+	}
+
+	int x = ScreenWidth / 2;
+	int y = ScreenHeight / 4;
+	const float flScale = 0.0f;
+
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255 * std::min(1.0f - (time - m_flDisplayTime), 1.0f));
+	m_pCurTexture->Bind();
+	DrawUtils::Draw2DQuadScaled(x - 881 , y - 15.5, x + 881, y + 587);
+	return 1;
+}
+
+void CHudInfection::infected()
+{
+	m_pCurTexture = infect;
+	m_flDisplayTime = gHUD.m_flTime;
+}

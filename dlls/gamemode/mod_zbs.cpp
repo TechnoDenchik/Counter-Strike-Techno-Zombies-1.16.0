@@ -19,6 +19,9 @@
 
 #include <algorithm>
 
+//PlayerExtraHumanLevel_ZBS m_HumanLevel;
+
+
 class PlayerModStrategy_ZBS : public CPlayerModStrategy_Default
 {
 public:
@@ -47,6 +50,7 @@ public:
 					MESSAGE_END();
 				}
 			}
+		  
 		);
 	}
 	int  ComputeMaxAmmo( const char *szAmmoClassName, int iOriginalMax) override { return 600; }
@@ -78,6 +82,8 @@ protected:
 
 class CMonsterModStrategy_ZBS : public CMonsterModStrategy_Default
 {
+	friend class PlayerModStrategy_ZBS;
+
 public:
 	CMonsterModStrategy_ZBS(CMonster *p,  CMod_ZombieScenario * pGameRules) : CMonsterModStrategy_Default(p), mp(pGameRules)
 	{
@@ -101,10 +107,11 @@ protected:
 
 class PlayerModStrategy_ZBS2 : public CPlayerModStrategy_Default
 {
+
 public:
 	PlayerModStrategy_ZBS2(CBasePlayer* player, CMod_ZombieScenario* mp) : CPlayerModStrategy_Default(player), m_HumanLevel(player)
 	{
-		m_listenerAdjustDamage = mp->m_eventAdjustDamage.subscribe(
+		m_listenerAdjustDamage = mp->m_eventAdjustDamage2.subscribe(
 			[=](CBasePlayer* attacker, float& out)
 			{
 				if (attacker == m_pPlayer)
@@ -120,8 +127,7 @@ public:
 						m_pPlayer->AddPoints(victim->m_iKillBonusFrags, FALSE);
 					if (victim->m_iKillBonusMoney)
 						m_pPlayer->AddAccount(victim->m_iKillBonusMoney);
-					m_HumanLevel.LevelUpHealth();
-					m_HumanLevel.LevelUpAttack();
+
 					MESSAGE_BEGIN(MSG_ONE, gmsgZBSTip, NULL, m_pPlayer->pev);
 					WRITE_BYTE(ZBS_TIP_KILL);
 					MESSAGE_END();
@@ -159,7 +165,7 @@ protected:
 class CMonsterModStrategy_ZBS2 : public CMonsterModStrategy_Default2
 {
 public:
-	CMonsterModStrategy_ZBS2(CMonster2 *p, CMod_ZombieScenario* pGameRules) : CMonsterModStrategy_Default2(p), mp(pGameRules)
+	CMonsterModStrategy_ZBS2(CMonster2 *p, CMod_ZombieScenario* pGameRules) : CMonsterModStrategy_Default2(p), mp2(pGameRules)
 	{
 
 	}
@@ -170,12 +176,12 @@ public:
 		if (pevKiller)
 		{
 			CBaseEntity* pKiller = CBaseEntity::Instance(pevKiller);
-			mp->m_eventMonsterKilled2.dispatch(m_pMonster, pKiller);
+			mp2->m_eventMonsterKilled2.dispatch(m_pMonster, pKiller);
 		}
 	}
 
 protected:
-	CMod_ZombieScenario* const mp;
+	CMod_ZombieScenario* const mp2;
 };
 
 void CMod_ZombieScenario::InstallPlayerModStrategy(CBasePlayer *player)
@@ -355,7 +361,7 @@ void CMod_ZombieScenario::Think()
 			MakeZombieNPC();
 			MakeZombieNPC2();
 			MakeZombieNPC3();
-			m_flNextSpawnNPC = gpGlobals->time + 3.0f;
+			m_flNextSpawnNPC = gpGlobals->time + 4.0f;
 	  }
 	}
 
@@ -491,7 +497,7 @@ CBaseEntity *CMod_ZombieScenario::MakeZombieNPC()
 
 	// default settings
 	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
-	monster->pev->maxspeed = 200.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster->pev->maxspeed = 180.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
 	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
 
 	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
@@ -542,8 +548,8 @@ CBaseEntity* CMod_ZombieScenario::MakeZombieNPC2()
 
 	// default settings
 	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
-	monster->pev->maxspeed = 200.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
-	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
+	monster->pev->maxspeed = 150.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster->m_flAttackDamage = (0.5f * m_iNumCTWins + 1) * (0.5f * m_iNumCTWins + 1);
 
 	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
 	{
@@ -586,7 +592,7 @@ CBaseEntity* CMod_ZombieScenario::MakeZombieNPC3()
 	// default settings
 	monster2->pev->health = monster2->pev->max_health = 100 + m_iNumCTWins * 15;
 	monster2->pev->maxspeed = 200.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
-	monster2->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
+	monster2->m_flAttackDamage = (0.1f * m_iNumCTWins + 1) * (0.1f * m_iNumCTWins + 1);
 	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
 	{
 		monster2->pev->health = monster2->pev->max_health = monster2->pev->max_health / 2;
@@ -598,7 +604,7 @@ CBaseEntity* CMod_ZombieScenario::MakeZombieNPC3()
 		default:
 			break;
 		}
-		UTIL_SetSize(monster2->pev, VEC_HULL_MIN, VEC_HULL_MAX);
+		UTIL_SetSize(monster2->pev, VEC_HULL_MIN,  VEC_HULL_MAX);
 	}
 	monster2->m_pMonsterStrategy2.reset(new CMonsterModStrategy_ZBS2(monster2, this));
 

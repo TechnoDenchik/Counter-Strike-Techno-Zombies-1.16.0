@@ -1,3 +1,7 @@
+/* =================================================================================== *
+	  * =================== TechnoSoftware & Valve Developing =================== *
+ * =================================================================================== */
+
 /***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
@@ -22,10 +26,12 @@
 #pragma once
 
 #define RGB_YELLOWISH 0x00FFA000 //255,160,0
-#define RGB_REDISH 0x00FF1010 //255,16,16
+#define RGB_REDISH    0x00FF1010 //255,16,16
 #define RGB_GREENISH 0x0000A000 //0,160,0
 #define RGB_WHITE 0x00FFFFFF
 #define RGB_LIGHTBLUE 0x0072C5FF //114, 197, 255
+
+#define RGB_LIGHTYELLOW 0x00FFA0000F
 
 #include <assert.h>
 #include <string.h>
@@ -59,6 +65,7 @@ enum
 
 extern const char *sPlayerModelFiles[];
 extern wrect_t nullrc;
+
 
 class CClientSprite;
 
@@ -126,8 +133,15 @@ struct HUDLIST {
 #include "zb2/zb2.h"
 #include "zb3/zb3.h"
 #include "zsh/zsh.h"
+#include "original/mod_base.h"
+#include "legacy/hud_scoreboard_legacy.h"
+#include "zbs/zbs_scoreboard.h"
 #include "retina.h"
 #include "moe/moe_touch.h"
+#include "hud_sub.h"
+#include "r_texture.h"
+
+
 //
 //-----------------------------------------------------
 //
@@ -183,6 +197,15 @@ public:
 	bool FHasSecondaryAmmo() { return m_pWeapon && m_pWeapon->iAmmo2Type > 0; }
 
 public:
+
+	SharedTexture ammoclips;
+	SharedTexture ammofloat;
+	UniqueTexture ammoboard;
+	UniqueTexture weaponboard;
+
+	wrect_t m_rcAmmoclip[10];
+	wrect_t m_rcAmmofloat[10];
+
 	float m_fFade;
 	RGBA  m_rgba;
 	WEAPON *m_pWeapon;
@@ -230,6 +253,11 @@ private:
 	enum {
 		MAX_SEC_AMMO_VALUES = 4
 	};
+
+	SharedTexture winhm;
+	SharedTexture winzb;
+	wrect_t m_rcTeamnumber[10];
+	wrect_t m_rcSelfnumber[10];
 
 	int m_HUD_ammoicon; // sprite indices
 	int m_iAmmoAmounts[MAX_SEC_AMMO_VALUES];
@@ -395,9 +423,11 @@ struct hostage_info_t
 };
 
 extern hud_player_info_t	g_PlayerInfoList[MAX_PLAYERS+1];	   // player info from the engine
-extern extra_player_info_t  g_PlayerExtraInfo[MAX_PLAYERS+1];   // additional player info sent directly to the client dll
+extern extra_player_info_t  g_PlayerExtraInfo[MAX_PLAYERS+1];  
+extern extra_player_info_t  g_location[MAX_PLAYERS + 32]; // additional player info sent directly to the client dll
 extern team_info_t			g_TeamInfo[MAX_TEAMS+1];
 extern hostage_info_t		g_HostageInfo[MAX_HOSTAGES+1];
+extern RoundPlayerInfo      g_PlayerExtraInfoEx[MAX_PLAYERS + 1];
 extern int					g_IsSpectator[MAX_PLAYERS+1];
 
 
@@ -412,10 +442,26 @@ public:
 	void InitHUDData( void );
 	int VidInit( void );
 	void Shutdown(void);
-	int Draw( float flTime );
+	int Draw( float time );
+
+	void headshots();
+	void crazy();
+	void excellent();
+	void knife();
+	void incredible();
+	void cantbelieve();
+
 	CHudMsgFunc(DeathMsg);
 
 private:
+	SharedTexture ribbon_headshot;
+	SharedTexture ribbon_crazy;
+	SharedTexture ribbon_excellent;
+	SharedTexture ribbon_knife;
+	SharedTexture ribbon_incredible;
+	SharedTexture ribbon_cantbelieve;
+	SharedTexture m_pCurTexture;
+	float m_flDisplayTime;
 	int m_HUD_d_skull;  // sprite index of skull icon
 	int m_HUD_d_headshot;
 	cvar_t *hud_deathnotice_time;
@@ -495,11 +541,153 @@ private:
 	struct cvar_s *	m_HUD_saytext_time;
 };
 
+#define DMG_IMAGE_LIFE		2	// seconds that image is up
+
+#define DMG_IMAGE_POISON	0
+#define DMG_IMAGE_ACID		1
+#define DMG_IMAGE_COLD		2
+#define DMG_IMAGE_DROWN		3
+#define DMG_IMAGE_BURN		4
+#define DMG_IMAGE_NERVE		5
+#define DMG_IMAGE_RAD		6
+#define DMG_IMAGE_SHOCK		7
+//tf defines
+#define DMG_IMAGE_CALTROP	8
+#define DMG_IMAGE_TRANQ		9
+#define DMG_IMAGE_CONCUSS	10
+#define DMG_IMAGE_HALLUC	11
+#define NUM_DMG_TYPES		12
+// instant damage
+
+#define DMG_GENERIC			0			// generic damage was done
+#define DMG_CRUSH			(1 << 0)	// crushed by falling or moving object
+#define DMG_BULLET			(1 << 1)	// shot
+#define DMG_SLASH			(1 << 2)	// cut, clawed, stabbed
+#define DMG_BURN			(1 << 3)	// heat burned
+#define DMG_FREEZE			(1 << 4)	// frozen
+#define DMG_FALL			(1 << 5)	// fell too far
+#define DMG_BLAST			(1 << 6)	// explosive blast damage
+#define DMG_CLUB			(1 << 7)	// crowbar, punch, headbutt
+#define DMG_SHOCK			(1 << 8)	// electric shock
+#define DMG_SONIC			(1 << 9)	// sound pulse shockwave
+#define DMG_ENERGYBEAM		(1 << 10)	// laser or other high energy beam 
+#define DMG_NEVERGIB		(1 << 12)	// with this bit OR'd in, no damage type will be able to gib victims upon death
+#define DMG_ALWAYSGIB		(1 << 13)	// with this bit OR'd in, any damage type can be made to gib victims upon death.
+
+
+// time-based damage
+//mask off TF-specific stuff too
+#define DMG_TIMEBASED		(~(0xff003fff))	// mask for time-based damage
+
+
+#define DMG_DROWN			(1 << 14)	// Drowning
+#define DMG_FIRSTTIMEBASED  DMG_DROWN
+
+#define DMG_PARALYZE		(1 << 15)	// slows affected creature down
+#define DMG_NERVEGAS		(1 << 16)	// nerve toxins, very bad
+#define DMG_POISON			(1 << 17)	// blood poisioning
+#define DMG_RADIATION		(1 << 18)	// radiation exposure
+#define DMG_DROWNRECOVER	(1 << 19)	// drowning recovery
+#define DMG_ACID			(1 << 20)	// toxic chemicals or acid burns
+#define DMG_SLOWBURN		(1 << 21)	// in an oven
+#define DMG_SLOWFREEZE		(1 << 22)	// in a subzero freezer
+#define DMG_MORTAR			(1 << 23)	// Hit by air raid (done to distinguish grenade from mortar)
+
+//TF ADDITIONS
+#define DMG_IGNITE			(1 << 24)	// Players hit by this begin to burn
+#define DMG_RADIUS_MAX		(1 << 25)	// Radius damage with this flag doesn't decrease over distance
+#define DMG_RADIUS_QUAKE	(1 << 26)	// Radius damage is done like Quake. 1/2 damage at 1/2 radius.
+#define DMG_IGNOREARMOR		(1 << 27)	// Damage ignores target's armor
+#define DMG_AIMED			(1 << 28)   // Does Hit location damage
+#define DMG_WALLPIERCING	(1 << 29)	// Blast Damages ents through walls
+
+#define DMG_CALTROP				(1<<30)
+#define DMG_HALLUC				(1<<31)
+
+// TF Healing Additions for TakeHealth
+#define DMG_IGNORE_MAXHEALTH	DMG_IGNITE
+// TF Redefines since we never use the originals
+#define DMG_NAIL				DMG_SLASH
+#define DMG_NOT_SELF			DMG_FREEZE
+
+
+#define DMG_TRANQ				DMG_MORTAR
+#define DMG_CONCUSS				DMG_SONIC
+
+
+struct DAMAGE_IMAGE
+{
+	float fExpire;
+	float fBaseline;
+	int	x, y;
+};
+
+class CHudHealth : public CHudBase
+{
+	friend class CHudBattery;
+public:
+	virtual int Init(void);
+	virtual int VidInit(void);
+	virtual int Draw(float fTime);
+	virtual void Reset(void);
+	void InitHUDData(void);
+	CHudMsgFunc(Battery);
+	CHudMsgFunc(ArmorType);
+
+	int MsgFunc_Health(const char* pszName, int iSize, void* pbuf);
+	int MsgFunc_Damage(const char* pszName, int iSize, void* pbuf);
+	int MsgFunc_ScoreAttrib(const char* pszName, int iSize, void* pbuf);
+	int MsgFunc_ClCorpse(const char* pszName, int iSize, void* pbuf);
+	int m_iHealth;
+private:
+enum armortype_t {
+		Vest = 0,
+		VestHelm
+	} m_enArmorType;
+
+ int	 m_iBat;
+	CClientSprite m_hEmpty[VestHelm + 1];
+	CClientSprite m_hFull[VestHelm + 1];
+
+	float m_fFade;
+	int	  m_iHeight;		// width of the battery innards
+
+	
+	int m_HUD_dmg_bio;
+	int m_HUD_cross;
+	float m_fAttack[4];
+
+	void DrawPain(float fTime);
+	void DrawDamage(float fTime);
+	void DrawHealthBar(float flTime);
+	void CalcDamageDirection(Vector vecFrom);
+	void UpdateTiles(float fTime, long bits);
+	void DrawPlayerLocation(void);
+
+	HSPRITE m_hSprite;
+	UniqueTexture m_health_board;
+	UniqueTexture m_ihealthes;
+	UniqueTexture m_ihealthes_top;
+	UniqueTexture m_plus;
+	UniqueTexture m_armors;
+	wrect_t ihealth[10];
+	wrect_t iarmors[10];
+	HSPRITE m_hDamage;
+	Vector2D m_vAttackPos[4];
+	DAMAGE_IMAGE m_dmg[NUM_DMG_TYPES];
+	float m_flTimeFlash;
+	int	m_bitsDamage;
+	cvar_t* cl_radartype;
+};
+
+
 //
 //-----------------------------------------------------
 //
+/*
 class CHudBattery: public CHudBase
 {
+
 public:
 	int Init( void );
 	int VidInit( void );
@@ -507,7 +695,7 @@ public:
 	void InitHUDData( void );
 	CHudMsgFunc(Battery);
 	CHudMsgFunc(ArmorType);
-	
+	static int	 m_iBat;
 private:
 	enum armortype_t {
 		Vest = 0,
@@ -516,10 +704,10 @@ private:
 
 	CClientSprite m_hEmpty[VestHelm + 1];
 	CClientSprite m_hFull[VestHelm + 1];
-	int	  m_iBat;
+	
 	float m_fFade;
 	int	  m_iHeight;		// width of the battery innards
-};
+};*/
 
 
 //
@@ -528,13 +716,14 @@ private:
 class CHudFlashlight: public CHudBase
 {
 public:
-	int Init( void );
-	int VidInit( void );
+	int Init(void);
+	int VidInit(void);
 	int Draw(float flTime);
-	void Reset( void );
+	//int DrawNewHudFlashLight(float flTime);
+	void Reset(void);
 	CHudMsgFunc(Flashlight);
 	CHudMsgFunc(FlashBat);
-	
+
 private:
 	CClientSprite m_hSprite1;
 	CClientSprite m_hSprite2;
@@ -543,7 +732,7 @@ private:
 	int	  m_iBat;
 	int	  m_fOn;
 	float m_fFade;
-	int	  m_iWidth;		// width of the battery innards
+	int	  m_iWidth;
 };
 
 //
@@ -684,10 +873,21 @@ private:
 	int m_iDelta;
 	int m_iBlinkAmt;
 	float m_fBlinkTime;
+
+	UniqueTexture m_iDollarBG;
+	UniqueTexture m_iDollar;
+	UniqueTexture money_count;
+	
+	wrect_t rc_money_count[10];
 	float m_fFade;
+
 	CClientSprite m_hDollar;
 	CClientSprite m_hPlus;
 	CClientSprite m_hMinus;
+	//newhud
+	
+	int m_NEWHUD_hDollar;
+	int m_NEWHUD_hMinus;
 };
 //
 //-----------------------------------------------------
@@ -714,17 +914,30 @@ class CHudTimer: public CHudBase
 	friend class CHudSpectatorGui;
 	friend class CHudScenarioStatus;
 public:
+	//CHudTimer();
 	int Init( void );
 	int VidInit( void );
 	void Reset(void);
 	int Draw(float fTime);
+//	int DrawNEWHudTimer(float fTime);
 	// set up the timer.
 	// [short]
 	CHudMsgFunc(RoundTime);
 	// show the timer
 	// [empty]
 	CHudMsgFunc(ShowTimer);
+protected:
+
 private:
+	UniqueTexture m_pTexture_Black;
+	UniqueTexture m_timer;
+	UniqueTexture m_colon;
+	wrect_t rc_m_timer_s[10];
+	wrect_t rc_m_timer_m[10];
+	//NewHud
+	UniqueTexture m_iColon_Bottom;
+	SharedTexture m_iNum_Bottom;
+	wrect_t m_iNum_BottomC[10];
 	int m_HUD_timer;
 	int m_iTime;
 	float m_fStartTime;
@@ -858,13 +1071,48 @@ public:
 	int VidInit();
 	int Draw(float flTime);
 	bool CheckForPlayer(cl_entity_s *pEnt);
+private:
+	SharedTexture ourforces;
 };
 
 //
 //-----------------------------------------------------
 //
 
+class CHudHitIndicator : public CHudBase
+{
+public:
+	int Init(void);
+	int VidInit(void);
+	int Draw(float flTime);
+	void InitHUDData(void);
+	void Shutdown();
+	void Draw2DQuad_Custom(float x, float y, float scale, int num, int iTexID, int alpha);
+	CHudMsgFunc(HitMsg);
 
+private:
+	cvar_t* hud_hitindicator_style;
+	int current_style;
+	SharedTexture m_iTex[5];
+
+
+};
+
+class CHudSiFiammo : public CHudBase
+{
+public:
+	int Init(void);
+	void InitHUDData(void);
+	int VidInit(void);
+	void Shutdown(void);
+	int Draw(float flTime);
+	void Draw2DQuad_Custom(float x, float y, float scale, int num, int r, int g, int b, int alpha);
+
+private:
+	SharedTexture m_iTex;
+	cvar_t* hud_sifiammo_style;
+	int current_style;
+};
 
 class CHud
 {
@@ -966,12 +1214,16 @@ public:
 	HSPRITE m_hGasPuff;
 
 	int m_iFontHeight;
+	int m_NEWHUD_iFontWidth;
+	int m_NEWHUD_iFontWidth_Dollar;
+	int m_NEWHUD_iFontHeight;
+	int m_NEWHUD_iFontHeight_Dollar;
 	int m_iMapHeight;
 	CHudAmmo        m_Ammo;
 	CHudHealth      m_Health;
 	CHudSpectator   m_Spectator;
 	CHudGeiger      m_Geiger;
-	CHudBattery	    m_Battery;
+	CHudHitIndicator m_HitIndicator;
 	CHudTrain       m_Train;
 	CHudFlashlight  m_Flash;
 	CHudMessage     m_Message;
@@ -994,9 +1246,10 @@ public:
 	CHudSpectatorGui m_SpectatorGui;
 	CHudFollowIcon	m_FollowIcon;
 	CHudScenarioStatus m_scenarioStatus;
-	
+	CHudSiFiammo m_HudSiFiammo;
 	CHudHeadName	m_HeadName;
 	CHudRetina		m_Retina;
+	CHudScoreBoardLegacy m_legacy_score;
 	CHudZBS	m_ZBS;
 	CHudZB2 m_ZB2;
 	CHudZB3 m_ZB3;
@@ -1025,6 +1278,11 @@ public:
 	int m_iIntermission;
 	int m_iNoConsolePrint;
 	bool m_bMordenRadar;
+
+	int m_NEWHUD_number_0;
+	int m_NEWHUD_dollar_number_0;
+	int m_iWeaponGet;
+	int m_NEWHUD_hPlus;
 
 	// sprite indexes
 	int m_HUD_number_0;
@@ -1056,7 +1314,9 @@ private:
 
 extern CHud gHUD;
 extern cvar_t *sensitivity;
-
+extern long g_iDamage[MAX_CLIENTS + 1];
+extern long g_iDamageTotal[MAX_CLIENTS + 1];
+extern double g_flDamageInAll;
 extern int g_iTeamNumber;
 extern int g_iUser1;
 extern int g_iUser2;

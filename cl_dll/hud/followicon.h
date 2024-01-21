@@ -29,7 +29,10 @@ public:
 
 public:
 	int m_iBombTargetsNum;
+	int g_iUser1;
 	UniqueTexture m_pTexture_BombAB[2];
 	UniqueTexture m_pTexture_Supplybox;
+	UniqueTexture m_icon_player[2];
 	Vector m_vecBombTargets[2];
+	Vector m_vecPlayerlocation[2];
 };

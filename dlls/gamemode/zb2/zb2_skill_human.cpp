@@ -39,7 +39,9 @@ public:
 	{
 		if (m_iZombieSkillStatus != SKILL_STATUS_READY)
 		{
-			ClientPrint(m_pPlayer->pev, HUD_PRINTCENTER, "The 'Sprint' skill can only be used once per round."); // #CSO_CantSprintUsed
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL, m_pPlayer->pev);
+			WRITE_BYTE(ZB3_MESSAGE_USED_STATUS);
+			MESSAGE_END();
 			return;
 		}
 

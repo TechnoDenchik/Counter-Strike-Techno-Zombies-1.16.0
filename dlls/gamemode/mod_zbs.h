@@ -19,6 +19,8 @@ class CMod_ZombieScenario : public TBaseMod_RemoveObjects<>
 public:
 	CMod_ZombieScenario();
 
+	
+
 public: // CHalfLifeMultiplay
 	BOOL IsTeamplay(void) override { return TRUE; }
 	void UpdateGameMode(CBasePlayer *pPlayer) override;

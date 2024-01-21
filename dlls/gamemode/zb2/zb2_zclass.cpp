@@ -35,7 +35,7 @@ std::shared_ptr<CBaseZombieClass_ZB2> MakeZombieClass(CBasePlayer *player, Zombi
 
 const std::pair<const char *, std::shared_ptr<CBaseZombieClass_ZB2>(*)(CBasePlayer *, ZombieLevel)> g_FindList[] = {
 		{"tank", MakeZombieClass<CZombieClass_Default> },
-//		{"speed", MakeZombieClass<CZombieClass_Speed> }
+		//{"speed", MakeZombieClass<CZombieClass_Speed> }
 };
 constexpr auto NUM_ZCLASSES = std::extent<decltype(g_FindList)>::value;
 
@@ -70,6 +70,7 @@ void CBaseZombieClass_ZB2::InitHUD() const
 void CBaseZombieClass_ZB2::ActivateSkill(ZombieSkillSlot which)
 {
 	if (m_pZombieSkill && which == SKILL_SLOT_1)
+		m_pPlayer->pev->maxspeed = 610;
 		m_pZombieSkill->Activate();
 }
 

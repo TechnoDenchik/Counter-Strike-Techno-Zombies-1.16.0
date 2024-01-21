@@ -38,7 +38,7 @@ template <class T> auto GetClassPtr(entvars_t *pev) noexcept -> typename std::en
 
 // pEntityVars should point to entvars_t, but can have different static type to deduce T
 // deprecated
-template <class T> DEPRECATED auto GetClassPtr(T *a) noexcept -> typename std::enable_if<std::is_base_of<CBaseEntity, T>::value, T *>::type
+template <class T>  auto GetClassPtr(T *a) noexcept -> typename std::enable_if<std::is_base_of<CBaseEntity, T>::value, T *>::type
 {
 	// this is the real type...
 	entvars_t *pev = reinterpret_cast<entvars_t *>(a);

@@ -58,6 +58,8 @@ enum AmmoCostType
 	AMMO_338MAG_PRICE	= 125,
 	AMMO_357SIG_PRICE	= 50,
 	AMMO_45ACP_PRICE	= 25,
+	AMMO_KRISS_PRICE    = 25,
+	AMMO_INFINITY_PRICE	= 25,
 	AMMO_50AE_PRICE		= 40,
 	AMMO_556MM_PRICE	= 60,
 	AMMO_57MM_PRICE		= 50,
@@ -85,6 +87,8 @@ enum WeaponCostType
 	P90_PRICE	= 2350,
 	UMP45_PRICE	= 1700,
 	MAC10_PRICE	= 1400,
+	KRISS_PRICE = 2600,
+	INFINITY_PRICE = 2600,
 	SCOUT_PRICE	= 2750,
 	SG552_PRICE	= 3500,
 	TMP_PRICE	= 1250,
@@ -184,7 +188,7 @@ struct WeaponBuyAmmoConfig
 	int cost;
 };
 
-extern AutoBuyInfoStruct g_autoBuyInfo[35];
+extern AutoBuyInfoStruct g_autoBuyInfo[36];
 
 // WeaponType
 WeaponIdType AliasToWeaponID(const char *alias);

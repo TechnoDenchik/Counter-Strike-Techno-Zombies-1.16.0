@@ -134,6 +134,18 @@ int CHud :: MsgFunc_GameMode(const char *pszName, int iSize, void *pbuf )
 			float z = reader.ReadCoord();
 			m_FollowIcon.m_vecBombTargets[i] = { x,y,z };
 		}
+
+		int playernum = reader.ReadByte();
+		playernum = min(playernum, 2);
+
+		m_FollowIcon.g_iUser1 = playernum;
+		for (int i = 0; i < playernum; ++i)
+		{
+			float x = reader.ReadCoord();
+			float y = reader.ReadCoord();
+			float z = reader.ReadCoord();
+			m_FollowIcon.m_vecPlayerlocation[i] = { x,y,z };
+		}
 		break;
 	}
 	case MOD_TDM:
@@ -147,6 +159,7 @@ int CHud :: MsgFunc_GameMode(const char *pszName, int iSize, void *pbuf )
 	}
 	case MOD_ZSH:
 	{
+		m_Teamplay = true;
 		break;
 	}
 	case MOD_ZB3:

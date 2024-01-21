@@ -15,7 +15,7 @@ GNU General Public License for more details.
 #include "common.h"
 #include "client.h"
 
-#define MAX_MESSAGES	2048
+#define MAX_MESSAGES	4048
 
 #define MSGFILE_NAME	0
 #define MSGFILE_TEXT	1

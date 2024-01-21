@@ -748,6 +748,7 @@ static void GL_SetDefaults( void )
 	{
 		pglDisable( GL_STENCIL_TEST );
 		pglStencilMask( ( GLuint ) ~0 );
+		pglDisable(GL_SCISSOR_TEST);
 		pglStencilFunc( GL_EQUAL, 0, ~0 );
 		pglStencilOp( GL_KEEP, GL_INCR, GL_INCR );
 	}

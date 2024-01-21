@@ -61,6 +61,7 @@ WeaponAliasInfo weaponAliasInfo[] =
 	{ "elites",	WEAPON_ELITE },
 	{ "fn57",	WEAPON_FIVESEVEN },
 	{ "ump45",	WEAPON_UMP45 },
+	{ "kriss",	WEAPON_KRISS },
 	{ "sg550",	WEAPON_SG550 },
 	{ "galil",	WEAPON_GALIL },
 	{ "famas",	WEAPON_FAMAS },
@@ -78,6 +79,7 @@ WeaponAliasInfo weaponAliasInfo[] =
 	{ "sg552",	WEAPON_SG552 },
 	{ "ak47",	WEAPON_AK47 },
 	{ "knife",	WEAPON_KNIFE },
+
 	{ "shelteraxe",	WEAPON_SHELTERAXE },
 	{ "p90",	WEAPON_P90 },
 	{ "shield",	WEAPON_SHIELDGUN },
@@ -124,12 +126,14 @@ WeaponBuyAliasInfo weaponBuyAliasInfo[] =
 	{ "fiveseven",		WEAPON_FIVESEVEN,	"#FiveSeven" },
 	{ "m3",			WEAPON_M3,		NULL },
 	{ "12gauge",		WEAPON_M3,		NULL },
+	{ "kriss",		WEAPON_KRISS,		NULL },
 	{ "xm1014",		WEAPON_XM1014,		NULL },
 	{ "autoshotgun",	WEAPON_XM1014,		NULL },
 	{ "mac10",		WEAPON_MAC10,		"#Mac10" },
 	{ "tmp",		WEAPON_TMP,		"#tmp" },
 	{ "mp",			WEAPON_TMP,		"#tmp" },
 	{ "mp5",		WEAPON_MP5N,		NULL },
+	{ "shelteraxe",	WEAPON_SHELTERAXE, NULL  },
 	{ "smg",		WEAPON_MP5N,		NULL },
 	{ "ump45",		WEAPON_UMP45,		NULL },
 	{ "p90",		WEAPON_P90,		NULL },
@@ -169,7 +173,8 @@ WeaponClassAliasInfo weaponClassAliasInfo[] =
 	{ "sg552",	WEAPONCLASS_RIFLE },
 	{ "ak47",	WEAPONCLASS_RIFLE },
 	{ "knife",	WEAPONCLASS_KNIFE },
-//	{ "shelteraxe",	WEAPON_SHELTERAXE },
+	{ "kriss",		WEAPONCLASS_SUBMACHINEGUN},
+	{ "shelteraxe",	WEAPONCLASS_KNIFE },
 	{ "p90",	WEAPONCLASS_SUBMACHINEGUN },
 	{ "shield",	WEAPONCLASS_PISTOL },
 	{ "grenade",	WEAPONCLASS_GRENADE },
@@ -201,6 +206,7 @@ WeaponInfoStruct weaponInfo[] =
 	{ WEAPON_ELITE,		ELITE_PRICE,		AMMO_9MM_PRICE,		AMMO_9MM_BUY,		ELITE_MAX_CLIP,		MAX_AMMO_9MM,		AMMO_9MM,		"weapon_elite" },
 	{ WEAPON_FIVESEVEN,	FIVESEVEN_PRICE,	AMMO_57MM_PRICE,	AMMO_57MM_BUY,		FIVESEVEN_MAX_CLIP,	MAX_AMMO_57MM,		AMMO_57MM,		"weapon_fiveseven" },
 	{ WEAPON_UMP45,		UMP45_PRICE,		AMMO_45ACP_PRICE,	AMMO_45ACP_BUY, 	UMP45_MAX_CLIP,		MAX_AMMO_45ACP,		AMMO_45ACP,		"weapon_ump45" },
+	{ WEAPON_KRISS,		KRISS_PRICE,		AMMO_45ACP_PRICE,	AMMO_45ACP_BUY, 	KRISS_MAX_CLIP,		MAX_AMMO_KRISS,		AMMO_KRISS,		"weapon_kriss" },
 	{ WEAPON_SG550,		SG550_PRICE,		AMMO_556MM_PRICE,	AMMO_556NATO_BUY,	SG550_MAX_CLIP,		MAX_AMMO_556NATO,	AMMO_556NATO,		"weapon_sg550" },
 	{ WEAPON_GALIL,		GALIL_PRICE,		AMMO_556MM_PRICE,	AMMO_556NATO_BUY,	GALIL_MAX_CLIP,		MAX_AMMO_556NATO,	AMMO_556NATO,		"weapon_galil" },
 	{ WEAPON_FAMAS,		FAMAS_PRICE,		AMMO_556MM_PRICE,	AMMO_556NATO_BUY,	FAMAS_MAX_CLIP,		MAX_AMMO_556NATO,	AMMO_556NATO,		"weapon_famas" },
@@ -296,6 +302,8 @@ bool IsPrimaryWeapon(int id)
 	case WEAPON_MAC10:
 	case WEAPON_AUG:
 	case WEAPON_UMP45:
+	case WEAPON_SHELTERAXE:
+	case WEAPON_KRISS:
 	case WEAPON_SG550:
 	case WEAPON_GALIL:
 	case WEAPON_FAMAS:
@@ -328,6 +336,8 @@ bool IsSecondaryWeapon(int id)
 	case WEAPON_ELITE:
 	case WEAPON_FIVESEVEN:
 	case WEAPON_USP:
+	case WEAPON_KRISS:
+	case WEAPON_SHELTERAXE:
 	case WEAPON_GLOCK18:
 	case WEAPON_DEAGLE:
 		return true;
@@ -362,6 +372,8 @@ bool CanBuyWeaponByMaptype(int playerTeam, WeaponIdType weaponID, bool useAssasi
 			case WEAPON_AUG:
 			case WEAPON_FIVESEVEN:
 			case WEAPON_UMP45:
+			case WEAPON_KRISS:
+			case WEAPON_SHELTERAXE:
 			case WEAPON_SG550:
 			case WEAPON_FAMAS:
 			case WEAPON_USP:
@@ -388,7 +400,9 @@ bool CanBuyWeaponByMaptype(int playerTeam, WeaponIdType weaponID, bool useAssasi
 			case WEAPON_ELITE:
 			case WEAPON_UMP45:
 			case WEAPON_GALIL:
+			case WEAPON_SHELTERAXE:
 			case WEAPON_USP:
+			case WEAPON_KRISS:
 			case WEAPON_GLOCK18:
 			case WEAPON_AWP:
 			case WEAPON_DEAGLE:
@@ -410,9 +424,11 @@ bool CanBuyWeaponByMaptype(int playerTeam, WeaponIdType weaponID, bool useAssasi
 		case WEAPON_XM1014:
 		case WEAPON_AUG:
 		case WEAPON_FIVESEVEN:
+		case WEAPON_SHELTERAXE:
 		case WEAPON_UMP45:
 		case WEAPON_SG550:
 		case WEAPON_FAMAS:
+		case WEAPON_KRISS:
 		case WEAPON_USP:
 		case WEAPON_GLOCK18:
 		case WEAPON_AWP:
@@ -439,7 +455,9 @@ bool CanBuyWeaponByMaptype(int playerTeam, WeaponIdType weaponID, bool useAssasi
 		case WEAPON_MAC10:
 		case WEAPON_ELITE:
 		case WEAPON_UMP45:
+		case WEAPON_KRISS:
 		case WEAPON_GALIL:
+		case WEAPON_SHELTERAXE:
 		case WEAPON_USP:
 		case WEAPON_GLOCK18:
 		case WEAPON_AWP:

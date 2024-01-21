@@ -384,7 +384,8 @@ void CMonster2::Spawn()
 	pev->takedamage = DAMAGE_YES;
 	pev->flags |= FL_MONSTER;
 	pev->deadflag = DEAD_NO;
-	pev->max_health = 100;
+	pev->framerate = 60;
+	pev->max_health = 50;
 	pev->health = pev->max_health;
 	pev->gravity = 1;
 	pev->view_ofs = VEC_VIEW;

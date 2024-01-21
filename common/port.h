@@ -66,21 +66,21 @@ GNU General Public License for more details.
 		#endif
 
 		// don't change these names
-		#define MENUDLL   "libmenu"   POSTFIX "." OS_LIB_EXT
+		#define MENUDLL   "libinterface"   POSTFIX "." OS_LIB_EXT
 		#define CLIENTDLL "libclient" POSTFIX "." OS_LIB_EXT
 		#define SERVERDLL "libserver" POSTFIX "." OS_LIB_EXT
 		#define GAMEPATH "/sdcard/xash"
 	#elif defined(__SAILFISH__)
 		#define POSTFIX
 		// don't change these names
-		#define MENUDLL   "libmenu"   POSTFIX "." OS_LIB_EXT
+		#define MENUDLL   "libinterface"   POSTFIX "." OS_LIB_EXT
 		#define CLIENTDLL "libclient" POSTFIX "." OS_LIB_EXT
 		#define SERVERDLL "libserver" POSTFIX "." OS_LIB_EXT
 		#define GAMEPATH "/home/nemo/xash"
 		#define LIBPATH "/usr/lib/xash3d/"
 		#define SHAREPATH "/usr/share/xash3d/"
 	#else
-		#define MENUDLL   "libxashmenu" ARCH_SUFFIX "." OS_LIB_EXT
+		#define MENUDLL   "libinterface" ARCH_SUFFIX "." OS_LIB_EXT
 		#define CLIENTDLL "client"      ARCH_SUFFIX "." OS_LIB_EXT
 	#endif
 
@@ -149,7 +149,7 @@ GNU General Public License for more details.
 	#undef HSPRITE
 
 	#define OS_LIB_EXT "dll"
-	#define MENUDLL "menu"ARCH_SUFFIX"." OS_LIB_EXT
+	#define MENUDLL "interface"ARCH_SUFFIX"." OS_LIB_EXT
 	#define CLIENTDLL "client"ARCH_SUFFIX"." OS_LIB_EXT
 	#define VGUI_SUPPORT_DLL "../vgui_support." OS_LIB_EXT
 	#include <limits.h>

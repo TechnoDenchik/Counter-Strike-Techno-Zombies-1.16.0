@@ -90,7 +90,7 @@ void SCR_CreateStartupVids( void )
 
 	// make standard video playlist: sierra, valve
 	FS_Print( f, "media/sierra.avi\n" );
-	FS_Print( f, "media/valve.avi\n" );
+	FS_Print( f, "media/valve.mp4\n" );
 	FS_Close( f );
 }
 

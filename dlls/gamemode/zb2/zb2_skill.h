@@ -82,6 +82,7 @@ public:
 public:
 	void Think() override;
 	void Activate() override;
+	virtual void ActivateSpeed();
 	void ResetMaxSpeed()  override;
 	void OnSkillEnd() override;
 	float GetDamageRatio() const override;

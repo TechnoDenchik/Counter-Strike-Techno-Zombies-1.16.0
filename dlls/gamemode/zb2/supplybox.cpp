@@ -16,21 +16,21 @@ static std::pair<const char *, void(*)(CBasePlayer *p)> g_SupplyboxItems[]=
 	{
 			DropPrimary(p);
 	
-			p->GiveNamedItem("weapon_mp7a1d");		
+			p->GiveNamedItem("weapon_gungnir");		
 		    int iAmount = p->m_pModStrategy->ComputeMaxAmmo("46mm", MAX_AMMO_46MM);
 			p->GiveAmmo(iAmount, "46mm", iAmount);
 
 			DropSecondary(p);
-			p->GiveNamedItem("weapon_deagled");
+			p->GiveNamedItem("weapon_infinity");
 		    p->m_pModStrategy->ComputeMaxAmmo("50ae", MAX_AMMO_50AE);
 			p->GiveAmmo(iAmount, "762Nato", iAmount);
-			p->GiveNamedItem("weapon_shelteraxe");
+
 			p->AddAccount(16000);
 
-			while (BuyAmmo(p, PRIMARY_WEAPON_SLOT, false))
-				;
-			while (BuyAmmo(p, PISTOL_SLOT, false))
-				;
+			while (BuyAmmo(p, PRIMARY_WEAPON_SLOT, false));
+				
+			while (BuyAmmo(p, PISTOL_SLOT, false));
+				
 			BuyItem(p, MENU_SLOT_ITEM_FLASHGREN);
 			BuyItem(p, MENU_SLOT_ITEM_FLASHGREN);
 			BuyItem(p, MENU_SLOT_ITEM_HEGREN);
@@ -57,14 +57,14 @@ void CSupplyBox::Spawn()
 	{
 		RemoveEntityHashValue(pev, STRING(pev->classname), CLASSNAME);
 	}
-
+	
 	MAKE_STRING_CLASS("supplybox", pev);
 	AddEntityHashValue(pev, STRING(pev->classname), CLASSNAME);
 
 	pev->movetype = MOVETYPE_TOSS;
 	pev->solid = SOLID_TRIGGER;
 
-	UTIL_SetSize(pev, Vector(-16, -16, 0), Vector(16, 16, 16));
+	UTIL_SetSize(pev, Vector(-16, -16, -16), Vector(16, 16, 16));
 	UTIL_SetOrigin(pev, pev->origin);
 	SetTouch(&CSupplyBox::SupplyboxTouch);
 	SetThink(&CSupplyBox::SupplyboxThink);

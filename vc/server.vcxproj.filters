@@ -685,9 +685,6 @@
     <ClCompile Include="..\dlls\gamemode\mod_zbshelter_pve.cpp">
       <Filter>dlls\gamemode</Filter>
     </ClCompile>
-    <ClCompile Include="..\dlls\player\zombie_female.cpp">
-      <Filter>dlls\player</Filter>
-    </ClCompile>
     <ClCompile Include="..\dlls\gamemode\zsh\base.cpp">
       <Filter>dlls\gamemode\zsh\shelter</Filter>
     </ClCompile>
@@ -820,14 +817,14 @@
     <ClCompile Include="..\dlls\gamemode\zsh\construction engineer.cpp">
       <Filter>dlls\gamemode\zsh\skills\engineer</Filter>
     </ClCompile>
-    <ClCompile Include="..\dlls\wpn_shared\shelter_axe.cpp">
-      <Filter>dlls\wpn_shared</Filter>
-    </ClCompile>
     <ClCompile Include="..\dlls\gamemode\zbs\monster_entity2.cpp">
       <Filter>dlls\gamemode\zbs</Filter>
     </ClCompile>
     <ClCompile Include="..\dlls\gamemode\zbs\monster_manager2.cpp">
       <Filter>dlls\gamemode\zbs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dlls\wpn_shared\knife_shelter_axe.cpp">
+      <Filter>dlls\wpn_shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1566,9 +1563,6 @@
     <ClInclude Include="..\dlls\gamemode\mod_zbshelter_pve.h">
       <Filter>dlls\gamemode</Filter>
     </ClInclude>
-    <ClInclude Include="..\dlls\player\zombie_female.h">
-      <Filter>dlls\player</Filter>
-    </ClInclude>
     <ClInclude Include="..\dlls\gamemode\zsh\base.h">
       <Filter>dlls\gamemode\zsh\shelter</Filter>
     </ClInclude>
@@ -1611,9 +1605,6 @@
     <ClInclude Include="..\dlls\gamemode\zsh\warrior.h">
       <Filter>dlls\gamemode\zsh\skills\warrior</Filter>
     </ClInclude>
-    <ClInclude Include="..\dlls\wpn_shared\shelter_axe.h">
-      <Filter>dlls\wpn_shared</Filter>
-    </ClInclude>
     <ClInclude Include="..\dlls\gamemode\zsh\zsh_const.h">
       <Filter>dlls\gamemode\zsh</Filter>
     </ClInclude>
@@ -1622,6 +1613,9 @@
     </ClInclude>
     <ClInclude Include="..\dlls\gamemode\zbs\monster_manager2.h">
       <Filter>dlls\gamemode\zbs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dlls\wpn_shared\knife_shelter_axe.h">
+      <Filter>dlls\wpn_shared</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

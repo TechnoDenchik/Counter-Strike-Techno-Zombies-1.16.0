@@ -58,17 +58,8 @@
     <Filter Include="cl_dll\hud\moe">
       <UniqueIdentifier>{2441c342-4c6a-412d-b545-0512bfd993b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="dlls\gamemode\zsh">
-      <UniqueIdentifier>{57e2ff68-fe0d-4e72-910c-c3bf6db73dd2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="cl_dll\hud\zsh">
-      <UniqueIdentifier>{477a4fb7-ff97-480d-996e-a7ad0b22a1d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cl_dll\hud\zsh\zsh_pve_ui">
-      <UniqueIdentifier>{4d6785f3-5b60-4449-9f56-f00f8279814a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="cl_dll\hud\zb1">
-      <UniqueIdentifier>{1330a6d5-9f31-4629-b1ae-7e0968662ea9}</UniqueIdentifier>
+      <UniqueIdentifier>{742faf19-9c07-4c61-89b6-f726474baeb8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -280,9 +271,6 @@
       <Filter>cl_dll\hud</Filter>
     </ClCompile>
     <ClCompile Include="..\cl_dll\hud\ammohistory.cpp">
-      <Filter>cl_dll\hud</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cl_dll\hud\battery.cpp">
       <Filter>cl_dll\hud</Filter>
     </ClCompile>
     <ClCompile Include="..\cl_dll\hud\death.cpp">
@@ -633,26 +621,32 @@
     <ClCompile Include="..\cl_dll\hud\moe\moe_touch.cpp">
       <Filter>cl_dll\hud\moe</Filter>
     </ClCompile>
-    <ClCompile Include="..\cl_dll\hud\zb3\NewScoreboard.cpp">
-      <Filter>cl_dll\hud\zb3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cl_dll\events\event_gungnir.cpp">
-      <Filter>cl_dll\events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cl_dll\events\event_shelteraxe.cpp">
-      <Filter>cl_dll\events</Filter>
-    </ClCompile>
     <ClCompile Include="..\cl_dll\hud\zsh\zsh.cpp">
       <Filter>cl_dll\hud\zsh</Filter>
     </ClCompile>
     <ClCompile Include="..\cl_dll\hud\zsh\ZSHScoreboard.cpp">
-      <Filter>cl_dll\hud\zsh\zsh_pve_ui</Filter>
+      <Filter>cl_dll\hud\zsh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\zb2\Textstring.cpp">
+      <Filter>cl_dll\hud\zb2</Filter>
     </ClCompile>
     <ClCompile Include="..\cl_dll\hud\zb2\Winhud.cpp">
       <Filter>cl_dll\hud\zb2</Filter>
     </ClCompile>
-    <ClCompile Include="..\cl_dll\hud\zb2\Textstring.cpp">
-      <Filter>cl_dll\hud\zb2</Filter>
+    <ClCompile Include="..\cl_dll\hud\zb3\NewScoreboard.cpp">
+      <Filter>cl_dll\hud\zb3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\zb3\TextSet.cpp">
+      <Filter>cl_dll\hud\zb3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\hit_indicator.cpp">
+      <Filter>cl_dll\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\hud_sifiammo.cpp">
+      <Filter>cl_dll\hud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cl_dll\events\event_gungnir.cpp">
+      <Filter>cl_dll\events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -932,32 +926,23 @@
     <ClInclude Include="..\cl_dll\hud\moe\moe_touch.h">
       <Filter>cl_dll\hud\moe</Filter>
     </ClInclude>
-    <ClInclude Include="..\cl_dll\hud\zb3\NewScoreboard.h">
-      <Filter>cl_dll\hud\zb3</Filter>
-    </ClInclude>
     <ClInclude Include="..\cl_dll\hud\zsh\zsh.h">
       <Filter>cl_dll\hud\zsh</Filter>
     </ClInclude>
-    <ClInclude Include="..\dlls\gamemode\zsh\zsh_const.h">
-      <Filter>dlls\gamemode\zsh</Filter>
-    </ClInclude>
     <ClInclude Include="..\cl_dll\hud\zsh\ZSHScoreboard.h">
-      <Filter>cl_dll\hud\zsh\zsh_pve_ui</Filter>
+      <Filter>cl_dll\hud\zsh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\zb2\Textstring.h">
+      <Filter>cl_dll\hud\zb2</Filter>
     </ClInclude>
     <ClInclude Include="..\cl_dll\hud\zb2\Winhud.h">
       <Filter>cl_dll\hud\zb2</Filter>
     </ClInclude>
-    <ClInclude Include="..\cl_dll\hud\zb1\mod_zb1.h">
-      <Filter>cl_dll\hud\zb1</Filter>
+    <ClInclude Include="..\cl_dll\hud\zb3\NewScoreboard.h">
+      <Filter>cl_dll\hud\zb3</Filter>
     </ClInclude>
-    <ClInclude Include="..\cl_dll\hud\zb1\zb1_const.h">
-      <Filter>cl_dll\hud\zb1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cl_dll\hud\zb1\zb1_zclass.h">
-      <Filter>cl_dll\hud\zb1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cl_dll\hud\zb2\Textstring.h">
-      <Filter>cl_dll\hud\zb2</Filter>
+    <ClInclude Include="..\cl_dll\hud\zb3\TextSet.h">
+      <Filter>cl_dll\hud\zb3</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

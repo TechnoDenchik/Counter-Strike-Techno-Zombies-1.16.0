@@ -3,11 +3,8 @@
 #include "cl_util.h"
 #include "draw_util.h"
 #include "triangleapi.h"
-
 #include "calcscreen.h"
-
 #include <tuple>
-
 #include "gamemode/mods_const.h"
 
 int CHudFollowIcon::Init(void)
@@ -44,7 +41,6 @@ void CHudFollowIcon::Reset(void)
 
 int CHudFollowIcon::Draw(float time)
 {
-	// AB Points
 	for (int i = 0; i < m_iBombTargetsNum; ++i)
 	{
 		float xyScreen[2];
@@ -83,11 +79,8 @@ int CHudFollowIcon::Draw(float time)
 					DrawUtils::UnpackRGB(r, g, b, RGB_LIGHTBLUE);
 					DrawUtils::DrawHudString(xyScreen[0] - textlen * 0.5f, xyScreen[1] + 25, gHUD.m_scrinfo.iWidth, szBuffer, r, g, b);
 				}
-
 			}
 		}
-		
 	}
-
 	return 1;
 }

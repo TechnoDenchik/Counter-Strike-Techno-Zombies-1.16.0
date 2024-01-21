@@ -33,7 +33,6 @@ GNU General Public License for more details.
 #include "mod_zbshelter_pve.h"
 
 IBaseMod *g_pModRunning = nullptr;
-
 template<class T>
 IBaseMod *DefaultFactory()
 {
@@ -56,7 +55,7 @@ std::pair<const char *, IBaseMod *(*)()> g_FindList[] = {
 
 void InstallBteMod(const char *name)
 {
-	for (auto p : g_FindList)
+	for (auto  p : g_FindList)
 	{
 		if (!strcasecmp(name, p.first))
 		{

@@ -6,6 +6,9 @@
 
 class PlayerExtraHumanLevel_ZBS : public BasePlayerExtra
 {
+	friend class CMonsterModStrategy_ZBS;
+	friend class CMonsterModStrategy_ZBS2;
+
 public:
 	PlayerExtraHumanLevel_ZBS(CBasePlayer *player);
 

@@ -294,6 +294,7 @@ public:
 	virtual void PostThink() {}
 #else
 	void ResetMaxSpeed() override;
+	virtual void ActivateSpeed();
 	virtual void Jump();
 	virtual void Duck();
 	virtual void PreThink();

@@ -1,3 +1,7 @@
+/* =================================================================================== *
+	  * =================== TechnoSoftware & MoeMod Developing =================== *
+ * =================================================================================== */
+
 #include "hud.h"
 #include "cl_util.h"
 #include "cl_entity.h"
@@ -17,6 +21,8 @@ int CHudHeadName::Init(void)
 
 int CHudHeadName::VidInit(void)
 {
+	if (!ourforces)
+		ourforces = R_LoadTextureShared("resource/zb3/ourforces");
 	return 1;
 }
 
@@ -30,7 +36,7 @@ bool CHudHeadName::CheckForPlayer(cl_entity_s *pEnt)
 
 int CHudHeadName::Draw(float flTime)
 {
-	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_ALL) || g_iUser1 || !gHUD.cl_headname->value)
+	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_ALL) || g_iUser1)
 		return 1;
 
 	for (int i = 1; i < 33; i++)
@@ -43,26 +49,48 @@ int CHudHeadName::Draw(float flTime)
 
 		if (i != gHUD.m_Scoreboard.m_iPlayerNum)
 		{
-			cl_entity_t *ent = gEngfuncs.GetEntityByIndex(i);
+			if(gHUD.cl_headname->value == 1)
+			{ 
+				cl_entity_t *ent = gEngfuncs.GetEntityByIndex(i);
 
-			if (!CheckForPlayer(ent))
-				continue;
+				if (!CheckForPlayer(ent))
+					continue;
 
-			model_t *model = ent->model;
-			vec3_t origin = ent->origin;
+				model_t *model = ent->model;
+				vec3_t origin = ent->origin;
 
-			if (model)
-				origin.z += max(model->maxs.z, 35.0);
+				if (model)
+					origin.z += max(model->maxs.z, 35.0);
 
-			float screen[2]{ -1,-1 };
-			if (!CalcScreen(origin, screen))
-				continue;
+				float screen[2]{ -1,-1 };
+				if (!CalcScreen(origin, screen))
+					continue;
 
-			int textlen = DrawUtils::HudStringLen(g_PlayerInfoList[i].name);
+				int textlen = DrawUtils::HudStringLen(g_PlayerInfoList[i].name);
 
-			DrawUtils::DrawHudString(screen[0] - textlen * 0.5f, screen[1], gHUD.m_scrinfo.iWidth, g_PlayerInfoList[i].name, 150, 150, 150);
+				DrawUtils::DrawHudString(screen[0] - textlen * 0.5f, screen[1], gHUD.m_scrinfo.iWidth, g_PlayerInfoList[i].name, 150, 150, 150);
+			}
+
+			if (gHUD.cl_headname->value == 2)
+			{
+				cl_entity_t* ent = gEngfuncs.GetEntityByIndex(i);
+
+				if (!CheckForPlayer(ent))
+					continue;
+
+				vec3_t origin = ent->origin;
+				origin.z += 33.0;
+
+				float xyScreen[2];
+				if (CalcScreen(origin, xyScreen))
+				{
+					gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+					gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+					ourforces->Bind();
+					DrawUtils::Draw2DQuadScaled(xyScreen[0] - 13, xyScreen[1] - 8, xyScreen[0] + 13, xyScreen[1] + 8);
+				}
+			}
 		}
 	}
-
 	return 1;
 }

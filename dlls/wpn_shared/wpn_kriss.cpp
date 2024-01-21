@@ -40,14 +40,15 @@ enum kriss_e
 
 LINK_ENTITY_TO_CLASS(weapon_kriss, CKRISS)
 
-const int KRISS_MAXCLIP = 30;
+const int KRISS_MAXCLIP = 60;
 
 void CKRISS::Spawn(void)
 {
 	pev->classname = MAKE_STRING("weapon_kriss");
-
+	
 	Precache();
-	m_iId = WEAPON_UMP45;
+	
+	m_iId = WEAPON_KRISS;
 	SET_MODEL(ENT(pev), "models/w_kriss.mdl");
 
 	m_iDefaultAmmo = KRISS_MAXCLIP;
@@ -88,7 +89,7 @@ int CKRISS::GetItemInfo(ItemInfo *p)
 	p->iMaxClip = KRISS_MAXCLIP;
 	p->iSlot = 0;
 	p->iPosition = 15;
-	p->iId = m_iId = WEAPON_UMP45;
+	p->iId = m_iId = WEAPON_KRISS;
 	p->iFlags = 0;
 	p->iWeight = UMP45_WEIGHT;
 
@@ -97,6 +98,7 @@ int CKRISS::GetItemInfo(ItemInfo *p)
 
 BOOL CKRISS::Deploy(void)
 {
+	ResetEmptySound();
 	m_bDelayFire = true;
 	iShellOn = 1;
 	m_flAccuracy = 0;
@@ -104,8 +106,11 @@ BOOL CKRISS::Deploy(void)
 
 	if (m_iWeaponState & WPNSTATE_KRISS_SILENCED)
 		return DefaultDeploy("models/v_kriss.mdl", "models/p_kriss.mdl", KRISS_DRAW, "carbine", UseDecrement() != FALSE);
+	
 	else
 		return DefaultDeploy("models/v_kriss.mdl", "models/p_kriss.mdl", KRISS_UNSIL_DRAW, "carbine", UseDecrement() != FALSE);
+	
+	
 }
 
 void CKRISS::SecondaryAttack(void)

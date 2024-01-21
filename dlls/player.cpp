@@ -25,7 +25,7 @@
 #include "items.h"
 #include "bmodels.h"
 #include "world.h"
-
+#include "gamemode/zb2/zb2_const.h"
 #include "com_model.h"
 
 #include "bot_include.h"
@@ -111,6 +111,7 @@ WeaponStruct g_weaponStruct[ MAX_WEAPONS ] =
 	{ WEAPON_ELITE,		ELITE_PRICE,		CT,			AUTOBUYCLASS_SECONDARY,	AMMO_9MM_PRICE },
 	{ WEAPON_FIVESEVEN,	FIVESEVEN_PRICE,	TERRORIST|CT,		AUTOBUYCLASS_SECONDARY,	AMMO_57MM_PRICE },
 	{ WEAPON_UMP45,		UMP45_PRICE,		TERRORIST,		AUTOBUYCLASS_PRIMARY,	AMMO_45ACP_PRICE },
+	{ WEAPON_KRISS,		KRISS_PRICE,		TERRORIST|CT,		AUTOBUYCLASS_PRIMARY,	AMMO_45ACP_PRICE },
 	{ WEAPON_SG550,		SG550_PRICE,		TERRORIST,		AUTOBUYCLASS_PRIMARY,	AMMO_556MM_PRICE },
 	{ WEAPON_USP,		USP_PRICE,		TERRORIST|CT,		AUTOBUYCLASS_SECONDARY,	AMMO_45ACP_PRICE },
 	{ WEAPON_GLOCK18,	GLOCK18_PRICE,		TERRORIST|CT,		AUTOBUYCLASS_SECONDARY,	AMMO_9MM_PRICE },
@@ -215,6 +216,7 @@ void CBasePlayer::SetPlayerModel(BOOL HasC4)
 		{
 		case MODEL_TERROR:
 			model = "terror";
+		
 			break;
 		case MODEL_LEET:
 			model = "leet";
@@ -228,7 +230,7 @@ void CBasePlayer::SetPlayerModel(BOOL HasC4)
 		case MODEL_MILITIA:
 			if (g_bIsCzeroGame)
 			{
-				model = "militia";
+				model = "militia";	
 				break;
 			}
 		default:
@@ -6413,6 +6415,12 @@ void CBasePlayer::EnableControl(BOOL fControl)
 		pev->flags |= FL_FROZEN;
 	else
 		pev->flags &= ~FL_FROZEN;
+}
+
+void CBasePlayer::ActivateSpeed()
+{
+	float speed;
+	speed = 670;
 }
 
 void CBasePlayer::ResetMaxSpeed()

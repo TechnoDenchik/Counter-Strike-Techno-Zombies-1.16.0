@@ -54,7 +54,7 @@ void CZombieClass_Default::InitHUD() const
 
 void CZombieClass_Default::ResetMaxSpeed() const
 {
-	m_pPlayer->pev->maxspeed = 290;
+	m_pPlayer->pev->maxspeed = 310;
 }
 
 float CZombieClass_Default::AdjustDamageTaken(entvars_t *pevInflictor, entvars_t *pevAttacker, float flDamage, int bitsDamageType) const

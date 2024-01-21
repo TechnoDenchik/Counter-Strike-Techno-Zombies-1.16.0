@@ -355,18 +355,22 @@ void CPlayerModStrategy_ZB1::Event_OnBecomeZombie(CBasePlayer *who, ZombieLevel 
 {
 	if (m_pPlayer != who)
 		return;
-
+	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, NULL, m_pPlayer->pev);
+	WRITE_BYTE(ZOMBIE_INFECTION);
+	MESSAGE_END();
 	BecomeZombie(iEvolutionLevel);
 	m_pPlayer->OnBecomeZombie(iEvolutionLevel);
 }
 
 void CPlayerModStrategy_ZB1::BecomeZombie(ZombieLevel iEvolutionLevel)
 {
+	
 	m_pCharacter = std::make_shared<CZombie_ZB1>(m_pPlayer, iEvolutionLevel);
 }
 
 void CPlayerModStrategy_ZB1::BecomeHuman()
 {
+	
 	m_pCharacter = std::make_shared<CHuman_ZB1>(m_pPlayer);
 }
 
@@ -415,7 +419,7 @@ void CMod_Zombi::PickZombieOrigin()
 
 	// randomize player list
 	std::shuffle(players.begin(), players.end(), std::random_device());
-
+	
 	// pick them
 	for (size_t i = 0; i < iNumZombies; ++i)
 	{
@@ -438,8 +442,9 @@ void CMod_Zombi::HumanInfectionByZombie(CBasePlayer *player, CBasePlayer *attack
 	InfectionSound();
 	PRECACHE_SOUND("zb3/human_death_01.wav");
 	PRECACHE_SOUND("zb3/human_death_02.wav");
-	EMIT_SOUND(ENT(player->pev), CHAN_BODY, RANDOM_LONG(0, 1) ? "zb2/human_death_01.wav" : "zb2/human_death_02.wav", VOL_NORM, ATTN_NORM);
+	EMIT_SOUND(ENT(player->pev), CHAN_BODY, RANDOM_LONG(0, 1) ? "zb3/human_death_01.wav" : "zb3/human_death_02.wav", VOL_NORM, ATTN_NORM);
 
+	
 
 	DeathNotice(player, attacker->pev, attacker->pev);
 	SetScoreAttrib(player, player);

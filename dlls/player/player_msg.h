@@ -108,6 +108,7 @@ extern int gmsgZB1Msg;
 extern int gmsgZB2Msg;
 extern int gmsgZB3Msg;
 extern int gmsgZSHMsg;
+extern int gmsgORIGMsg;
 extern int gmsgGunDeath;
 
 void LinkUserMessages();

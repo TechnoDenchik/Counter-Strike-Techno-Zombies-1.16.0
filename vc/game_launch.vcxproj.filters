@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\game_launch\xash.c">
+    <ClCompile Include="..\game_launch\cstz.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

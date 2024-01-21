@@ -67,6 +67,7 @@
 
 #include "gamemode/mods.h"
 #include "player/player_model.h"
+#include "gamemode/zb2/zb2_const.h"
 
 #include <tuple>
 
@@ -76,7 +77,6 @@
 float g_flTimeLimit = 0;
 float g_flResetTime = 0;
 bool g_bClientPrintEnable = true;
-
 bool g_skipCareerInitialSpawn = false;
 
 static entity_field_alias_t entity_field_alias[] =
@@ -645,7 +645,7 @@ void Host_Say(edict_t *pEntity, int teamonly)
 	CBasePlayer *client;
 	int j;
 	char *p;
-	char text[128];
+	char text[128]{};
 	char szTemp[256];
 	const char *cpSay = "say";
 	const char *cpSayTeam = "say_team";
@@ -1232,6 +1232,19 @@ void BuySubMachineGun(CBasePlayer *pPlayer, int iSlot)
 			iWeapon = WEAPON_P90;
 			iWeaponPrice = P90_PRICE;
 			pszWeapon = "weapon_p90";
+			break;
+		}
+		case 5:
+		{
+			iWeapon = WEAPON_KRISS;
+			iWeaponPrice = KRISS_PRICE;
+			pszWeapon = "weapon_kriss";
+			break;
+		}
+		case 6:
+		{
+			iWeapon = WEAPON_SHELTERAXE;
+			pszWeapon = "shelteraxe";
 			break;
 		}
 	}
@@ -1864,6 +1877,7 @@ void HandleMenu_ChooseAppearance(CBasePlayer *player, int slot)
 		case 3:
 			appearance.model_id = MODEL_ARCTIC;
 			appearance.model_name = "arctic";
+
 			break;
 		case 4:
 			appearance.model_id = MODEL_GUERILLA;
@@ -3083,7 +3097,7 @@ void EXT_FUNC ClientCommand(edict_t *pEntity)
 			int iMinutes = (int)(iTimeRemaining % 60);
 			int iSeconds = (int)(iTimeRemaining / 60);
 
-			char secs[5];
+			char secs[5]{};
 			char *temp = UTIL_dtos2(iMinutes);
 
 			if (iMinutes >= 10)
@@ -3939,11 +3953,11 @@ void EXT_FUNC ServerDeactivate()
 	g_pGameRules->ServerDeactivate();
 	CLocalNav::Reset();
 
+	
 	if (TheBots != NULL)
 	{
 		TheBots->ServerDeactivate();
 	}
-
 	if (g_pHostages != NULL)
 	{
 		g_pHostages->ServerDeactivate();
@@ -3999,8 +4013,10 @@ void EXT_FUNC ServerActivate(edict_t *pEdictList, int edictCount, int clientMax)
 
 	if (g_pHostages != NULL)
 	{
-		g_pHostages->ServerActivate();
+			g_pHostages->ServerActivate();
 	}
+	
+		
 }
 
 void EXT_FUNC PlayerPreThink(edict_t *pEntity)

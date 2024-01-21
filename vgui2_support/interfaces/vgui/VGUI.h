@@ -72,7 +72,7 @@ namespace vgui2
 #define NULL_HANDLE 0
 }
 
-
+#include "tier1/strtools.h"
 
 
 #endif // VGUI2_H

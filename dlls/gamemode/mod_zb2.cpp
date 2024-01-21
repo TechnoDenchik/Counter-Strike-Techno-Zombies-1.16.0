@@ -52,6 +52,7 @@ void CMod_ZombieMod2::UpdateGameMode(CBasePlayer *pPlayer)
 	WRITE_BYTE(0); // Reserved. (MaxTime?)
 
 	MESSAGE_END();
+
 }
 
 void CMod_ZombieMod2::Think()
@@ -143,13 +144,13 @@ void CMod_ZombieMod2::MakeSupplyboxThink()
 	}
 
 	UTIL_ClientPrintAll(HUD_PRINTCENTER, "A Supply Box has arrived!"); // #CSO_SupportItemSpawned
-
+	
 	for (int iIndex = 1; iIndex <= gpGlobals->maxClients; ++iIndex)
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex(iIndex);
 		if (!entity)
 			continue;
-		CLIENT_COMMAND(entity->edict(), "spk zb2/zombi_box.wav\n");
+		CLIENT_COMMAND(entity->edict(), "spk zb3/zombi_box.wav\n");
 
 	}
 
@@ -291,9 +292,10 @@ void CPlayerModStrategy_ZB2::Zombie_HealthRecoveryThink()
 
 			// effects
 			CLIENT_COMMAND(m_pPlayer->edict(), "spk zb3/zombi_heal.wav\n");
-
 			MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, nullptr, m_pPlayer->pev);
 			WRITE_BYTE(ZB2_MESSAGE_HEALTH_RECOVERY);
+			WRITE_SHORT(5);
+			WRITE_SHORT(-1);
 			MESSAGE_END();
 		}
 	}

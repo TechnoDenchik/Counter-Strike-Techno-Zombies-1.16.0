@@ -39,6 +39,6 @@
 class IBaseMod;
 extern IBaseMod *g_pModRunning;
 
-void InstallBteMod(const char *name);
+void InstallBteMod(const char *name); 
 
 #endif

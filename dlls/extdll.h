@@ -19,6 +19,8 @@
 // Global header file for extension DLLs
 //
 
+
+
 // Allow "DEBUG" in addition to default "_DEBUG"
 #ifdef _DEBUG
 #define DEBUG 1
@@ -76,10 +78,11 @@ typedef float vec_t;				// needed before including progdefs.h
 
 									// Vector class
 #include "vector.h"
-
+#include "util/u_time.hpp"
 									// Defining it as a (bogus) struct helps enforce type-checking
 #define vec3_t Vector
 
+#define time_point_t EngineClock::time_point
 									// Shared engine/DLL constants
 #include "const.h"
 #include "progdefs.h"

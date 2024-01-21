@@ -404,9 +404,9 @@ void CBaseButton::Spawn(void)
 	}
 }
 
-const char *ButtonSound(int sound)
+char *ButtonSound(int sound)
 {
-	const char *pszSound = nullptr;
+	char *pszSound = nullptr;
 
 	switch (sound)
 	{

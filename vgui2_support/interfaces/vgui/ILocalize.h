@@ -6,7 +6,7 @@
 #endif
 
 #include "interface.h"
-#include "VGUI.h"
+#include <vgui/VGUI.h>
 
 class IFileSystem;
 class KeyValues;

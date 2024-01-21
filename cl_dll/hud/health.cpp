@@ -1,22 +1,6 @@
-/***
-*
-*	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
-*	
-*	This product contains software technology licensed from Id 
-*	Software, Inc. ("Id Technology").  Id Technology (c) 1996 Id Software, Inc. 
-*	All Rights Reserved.
-*
-*   Use, distribution, and modification of this source code and/or resulting
-*   object code is restricted to non-commercial enhancements to products from
-*   Valve LLC.  All other use, distribution, or modification is prohibited
-*   without written permission from Valve LLC.
-*
-****/
-//
-// Health.cpp
-//
-// implementation of CHudHealth class
-//
+/* =================================================================================== *
+	  * =================== TechnoSoftware & Valve Developing =================== *
+ * =================================================================================== */
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -27,13 +11,16 @@
 #include "parsemsg.h"
 #include <string.h>
 #include "eventscripts.h"
-
+#include "triangleapi.h"
+#include "gamemode/mods_const.h"
 #include "draw_util.h"
 
 DECLARE_MESSAGE(m_Health, Health )
 DECLARE_MESSAGE(m_Health, Damage )
 DECLARE_MESSAGE(m_Health, ScoreAttrib )
 DECLARE_MESSAGE(m_Health, ClCorpse )
+DECLARE_MESSAGE(m_Health, Battery)
+DECLARE_MESSAGE(m_Health, ArmorType)
 
 #define PAIN_NAME "sprites/%d_pain.spr"
 #define DAMAGE_NAME "sprites/%d_dmg.spr"
@@ -67,12 +54,97 @@ enum
 	ATK_LEFT
 };
 
+inline void BuildNumberRC(wrect_t(&rgrc)[10], int w, int h)
+{
+	int nw = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		rgrc[i].left = nw;
+		rgrc[i].top = 0;
+		rgrc[i].right = rgrc[i].left + w;
+		rgrc[i].bottom = h;
+
+		nw += w;
+	}
+}
+
+inline void BuildNumberRC(wrect_t(&rgrc)[10], int tex)
+{
+	int w = gRenderAPI.RenderGetParm(PARM_TEX_SRC_WIDTH, tex);
+	int h = gRenderAPI.RenderGetParm(PARM_TEX_SRC_HEIGHT, tex);
+	return BuildNumberRC(rgrc, w / 10, h);
+}
+
+inline void DrawTexturePart(const CTextureRef& tex, const wrect_t& rect, int x1, int y1, float scale = 1.0f)
+{
+	tex.Bind();
+
+	float w = tex.w();
+	float h = tex.h();
+
+	x1 *= gHUD.m_flScale;
+	y1 *= gHUD.m_flScale;
+	scale *= gHUD.m_flScale;
+
+	int x2 = x1 + (rect.right - rect.left) * scale;
+	int y2 = y1 + (rect.bottom - rect.top) * scale;
+
+	gEngfuncs.pTriAPI->Begin(TRI_QUADS);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.left / w, rect.top / h);
+	gEngfuncs.pTriAPI->Vertex3f(x1, y1, 0);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.left / w, rect.bottom / h);
+	gEngfuncs.pTriAPI->Vertex3f(x1, y2, 0);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.right / w, rect.bottom / h);
+	gEngfuncs.pTriAPI->Vertex3f(x2, y2, 0);
+	gEngfuncs.pTriAPI->TexCoord2f(rect.right / w, rect.top / h);
+	gEngfuncs.pTriAPI->Vertex3f(x2, y1, 0);
+	gEngfuncs.pTriAPI->End();
+}
+
+inline int DrawTexturedNumbersTopRightAligned(const CTextureRef& tex, const wrect_t(&rect)[10], int iNumber, int x, int y, float scale = 1.0f)
+{
+	assert(iNumber >= 0);
+
+	do
+	{
+		int k = iNumber % 10;
+		iNumber /= 10;
+		DrawTexturePart(tex, rect[k], x, y, scale);
+		x -= (rect[k].right - rect[k].left) * scale;
+	} while (iNumber > 0);
+
+	return x;
+}
+
+inline unsigned math_log10(unsigned v)
+{
+	return (v >= 1000000000) ? 9 : (v >= 100000000) ? 8 : (v >= 10000000) ? 7 :
+		(v >= 1000000) ? 6 : (v >= 100000) ? 5 : (v >= 10000) ? 4 :
+		(v >= 1000) ? 3 : (v >= 100) ? 2 : (v >= 10) ? 1 : 0;
+}
+
+inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef& tex, const wrect_t(&rect)[10], int iNumber, int x, int y, float scale = 1.0f)
+{
+	int n = math_log10(iNumber);
+	x += (rect[0].right - rect[0].left) * (n - 1) * scale * 0.5f;
+	return DrawTexturedNumbersTopRightAligned(tex, rect, iNumber, x, y, scale);
+}
+
 int CHudHealth::Init(void)
 {
 	HOOK_MESSAGE(Health);
 	HOOK_MESSAGE(Damage);
 	HOOK_MESSAGE(ScoreAttrib);
 	HOOK_MESSAGE(ClCorpse);
+
+	m_iBat = 0;
+	m_fFade = 0;
+	m_iFlags = 0;
+	m_enArmorType = Vest;
+
+	HOOK_MESSAGE(Battery);
+	HOOK_MESSAGE(ArmorType);
 
 	m_iHealth = 100;
 	m_fFade = 0;
@@ -89,6 +161,12 @@ int CHudHealth::Init(void)
 	CVAR_CREATE("cl_corpsestay", "600", FCVAR_ARCHIVE);
 	gHUD.AddHudElem(this);
 	return 1;
+}
+
+
+void CHudHealth::InitHUDData(void)
+{
+	m_enArmorType = Vest;
 }
 
 void CHudHealth::Reset( void )
@@ -126,17 +204,32 @@ int CHudHealth::VidInit(void)
 	m_HUD_dmg_bio = gHUD.GetSpriteIndex( "dmg_bio" ) + 1;
 	m_HUD_cross = gHUD.GetSpriteIndex( "cross" );
 
+	R_InitTexture(m_health_board, "resource/hud/hud_character_bg_new_bottom");
+	R_InitTexture(m_ihealthes_top, "resource/hud/hud_character_bg_new_top");
+	R_InitTexture(m_ihealthes, "resource/hud/zb3/hud_sb_num_big_white");
+	R_InitTexture(m_plus, "resource/hud/hud_sb_num_plus");
+	R_InitTexture(m_armors, "resource/hud/hud_sb_num_defense");
+
+	BuildNumberRC(ihealth, 18, 22);
+	BuildNumberRC(iarmors, 18, 22);
+
 	giDmgHeight = gHUD.GetSpriteRect(m_HUD_dmg_bio).right - gHUD.GetSpriteRect(m_HUD_dmg_bio).left;
 	giDmgWidth = gHUD.GetSpriteRect(m_HUD_dmg_bio).bottom - gHUD.GetSpriteRect(m_HUD_dmg_bio).top;
+
+	m_hEmpty[Vest].SetSpriteByName("suit_empty");
+	m_hFull[Vest].SetSpriteByName("suit_full");
+	m_hEmpty[VestHelm].SetSpriteByName("suithelmet_empty");
+	m_hFull[VestHelm].SetSpriteByName("suithelmet_full");
+
+	m_iHeight = m_hFull[Vest].rect.bottom - m_hEmpty[Vest].rect.top;
+	m_fFade = 0;
 
 	return 1;
 }
 
 int CHudHealth:: MsgFunc_Health(const char *pszName,  int iSize, void *pbuf )
 {
-	// TODO: update local health data
 	BufferReader reader( pszName, pbuf, iSize );
-	//int x = reader.ReadByte();
 	int x = m_iHealth;
 	if (iSize == 2)
 	{
@@ -149,7 +242,6 @@ int CHudHealth:: MsgFunc_Health(const char *pszName,  int iSize, void *pbuf )
 
 	m_iFlags |= HUD_DRAW;
 
-	// Only update the fade if we've changed health
 	if (x != m_iHealth)
 	{
 		m_fFade = FADE_TIME;
@@ -158,7 +250,6 @@ int CHudHealth:: MsgFunc_Health(const char *pszName,  int iSize, void *pbuf )
 
 	return 1;
 }
-
 
 int CHudHealth:: MsgFunc_Damage(const char *pszName,  int iSize, void *pbuf )
 {
@@ -196,74 +287,299 @@ int CHudHealth:: MsgFunc_ScoreAttrib(const char *pszName,  int iSize, void *pbuf
 
 	int index = reader.ReadByte();
 	unsigned char flags = reader.ReadByte();
+
 	g_PlayerExtraInfo[index].dead   = !!(flags & PLAYER_DEAD);
 	g_PlayerExtraInfo[index].has_c4 = !!(flags & PLAYER_HAS_C4);
 	g_PlayerExtraInfo[index].vip    = !!(flags & PLAYER_VIP);
 	g_PlayerExtraInfo[index].zombie = !!(flags & PLAYER_ZOMBIE);
 	return 1;
 }
-// Returns back a color from the
-// Green <-> Yellow <-> Red ramp
-void CHudHealth::GetPainColor( int &r, int &g, int &b, int &a )
-{
-#if 0
-	int iHealth = m_iHealth;
-
-	if (iHealth > 25)
-		iHealth -= 25;
-	else if ( iHealth < 0 )
-		iHealth = 0;
-	g = iHealth * 255 / 100;
-	r = 255 - g;
-	b = 0;
-#else
-	if( m_iHealth <= 15 )
-	{
-		a = 255; // If health is getting low, make it bright red
-	}
-	else
-	{
-		// Has health changed? Flash the health #
-		if (m_fFade)
-		{
-			m_fFade -= (gHUD.m_flTimeDelta * 20);
-
-			if (m_fFade <= 0)
-			{
-				m_fFade = 0;
-				a = MIN_ALPHA;
-			}
-			else
-			{
-				// Fade the health number back to dim
-				a = MIN_ALPHA +  (m_fFade/FADE_TIME) * 128;
-			}
-		}
-		else
-		{
-			a = MIN_ALPHA;
-		}
-	}
-
-	if (m_iHealth > 25)
-	{
-		DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH);
-	}
-	else
-	{
-		r = 250;
-		g = 0;
-		b = 0;
-	}
-#endif 
-}
-
 
 int CHudHealth::Draw(float flTime)
 {
 	if( !(gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH ) && !gEngfuncs.IsSpectateOnly() )
 	{
-		DrawHealthBar( flTime );
+		int r, g, b;
+		int a = 0;
+
+		int x2 = ScreenWidth / 75;
+		int y2 = 1040;
+
+		int x3 = ScreenWidth / 9.0;
+		int y3 = 1040;
+
+		int x8 = ScreenWidth / 10.4;
+		int y8 = 980;
+
+		int x9 = ScreenWidth / 50.5;
+		int y9 = 1026;
+
+		int x10 = ScreenWidth / 102.0;
+		int y10 = 1026;
+
+		int x11 = ScreenWidth / 9.0;
+		int y11 = 1026;
+
+		int x12 = ScreenWidth / 9.8;
+		int y12 = 1026;
+
+		int x13 = ScreenWidth / 215.5;
+		int y13 = 1028;
+
+		int x14 = ScreenWidth / 10.0;
+		int y14 = 1028;
+
+		if (m_iHealth > 25)
+		{
+			a = 255;
+		}
+
+		if (m_iHealth <= 15)
+		{
+			a = 255;
+		}
+
+		if (m_iHealth > 25)
+		{
+			DrawUtils::UnpackRGB(r, g, b, RGB_WHITE);
+		}
+		else
+		{
+			r = 250;
+			g = 0;
+			b = 0;
+		}
+		
+		if (gHUD.m_iWeaponBits & (1 << (WEAPON_SUIT)))
+		{
+			gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+			gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+
+		//	m_health_board->Bind();
+			//DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+			//m_plus->Bind();
+			//DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+
+			//m_armors->Bind();
+			//DrawUtils::Draw2DQuadScaled(x3 - 10, y3, x3 + 10, y3 + 24);
+
+			//m_ihealthes_top->Bind();
+			//DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+			
+			wrect_t rc;
+
+			rc = m_hEmpty[m_enArmorType].rect;
+			rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
+
+			if (m_fFade)
+			{
+				if (m_fFade > FADE_TIME)
+					m_fFade = FADE_TIME;
+				m_fFade -= (gHUD.m_flTimeDelta * 20);
+
+			if (m_fFade <= 0)
+			{
+				a = 128;
+				m_fFade = 0;
+			}
+			a = MIN_ALPHA + (m_fFade / FADE_TIME) * 128;
+
+			}
+			else
+			{
+				a = MIN_ALPHA;
+			}
+
+			//(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+			//DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iBat, x11 + 70, y11 + 14, 1);
+
+			switch (gHUD.m_iModRunning)
+			{
+			case MOD_ZB3:
+
+				m_health_board->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				m_plus->Bind();
+				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+
+				m_armors->Bind();
+				DrawUtils::Draw2DQuadScaled(x3 - 10, y3, x3 + 10, y3 + 24);
+
+				m_ihealthes_top->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				rc = m_hEmpty[m_enArmorType].rect;
+				rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
+
+				if (m_fFade)
+				{
+					if (m_fFade > FADE_TIME)
+						m_fFade = FADE_TIME;
+					m_fFade -= (gHUD.m_flTimeDelta * 20);
+
+					if (m_fFade <= 0)
+					{
+						a = 128;
+						m_fFade = 0;
+					}
+					a = MIN_ALPHA + (m_fFade / FADE_TIME) * 128;
+
+				}
+				else
+				{
+					a = MIN_ALPHA;
+				}
+
+
+				(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x11 + 70, y11 + 14, 1);
+
+
+
+				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x9 + 70, y9 + 14, 1);
+				break;
+			
+			case MOD_ZBS:
+
+				rc = m_hEmpty[m_enArmorType].rect;
+				rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
+
+				m_health_board->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				m_plus->Bind();
+				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+
+				m_armors->Bind();
+				DrawUtils::Draw2DQuadScaled(x3 - 10, y3, x3 + 10, y3 + 24);
+
+				m_ihealthes_top->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				if (m_fFade)
+				{
+					if (m_fFade > FADE_TIME)
+						m_fFade = FADE_TIME;
+					m_fFade -= (gHUD.m_flTimeDelta * 20);
+
+					if (m_fFade <= 0)
+					{
+						a = 128;
+						m_fFade = 0;
+					}
+					a = MIN_ALPHA + (m_fFade / FADE_TIME) * 128;
+
+				}
+				else
+				{
+					a = MIN_ALPHA;
+				}
+				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+				
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x10 + 70, y10 + 14, 1);
+		
+				(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x12 + 70, y12 + 14, 1);
+
+
+				//gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+				//DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x10 + 70, y10 + 14, 1);
+				break;
+			case MOD_ZB1:
+				m_health_board->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				m_plus->Bind();
+				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+
+				m_armors->Bind();
+				DrawUtils::Draw2DQuadScaled(x3 - 10, y3, x3 + 10, y3 + 24);
+
+				m_ihealthes_top->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				rc = m_hEmpty[m_enArmorType].rect;
+				rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
+
+				if (m_fFade)
+				{
+					if (m_fFade > FADE_TIME)
+						m_fFade = FADE_TIME;
+					m_fFade -= (gHUD.m_flTimeDelta * 20);
+
+					if (m_fFade <= 0)
+					{
+						a = 128;
+						m_fFade = 0;
+					}
+					a = MIN_ALPHA + (m_fFade / FADE_TIME) * 128;
+
+				}
+				else
+				{
+					a = MIN_ALPHA;
+				}
+
+
+				(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x11 + 70, y11 + 14, 1);
+
+
+
+				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x9 + 70, y9 + 14, 1);
+				break;
+			default:
+
+				rc = m_hEmpty[m_enArmorType].rect;
+				rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
+
+				m_health_board->Bind();
+				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				m_plus->Bind();
+				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+
+				m_armors->Bind();
+				DrawUtils::Draw2DQuadScaled(x3 - 10, y3, x3 + 10, y3 + 24);
+
+				//m_ihealthes_top->Bind();
+				//DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+
+				if (m_fFade)
+				{
+					if (m_fFade > FADE_TIME)
+						m_fFade = FADE_TIME;
+					m_fFade -= (gHUD.m_flTimeDelta * 20);
+
+					if (m_fFade <= 0)
+					{
+						a = 128;
+						m_fFade = 0;
+					}
+					a = MIN_ALPHA + (m_fFade / FADE_TIME) * 128;
+
+				}
+				else
+				{
+					a = MIN_ALPHA;
+				}
+
+
+				(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 70, y14 + 14, 1);
+
+
+
+				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+				DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+				break;
+
+			}
+		}
 		DrawDamage( flTime );
 		DrawPain( flTime );
 	}
@@ -271,32 +587,29 @@ int CHudHealth::Draw(float flTime)
 	return 1;
 }
 
-void CHudHealth::DrawHealthBar( float flTime )
+int CHudHealth::MsgFunc_Battery(const char* pszName, int iSize, void* pbuf)
 {
-	int r, g, b;
-	int a = 0, x, y;
-	int HealthWidth;
+	BufferReader reader(pszName, pbuf, iSize);
 
-	GetPainColor( r, g, b, a );
-	DrawUtils::ScaleColors(r, g, b, a );
+	m_iFlags |= HUD_DRAW;
+	int x = reader.ReadShort();
 
-	// Only draw health if we have the suit.
-	if (gHUD.m_iWeaponBits & (1<<(WEAPON_SUIT)))
+	if (x != m_iBat)
 	{
-		HealthWidth = gHUD.GetSpriteRect(gHUD.m_HUD_number_0).right - gHUD.GetSpriteRect(gHUD.m_HUD_number_0).left;
-		int CrossWidth = gHUD.GetSpriteRect(m_HUD_cross).right - gHUD.GetSpriteRect(m_HUD_cross).left;
-
-		y = ScreenHeight - gHUD.m_iFontHeight - gHUD.m_iFontHeight / 2;
-		x = CrossWidth /2;
-
-		SPR_Set(gHUD.GetSprite(m_HUD_cross), r, g, b);
-		SPR_DrawAdditive(0, x, y, &gHUD.GetSpriteRect(m_HUD_cross));
-
-		x = CrossWidth + HealthWidth / 2;
-
-		x = DrawUtils::DrawHudNumber(x, y, DHN_3DIGITS | DHN_DRAWZERO, m_iHealth, r, g, b);
-		//x = DrawUtils::DrawHudNumber2(x, y, m_iHealth, r, g, b);
+		m_fFade = FADE_TIME;
+		m_iBat = x;
 	}
+
+	return 1;
+}
+
+int CHudHealth::MsgFunc_ArmorType(const char* pszName, int iSize, void* pbuf)
+{
+	BufferReader reader(pszName, pbuf, iSize);
+
+	m_enArmorType = (armortype_t)reader.ReadByte();
+
+	return 1;
 }
 
 void CHudHealth::CalcDamageDirection( Vector vecFrom )
@@ -351,10 +664,6 @@ void CHudHealth::DrawPain(float flTime)
 	{
 		if( m_fAttack[i] > EPSILON )
 		{
-			/*GetPainColor(r, g, b);
-			shade = a * max( m_fAttack[i], 0.5 );
-			DrawUtils::ScaleColors(r, g, b, shade);*/
-
 			a = max( m_fAttack[i], 0.5f );
 
 			SPR_Set( m_hSprite, 255 * a, 255 * a, 255 * a);
@@ -373,13 +682,13 @@ void CHudHealth::DrawDamage(float flTime)
 	if (!m_bitsDamage)
 		return;
 
-	DrawUtils::UnpackRGB(r,g,b, RGB_YELLOWISH);
+	DrawUtils::UnpackRGB(r,g,b, RGB_WHITE);
 	
 	a = (int)( fabs(sin(flTime*2)) * 256.0);
 
 	DrawUtils::ScaleColors(r, g, b, a);
 	int i;
-	// Draw all the items
+
 	for (i = 0; i < NUM_DMG_TYPES; i++)
 	{
 		if (m_bitsDamage & giDmgFlags[i])
@@ -390,8 +699,6 @@ void CHudHealth::DrawDamage(float flTime)
 		}
 	}
 
-
-	// check for bits that should be expired
 	for ( i = 0; i < NUM_DMG_TYPES; i++ )
 	{
 		DAMAGE_IMAGE *pdmg = &m_dmg[i];
@@ -423,12 +730,10 @@ void CHudHealth::DrawDamage(float flTime)
 	}
 }
 
-
 void CHudHealth::UpdateTiles(float flTime, long bitsDamage)
 {	
 	DAMAGE_IMAGE *pdmg;
 
-	// Which types are new?
 	long bitsOn = ~m_bitsDamage & bitsDamage;
 	
 	for (int i = 0; i < NUM_DMG_TYPES; i++)
@@ -466,10 +771,8 @@ void CHudHealth::UpdateTiles(float flTime, long bitsDamage)
 		}
 	}
 
-	// damage bits are only turned on here;  they are turned off when the draw time has expired (in DrawDamage())
 	m_bitsDamage |= bitsDamage;
 }
-
 
 int CHudHealth :: MsgFunc_ClCorpse(const char *pszName, int iSize, void *pbuf)
 {

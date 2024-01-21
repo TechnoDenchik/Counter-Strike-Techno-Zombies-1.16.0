@@ -36,10 +36,10 @@ CZombieClass_Speed::CZombieClass_Speed(CBasePlayer *player, ZombieLevel iEvoluti
 	m_pPlayer->SetNewPlayerModel(szModelPath);
 
 	// set default property
-	m_pPlayer->pev->health = m_pPlayer->pev->max_health = 800;
+	m_pPlayer->pev->health = m_pPlayer->pev->max_health = 1000;
 	m_pPlayer->pev->armortype = ARMOR_TYPE_HELMET;
 	m_pPlayer->pev->armorvalue = 200;
-	m_pPlayer->pev->gravity = 0.64f;
+	m_pPlayer->pev->gravity = 0.83f;
 	m_pPlayer->ResetMaxSpeed();
 }
 
@@ -47,9 +47,11 @@ void CZombieClass_Speed::InitHUD() const
 {
 	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, nullptr, m_pPlayer->pev);
 	WRITE_BYTE(ZB2_MESSAGE_SKILL_INIT);
-	WRITE_BYTE(ZOMBIE_CLASS_SPEED);
-	WRITE_BYTE(ZOMBIE_SKILL_HIDE);
+	WRITE_BYTE(ZOMBIE_CLASS_TANK);
+	WRITE_BYTE(ZOMBIE_SKILL_CRAZY); 
 	MESSAGE_END();
+
+	
 }
 
 void CZombieClass_Speed::ResetMaxSpeed() const

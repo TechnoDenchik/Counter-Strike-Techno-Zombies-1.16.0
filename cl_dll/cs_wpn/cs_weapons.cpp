@@ -464,11 +464,11 @@ void CBasePlayerWeapon::RetireWeapon()
 	//UTIL_GetNextBestWeapon( m_pPlayer, this );
 }
 
-Vector CBaseEntity::FireBullets3 ( Vector vecSrc, Vector vecDirShooting, float flSpread, float flDistance, int iPenetration, int iBulletType, int iDamage, float flRangeModifier, entvars_t *pevAttacker, bool bPistol, int shared_rand )
+Vector CBaseEntity::FireBullets3(Vector vecSrc, Vector vecDirShooting, float flSpread, float flDistance, int iPenetration, int iBulletType, int iDamage, float flRangeModifier, entvars_t* pevAttacker, bool bPistol, int shared_rand)
 {
 	float x, y, z;
 
-	if ( pevAttacker )
+	if (pevAttacker)
 	{
 		x = UTIL_SharedRandomFloat(shared_rand, -0.5, 0.5) + UTIL_SharedRandomFloat(shared_rand + 1, -0.5, 0.5);
 		y = UTIL_SharedRandomFloat(shared_rand + 2, -0.5, 0.5) + UTIL_SharedRandomFloat(shared_rand + 3, -0.5, 0.5);
@@ -480,8 +480,7 @@ Vector CBaseEntity::FireBullets3 ( Vector vecSrc, Vector vecDirShooting, float f
 			x = RANDOM_FLOAT(-0.5, 0.5) + RANDOM_FLOAT(-0.5, 0.5);
 			y = RANDOM_FLOAT(-0.5, 0.5) + RANDOM_FLOAT(-0.5, 0.5);
 			z = x * x + y * y;
-		}
-		while (z > 1);
+		} while (z > 1);
 	}
 
 	return Vector(x * flSpread, y * flSpread, 0);
@@ -1097,10 +1096,6 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 			pWeapon = &g_Knife;
 			break;
 
-		case WEAPON_SHELTERAXE:
-			pWeapon = &g_Knife;
-			break;
-
 		case WEAPON_P90:
 			pWeapon = &g_P90;
 			break;
@@ -1229,7 +1224,7 @@ void HUD_WeaponsPostThink( local_state_s *from, local_state_s *to, usercmd_t *cm
 	flags = from->client.iuser3;
 	g_bHoldingKnife		= pWeapon->m_iId == WEAPON_KNIFE;
 	player.m_bCanShoot	= (flags & PLAYER_CAN_SHOOT) != 0;
-	g_iFreezeTimeOver	= ~(flags & PLAYER_FREEZE_TIME_OVER);
+	g_iFreezeTimeOver	= !(flags & PLAYER_FREEZE_TIME_OVER);
 	g_bInBombZone		= (flags & PLAYER_IN_BOMB_ZONE) != 0;
 	g_bHoldingShield	= (flags & PLAYER_HOLDING_SHIELD) != 0;
 

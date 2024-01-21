@@ -1686,6 +1686,7 @@ static render_api_t gRenderAPI =
 	NULL,
 	NULL,
 	NULL,
+	GL_Scissor,
 	CL_DrawParticlesExternal,
 	(void*)R_EnvShot,
 	COM_CompareFileTime,
@@ -1698,7 +1699,6 @@ static render_api_t gRenderAPI =
 	(void*)COM_SetRandomSeed,
 	R_Mem_Alloc,
 	R_Mem_Free,
-	pfnGetFilesList,
 };
 
 /*

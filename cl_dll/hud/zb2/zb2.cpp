@@ -1,4 +1,4 @@
-/*
+﻿/*
 zb2.cpp - CSMoE Client HUD : Zombie Mod 2
 Copyright (C) 2019 Moemod Yanase
 
@@ -24,19 +24,22 @@ GNU General Public License for more details.
 #include "zb2.h"
 #include "Winhud.h"
 #include "Textstring.h"
+#include "zb3/TextSet.h"
 #include "zb2_skill.h"
 #include "hud_sub_impl.h"
+#include "player/player_const.h"
 
 #include "gamemode/zb2/zb2_const.h"
 
 #include <vector>
 
-class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1, CHudTextZB1>
+class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1, CHudTextZB1, CHudTextZB3, CHudInfection>
 {
 public:
 	SharedTexture m_pTexture_RageRetina;
 	SharedTexture m_pTexture_SprintRetina;
 	SharedTexture m_pTexture_DamageDoubleRetina;
+	
 	std::vector<CHudRetina::MagicNumber> m_RetinaIndexes;
 };
 
@@ -48,6 +51,8 @@ DECLARE_MESSAGE(m_ZB2, ZB2Msg)
 int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 {
 	BufferReader buf(pszName, pbuf, iSize);
+	
+
 	auto type = static_cast<ZB2MessageType>(buf.ReadByte());
 	switch (type)
 	{
@@ -86,8 +91,10 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 			pimpl->m_RetinaIndexes.push_back(gHUD.m_Retina.AddItem(pimpl->m_pTexture_SprintRetina, CHudRetina::RETINA_DRAW_TYPE_BLINK | CHudRetina::RETINA_DRAW_TYPE_QUARTER, flHoldTime));
 		else if (skilltype == ZOMBIE_SKILL_HEADSHOT || skilltype == ZOMBIE_SKILL_KNIFE2X)
 			pimpl->m_RetinaIndexes.push_back(gHUD.m_Retina.AddItem(pimpl->m_pTexture_DamageDoubleRetina, CHudRetina::RETINA_DRAW_TYPE_BLINK | CHudRetina::RETINA_DRAW_TYPE_QUARTER, flHoldTime));
+		
 		break;
 	}
+	
 	case ZB2_MESSAGE_WINHUDHM:
 	{
 		pimpl->get<CHudWinhudZB1>().WinHuman();
@@ -103,30 +110,19 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 		pimpl->get<CHudTextZB1>().Settext();
 		break;
 	}
+	case ZB3_MESSAGE_USED_STATUS:
+	{
+		pimpl->get<CHudTextZB3>().Settext();
+		break;
 	}
-	
+	case ZOMBIE_INFECTION:
+	{
+		pimpl->get<CHudInfection>().infected();
+		break;
+	}
+	}
 	return 1;
 }
-
-/*int CHudZB2::MsgFunc_ZB2Win(const char* pszName, int iSize, void* pbuf)
-{
-	BufferReader buf(pszName, pbuf, iSize);
-	auto type = static_cast<ZB2MessageWin>(buf.ReadByte());
-	switch (type)
-	{
-		case ZB2_MESSAGE_WINHUDHM:
-		{
-			pimpl->get<CHudWinhudZB1>().WinHuman();
-			break;
-		}
-		case ZB2_MESSAGE_WINHUDZB:
-		{
-			pimpl->get<CHudWinhudZB1>().WinZombie();
-			break;
-		}
-    }
-	return 1;
-}*/
 
 int CHudZB2::Init()
 {

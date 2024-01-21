@@ -4,6 +4,7 @@
 #include "player.h"
 #include "game.h"
 #include "enginecallback.h"
+#include "globals.h"
 
 #include "bmodels.h"
 
@@ -37,7 +38,7 @@ void _IBaseMod_RemoveObjects_CheckMapConditions_impl(IBaseMod *mod)
 
 	// Check to see if this map has VIP safety zones
 	mod->m_iMapHasVIPSafetyZone = MAP_HAVE_VIP_SAFETYZONE_NO;
-
+	
 	// Hostage
 	/*CBaseEntity *hostage = nullptr;
 	while ((hostage = UTIL_FindEntityByClassname(hostage, "hostage_entity")) != nullptr)
@@ -52,6 +53,7 @@ BOOL _IBaseMod_RemoveObjects_IsAllowedToSpawn_impl(IBaseMod *mod, CBaseEntity *p
 	    !Q_strcmp(STRING(pEntity->pev->classname), "info_bomb_target")) {
 		return FALSE;
 	}
+
 	if (!Q_strcmp(STRING(pEntity->pev->classname), "func_hostage_rescue")) {
 		return FALSE;
 	}
@@ -70,6 +72,7 @@ BOOL _IBaseMod_RemoveObjects_IsAllowedToSpawn_impl(IBaseMod *mod, CBaseEntity *p
 edict_t *_IBaseMod_RandomSpawn_GetPlayerSpawnSpot_impl(IBaseMod *mod, CBasePlayer *pPlayer)
 {
 	// completely rewrites it
+
 
 	// select spawnpoint from both teams.
 	TeamName iBackupTeam = pPlayer->m_iTeam;

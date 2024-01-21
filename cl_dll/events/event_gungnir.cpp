@@ -15,8 +15,6 @@ GNU General Public License for more details.
 
 #include "events.h"
 
-namespace cl {
-
 enum
 {
 	ANIM_IDLE1,
@@ -54,7 +52,9 @@ void EV_FireGungnir( event_args_t *args )
 		{
 		case 0:
 		{
-
+			PLAY_EVENT_SOUND("weapons/gungnir_idle.wav");
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(ANIM_IDLE1, 2);
+			break;
 		}
 		case 1:
 		{
@@ -80,6 +80,18 @@ void EV_FireGungnir( event_args_t *args )
 			gEngfuncs.pEventAPI->EV_WeaponAnimation(ANIM_CHARGE_SHOOT, 2);
 			break;
 		}
+		case 5:
+		{
+			PLAY_EVENT_SOUND("weapons/gungnir_charge_loop.wav");
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(ANIM_CHARGE_LOOP, 2);
+			break;
+		}
+		case 6:
+		{
+			PLAY_EVENT_SOUND("weapons/gungnir_shoot_b_charge.wav");
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(ANIM_SHOOT_B_CHARGE, 2);
+			break;
+		}
 		}
 			
 
@@ -102,7 +114,5 @@ void EV_FireGungnir( event_args_t *args )
 	//EV_EjectBrass(ShellOrigin, ShellVelocity, angles[ YAW ], g_iRShell, TE_BOUNCE_SHELL);
 
 	
-
-}
 
 }

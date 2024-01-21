@@ -38,6 +38,9 @@ extern "C"
 cl_enginefunc_t gEngfuncs = { };
 render_api_t gRenderAPI = { };
 mobile_engfuncs_t gMobileAPI = { };
+long g_iDamage[MAX_CLIENTS + 1];
+long g_iDamageTotal[MAX_CLIENTS + 1];
+double g_flDamageInAll;
 CHud gHUD;
 int g_iXash = 0; // indicates a buildnum
 int g_iMobileAPIVersion = 0;

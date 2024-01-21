@@ -54,9 +54,6 @@ public:
 	bool HasSecondaryAttack() override { return true; }
 	float GetArmorRatioModifier() override { return 1.0; }
 	const char *GetCSModelName() override { return "models/w_infinity.mdl"; }
-#ifndef CLIENT_DLL
-	WeaponBuyAmmoConfig GetBuyAmmoConfig() override { return ::GetBuyAmmoConfig(WEAPON_USP); }
-#endif
 
 public:
 	void InfinityFire(float flSpread, float flCycleTime, BOOL fUseSemi);

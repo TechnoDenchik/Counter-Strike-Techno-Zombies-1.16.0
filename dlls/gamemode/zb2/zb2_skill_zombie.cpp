@@ -48,6 +48,7 @@ void CZombieSkill_ZombieCrazy::Think()
 	if (m_iZombieSkillStatus == SKILL_STATUS_USING && gpGlobals->time > m_flTimeZombieSkillEffect)
 	{
 		OnCrazyEffect();
+		m_pPlayer->ActivateSpeed();
 	}
 }
 
@@ -68,7 +69,10 @@ void CZombieSkill_ZombieCrazy::Activate()
 
 			break;
 		case SKILL_STATUS_USED:
-			ClientPrint(m_pPlayer->pev, HUD_PRINTCENTER, "The 'Sprint' skill can only be used once per round."); // #CSO_CantSprintUsed
+
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, NULL, m_pPlayer->pev);
+			WRITE_BYTE(ZB3_MESSAGE_USED_STATUS);
+			MESSAGE_END();
 			break;
 		default:
 			break;
@@ -76,9 +80,6 @@ void CZombieSkill_ZombieCrazy::Activate()
 
 		return;
 	}
-
-	if (m_pPlayer->pev->health <= 500.0f)
-		return;
 
 	m_iZombieSkillStatus = SKILL_STATUS_USING;
 	m_flTimeZombieSkillEnd = gpGlobals->time + GetDurationTime();
@@ -89,7 +90,7 @@ void CZombieSkill_ZombieCrazy::Activate()
 	m_pPlayer->pev->rendercolor = { 255,0,0 };
 	m_pPlayer->pev->renderamt = 1;
 	m_pPlayer->pev->fov = m_pPlayer->m_iFOV = 105;
-	m_pPlayer->pev->health -= 500.0f;
+	ActivateSpeed();
 	m_pPlayer->ResetMaxSpeed();
 
 	EMIT_SOUND(ENT(m_pPlayer->pev), CHAN_VOICE, "zb3/zombi_pressure.wav", VOL_NORM, ATTN_NORM);
@@ -100,6 +101,11 @@ void CZombieSkill_ZombieCrazy::Activate()
 	WRITE_SHORT(static_cast<int>(GetDurationTime()));
 	WRITE_SHORT(static_cast<int>(GetCooldownTime()));
 	MESSAGE_END();
+}
+
+void CZombieSkill_ZombieCrazy::ActivateSpeed()
+{
+	m_pPlayer->pev->maxspeed = 690;
 }
 
 void CZombieSkill_ZombieCrazy::ResetMaxSpeed()

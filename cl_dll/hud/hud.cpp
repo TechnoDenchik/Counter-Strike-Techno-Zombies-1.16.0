@@ -203,7 +203,7 @@ void CHud :: Init( void )
 	zoom_sens_ratio = CVAR_CREATE( "zoom_sensitivity_ratio", "1.2", 0 );
 	sv_skipshield = gEngfuncs.pfnGetCvarPointer( "sv_skipshield" );
 
-	cl_headname = CVAR_CREATE("cl_headname", "0", FCVAR_ARCHIVE); // seems lagging, disable by default.
+	cl_headname = CVAR_CREATE("cl_headname", "2", FCVAR_ARCHIVE); // seems lagging, disable by default.
 
 	CVAR_CREATE( "cscl_ver", Q_buildnum(), 1<<14 | FCVAR_USERINFO ); // init and userinfo
 
@@ -242,7 +242,6 @@ void CHud :: Init( void )
 	m_Money.Init();
 	m_AmmoSecondary.Init();
 	m_Train.Init();
-	m_Battery.Init();
 	m_StatusIcons.Init();
 	m_Radar.Init();
 	m_ZBS.Init();
@@ -250,7 +249,8 @@ void CHud :: Init( void )
 	m_ZB3.Init();
 	m_ZSH.Init();
 	m_MoeTouch.Init();
-
+	m_HitIndicator.Init();
+ 	m_HudSiFiammo.Init();
 	// chat, death notice, status bars and other
 	m_SayText.Init();
 	m_Spectator.Init();
@@ -264,6 +264,7 @@ void CHud :: Init( void )
 	m_MOTD.Init();
 	m_scenarioStatus.Init();
 	m_HeadName.Init();
+	
 
 	// all things that have own background and must be drawn last
 	m_ProgressBar.Init();
@@ -416,6 +417,25 @@ void CHud :: VidInit( void )
 		}
 	}
 
+	m_NEWHUD_number_0 = GetSpriteIndex("number_0_new");
+	m_NEWHUD_dollar_number_0 = GetSpriteIndex("dollarNum_0_new");
+	m_iWeaponGet = GetSpriteIndex("weapon_get_bg_new");
+	m_NEWHUD_hPlus = gHUD.GetSpriteIndex("plus_new");
+	if (m_HUD_number_0 == -1 && g_iXash)
+	{
+		gRenderAPI.Host_Error("Failed to get number_0 sprite index. Check your game data!");
+		return;
+	}
+
+	m_iFontHeight = GetSpriteRect(m_HUD_number_0).bottom - GetSpriteRect(m_HUD_number_0).top;
+
+	m_NEWHUD_iFontWidth = GetSpriteRect(m_NEWHUD_number_0).right - GetSpriteRect(m_NEWHUD_number_0).left;
+	m_NEWHUD_iFontWidth_Dollar = GetSpriteRect(m_NEWHUD_dollar_number_0).right - GetSpriteRect(m_NEWHUD_dollar_number_0).left;
+	m_NEWHUD_iFontHeight = GetSpriteRect(m_NEWHUD_number_0).bottom - GetSpriteRect(m_NEWHUD_number_0).top;
+	m_NEWHUD_iFontHeight_Dollar = GetSpriteRect(m_NEWHUD_dollar_number_0).bottom - GetSpriteRect(m_NEWHUD_dollar_number_0).top;
+
+	m_hGasPuff = SPR_Load("sprites/gas_puff_01.spr");
+
 	// assumption: number_1, number_2, etc, are all listed and loaded sequentially
 	m_HUD_number_0 = GetSpriteIndex( "number_0" );
 
@@ -435,7 +455,6 @@ void CHud :: VidInit( void )
 	m_Spectator.VidInit();
 	m_Geiger.VidInit();
 	m_Train.VidInit();
-	m_Battery.VidInit();
 	m_Flash.VidInit();
 	m_Message.VidInit();
 	m_StatusBar.VidInit();

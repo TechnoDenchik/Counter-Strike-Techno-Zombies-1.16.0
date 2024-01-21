@@ -58,6 +58,7 @@
 
 #include "gamerules.h"
 #include "career_tasks.h"
+#include "gamemode/mods.h"
 #include "maprules.h"
 
 /*
@@ -208,13 +209,18 @@ void CHostage::Precache()
 	}
 
 	PRECACHE_MODEL((char *)STRING(pev->model));
-	PRECACHE_SOUND("hostage/hos1.wav");
-	PRECACHE_SOUND("hostage/hos2.wav");
-	PRECACHE_SOUND("hostage/hos3.wav");
-	PRECACHE_SOUND("hostage/hos4.wav");
-	PRECACHE_SOUND("hostage/hos5.wav");
-	PRECACHE_MODEL("sprites/smoke.spr");
-}
+
+
+		
+			PRECACHE_SOUND("hostage/hos1.wav");
+			PRECACHE_SOUND("hostage/hos2.wav");
+			PRECACHE_SOUND("hostage/hos3.wav");
+			PRECACHE_SOUND("hostage/hos4.wav");
+			PRECACHE_SOUND("hostage/hos5.wav");
+			PRECACHE_MODEL("sprites/smoke.spr");
+		
+	
+} 
 
 void CHostage::SetActivity(Activity act)
 {
@@ -809,11 +815,12 @@ void CHostage::PlayFollowRescueSound()
 {
 	switch (RANDOM_LONG(0, 4))
 	{
-	case 0: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos1.wav", VOL_NORM, ATTN_NORM); break;
-	case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos2.wav", VOL_NORM, ATTN_NORM); break;
-	case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos3.wav", VOL_NORM, ATTN_NORM); break;
-	case 3: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos4.wav", VOL_NORM, ATTN_NORM); break;
-	case 4: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos5.wav", VOL_NORM, ATTN_NORM); break;
+		case 0: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos1.wav", VOL_NORM, ATTN_NORM); break;
+		case 1: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos2.wav", VOL_NORM, ATTN_NORM); break;
+		case 2: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos3.wav", VOL_NORM, ATTN_NORM); break;
+		case 3: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos4.wav", VOL_NORM, ATTN_NORM); break;
+		case 4: EMIT_SOUND(ENT(pev), CHAN_VOICE, "hostage/hos5.wav", VOL_NORM, ATTN_NORM); break;
+				
 	}
 }
 
@@ -1301,140 +1308,6 @@ void CHostageManager::ServerActivate()
 	while ((pEntity = UTIL_FindEntityByClassname(pEntity, "hostage_entity")) != NULL)
 	{
 		AddHostage((CHostage *)pEntity);
-	}
-
-	if (g_bIsCzeroGame)
-	{
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/getouttahere.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/illfollow.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/letsdoit.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/letsgo.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/letshurry.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/letsmove.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/okletsgo.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_START_FOLLOW, "hostage/huse/youlead.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_STOP_FOLLOW, "hostage/hunuse/comeback.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_STOP_FOLLOW, "hostage/hunuse/dontleaveme.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_STOP_FOLLOW, "hostage/hunuse/illstayhere.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_STOP_FOLLOW, "hostage/hunuse/notleaveme.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_STOP_FOLLOW, "hostage/hunuse/yeahillstay.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/donthurtme1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/donthurtme2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/dontkill.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/endpeace.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/nevernegotiate.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/nottellanything.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/surrender.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/whatdoyou.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_INTIMIDATED, "hostage/hseenbyt/whyareyou.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hseenbyt/donthurtme1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hseenbyt/donthurtme2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hseenbyt/dontkill.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hseenbyt/dontkill.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/illgoback1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/illgoback2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/okokgoing.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/okokgoing2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/sorry1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/sorry2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RETREAT, "hostage/hretreat/sorry3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PAIN, "hostage/hpain/hpain1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PAIN, "hostage/hpain/hpain2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PAIN, "hostage/hpain/hpain3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PAIN, "hostage/hpain/hpain4.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PAIN, "hostage/hpain/hpain5.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PAIN, "hostage/hpain/hpain6.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/awwcrap1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/awwcrap2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/getdown1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/getdown2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/getdown3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/lookout1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/lookout2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/lookshooting1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/lookshooting2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/lookshooting3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/ohgod1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_GUNFIRE, "hostage/hreactions/ohgod2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/awwcrap1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/awwcrap2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/deargod1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/deargod2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/deargod3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/ohgod1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/ohgod2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/ohno1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/ohno2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/awww2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SCARED_OF_MURDER, "hostage/hreactions/awww4.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_LOOK_OUT, "hostage/hreactions/awwcrap1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_LOOK_OUT, "hostage/hreactions/awwcrap2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_LOOK_OUT, "hostage/hreactions/lookout1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_LOOK_OUT, "hostage/hreactions/lookout2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/areyousave.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/getmeoutta1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/getmeoutta2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/imahostage.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/rescueme1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/rescueme2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_PLEASE_RESCUE_ME, "hostage/hseenbyct/theyregonna.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_IMPATIENT_FOR_RESCUE, "hostage/hseenbyct/areyousave.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_IMPATIENT_FOR_RESCUE, "hostage/hseenbyct/getmeoutta1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_IMPATIENT_FOR_RESCUE, "hostage/hseenbyct/getmeoutta2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_IMPATIENT_FOR_RESCUE, "hostage/hseenbyct/rescueme1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_IMPATIENT_FOR_RESCUE, "hostage/hseenbyct/rescueme2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SEE_RESCUE_ZONE, "hostage/hseezone/almostouttahere.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SEE_RESCUE_ZONE, "hostage/hseezone/almostthere.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SEE_RESCUE_ZONE, "hostage/hseezone/keepgoing.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SEE_RESCUE_ZONE, "hostage/hseezone/notfar.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/alldead.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/goodnews.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/outtahere.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/over1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/over2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/over3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/over4.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/over5.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CTS_WIN, "hostage/hctwin/relief.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_TERRORISTS_WIN, "hostage/htwin/doomed.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_TERRORISTS_WIN, "hostage/htwin/godno.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_TERRORISTS_WIN, "hostage/htwin/nowwhat.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_TERRORISTS_WIN, "hostage/htwin/ohman.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_TERRORISTS_WIN, "hostage/htwin/ohno.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RESCUED, "hostage/hrescued/finally.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RESCUED, "hostage/hrescued/finallysafe.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RESCUED, "hostage/hrescued/thankyou.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RESCUED, "hostage/hrescued/wemadeit1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RESCUED, "hostage/hrescued/wemadeit2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_RESCUED, "hostage/hrescued/wemadeit3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_NEARBY, "hostage/hwarn/becareful1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_NEARBY, "hostage/hwarn/becareful2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_NEARBY, "hostage/hwarn/stillaround1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_NEARBY, "hostage/hwarn/stillaround2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_SPOTTED, "hostage/hwarn/lookout1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_SPOTTED, "hostage/hwarn/lookout2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_SPOTTED, "hostage/hwarn/overthere1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_WARN_SPOTTED, "hostage/hwarn/overthere2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CALL_TO_RESCUER, "hostage/hwavect/helpme1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CALL_TO_RESCUER, "hostage/hwavect/helpme2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CALL_TO_RESCUER, "hostage/hwavect/hey1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CALL_TO_RESCUER, "hostage/hwavect/hey2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_CALL_TO_RESCUER, "hostage/hwavect/overhere1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_COUGH, "hostage/hsmoke/cough1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_COUGH, "hostage/hsmoke/cough2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_COUGH, "hostage/hsmoke/cough3.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_COUGH, "hostage/hsmoke/cough4.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_COUGH, "hostage/hsmoke/cough5.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_COUGH, "hostage/hsmoke/cough6.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_BLINDED, "hostage/hflash/cantsee.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_BLINDED, "hostage/hflash/myeyes.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SAW_HE_GRENADE, "hostage/hgrenade/grenade1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SAW_HE_GRENADE, "hostage/hgrenade/grenade2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SAW_HE_GRENADE, "hostage/hgrenade/run.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_SAW_HE_GRENADE, "hostage/hgrenade/watchout.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_DEATH_CRY, "hostage/hdie/hdeath1.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_DEATH_CRY, "hostage/hdie/hdeath2.wav");
-		m_chatter.AddSound(HOSTAGE_CHATTER_DEATH_CRY, "hostage/hdie/hdeath3.wav");
 	}
 }
 

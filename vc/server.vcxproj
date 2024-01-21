@@ -378,7 +378,6 @@
     <ClCompile Include="..\dlls\player\player_spawnpoint.cpp" />
     <ClCompile Include="..\dlls\player\player_spawnprotection.cpp" />
     <ClCompile Include="..\dlls\player\player_zombie.cpp" />
-    <ClCompile Include="..\dlls\player\zombie_female.cpp" />
     <ClCompile Include="..\dlls\singleplay_gamerules.cpp" />
     <ClCompile Include="..\dlls\skill.cpp" />
     <ClCompile Include="..\dlls\sound.cpp" />
@@ -399,9 +398,9 @@
     <ClCompile Include="..\dlls\weapons_data.cpp" />
     <ClCompile Include="..\dlls\weapons_msg.cpp" />
     <ClCompile Include="..\dlls\world.cpp" />
+    <ClCompile Include="..\dlls\wpn_shared\knife_shelter_axe.cpp" />
     <ClCompile Include="..\dlls\wpn_shared\knife_skullaxe.cpp" />
     <ClCompile Include="..\dlls\wpn_shared\knife_zombi.cpp" />
-    <ClCompile Include="..\dlls\wpn_shared\shelter_axe.cpp" />
     <ClCompile Include="..\dlls\wpn_shared\wpn_ak47.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -770,7 +769,6 @@
     <ClInclude Include="..\dlls\player\player_msg.h" />
     <ClInclude Include="..\dlls\player\player_spawnpoint.h" />
     <ClInclude Include="..\dlls\player\player_zombie.h" />
-    <ClInclude Include="..\dlls\player\zombie_female.h" />
     <ClInclude Include="..\dlls\saverestore.h" />
     <ClInclude Include="..\dlls\schedule.h" />
     <ClInclude Include="..\dlls\scriptevent.h" />
@@ -816,7 +814,7 @@
     <ClInclude Include="..\dlls\weapons_data.h" />
     <ClInclude Include="..\dlls\weapons_msg.h" />
     <ClInclude Include="..\dlls\world.h" />
-    <ClInclude Include="..\dlls\wpn_shared\shelter_axe.h" />
+    <ClInclude Include="..\dlls\wpn_shared\knife_shelter_axe.h" />
     <ClInclude Include="..\dlls\wpn_shared\wpn_ak47.h" />
     <ClInclude Include="..\dlls\wpn_shared\wpn_as50.h" />
     <ClInclude Include="..\dlls\wpn_shared\wpn_aug.h" />
@@ -916,7 +914,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{70A2B904-B7DB-4C48-8DE0-AF567360D572}</ProjectGuid>
     <RootNamespace>regamelite</RootNamespace>
-    <ProjectName>server</ProjectName>
+    <ProjectName>Mp</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -944,7 +942,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -1077,7 +1075,7 @@
     </PreBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)\..\;..\common;..\dlls;..\engine;..\public;..\public\tier1;..\game_shared;..\pm_shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <WarningLevel>Level1</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;CLIENT_WEAPONS;DEDICATED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -1111,6 +1109,7 @@
       <PreprocessorDefinitions>WIN32;CLIENT_WEAPONS;DEDICATED;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FloatingPointModel>Precise</FloatingPointModel>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>

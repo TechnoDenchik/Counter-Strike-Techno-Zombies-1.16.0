@@ -111,6 +111,18 @@ int CHudDeathNotice :: VidInit( void )
 	m_deathBg[1] = gRenderAPI.GL_LoadTexture("resource/Hud/DeathNotice/deathbg_center_new", NULL, 0, TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
 	m_deathBg[2] = gRenderAPI.GL_LoadTexture("resource/Hud/DeathNotice/deathbg_right_new", NULL, 0, TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
 
+	if (!ribbon_headshot)
+		ribbon_headshot = R_LoadTextureShared("resource/hudannounceicon/ribbon_headshot", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	if (!ribbon_crazy)
+		ribbon_crazy = R_LoadTextureShared("resource/hud/announceicon/ribbon_crazy", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	if (!ribbon_excellent)
+		ribbon_excellent = R_LoadTextureShared("resource/hud/announceicon/ribbon_excellent", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	if (!ribbon_knife)
+		ribbon_knife = R_LoadTextureShared("resource/hud/announceicon/ribbon_knife", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	if (!ribbon_incredible)
+		ribbon_incredible = R_LoadTextureShared("resource/hud/announceicon/ribbon_incredible", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	if (!ribbon_cantbelieve)
+		ribbon_cantbelieve = R_LoadTextureShared("resource/hud/announceicon/ribbon_cantbelieve", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
 	return 1;
 }
 
@@ -122,7 +134,7 @@ void CHudDeathNotice::Shutdown(void)
 		gRenderAPI.GL_FreeTexture(iTexture);
 }
 
-int CHudDeathNotice :: Draw( float flTime )
+int CHudDeathNotice :: Draw( float time)
 {
 	int x, y, r, g, b, i;
 
@@ -131,7 +143,7 @@ int CHudDeathNotice :: Draw( float flTime )
 		if ( rgDeathNoticeList[i].iId == 0 )
 			break;  // we've gone through them all
 
-		if ( rgDeathNoticeList[i].flDisplayTime < flTime )
+		if ( rgDeathNoticeList[i].flDisplayTime < time)
 		{ // display time has expired
 			// remove the current item from the list
 			memmove( &rgDeathNoticeList[i], &rgDeathNoticeList[i+1], sizeof(DeathNoticeItem) * (MAX_DEATHNOTICES - i) );
@@ -139,7 +151,7 @@ int CHudDeathNotice :: Draw( float flTime )
 			continue;
 		}
 
-		rgDeathNoticeList[i].flDisplayTime = min( rgDeathNoticeList[i].flDisplayTime, flTime + DEATHNOTICE_DISPLAY_TIME );
+		rgDeathNoticeList[i].flDisplayTime = min( rgDeathNoticeList[i].flDisplayTime, time + DEATHNOTICE_DISPLAY_TIME );
 
 		// Hide when scoreboard drawing. It will break triapi
 		//if ( gViewPort && gViewPort->AllowedToPrintText() )
@@ -355,6 +367,22 @@ int CHudDeathNotice :: Draw( float flTime )
 	if( i == 0 )
 		m_iFlags &= ~HUD_DRAW; // disable hud item
 
+	if (!m_pCurTexture)
+		return 1;
+
+	if (time > m_flDisplayTime + 2.0f)
+	{
+		m_pCurTexture = nullptr;
+		return 1;
+	}
+
+	int x2 = ScreenWidth / 2;
+	int y2 = ScreenHeight / 4;
+
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255 - std::min(5.0f - (time - m_flDisplayTime), 1.0f));
+	m_pCurTexture->Bind();
+	DrawUtils::Draw2DQuadScaled(x2 - 500 / 2, y2, x2 + 500 / 2, y2 + 23);
 	return 1;
 }
 
@@ -401,10 +429,10 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 			{
 				if (!multiKills)
 					gEngfuncs.pfnClientCmd("speak \"HeadShot\"\n");
-
 				m_showIcon = true;
 				m_iconIndex = 1;
 				m_killIconTime = gHUD.m_flTime + KILLICON_DISPLAY_TIME;
+				headshots();
 			}
 
 			if (!strcmp(killedwith, "d_grenade"))
@@ -428,6 +456,7 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 				m_showIcon = true;
 				m_iconIndex = 2;
 				m_killIconTime = gHUD.m_flTime + KILLICON_DISPLAY_TIME;
+				knife();
 			}
 
 			if (victim == idx)
@@ -455,7 +484,7 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 			case 1:
 			{
 				gEngfuncs.pfnClientCmd("speak \"DoubleKill\"\n");
-
+				
 				m_showKill = true;
 				m_multiKills = 2;
 				m_killEffectTime = gHUD.m_flTime + KILLEFFECT_DISPLAY_TIME;
@@ -465,7 +494,6 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 			case 2:
 			{
 				gEngfuncs.pfnClientCmd("speak \"TripleKill\"\n");
-
 				m_showKill = true;
 				m_multiKills = 3;
 				m_killEffectTime = gHUD.m_flTime + KILLEFFECT_DISPLAY_TIME;
@@ -475,7 +503,8 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 			default:
 			{
 				gEngfuncs.pfnClientCmd("speak \"MultiKill\"\n");
-
+				
+				
 				m_showKill = true;
 				m_multiKills = 4;
 				m_killEffectTime = gHUD.m_flTime + KILLEFFECT_DISPLAY_TIME;
@@ -488,30 +517,43 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 			case 5:
 			{
 				gEngfuncs.pfnClientCmd("speak \"Excellent\"\n");
+			
+				excellent();
+				
 				break;
 			}
 
 			case 10:
 			{
 				gEngfuncs.pfnClientCmd("speak \"Incredible\"\n");
+				
+				incredible();
+				
 				break;
 			}
 
 			case 15:
 			{
 				gEngfuncs.pfnClientCmd("speak \"Crazy\"\n");
+				
+				crazy();
+				
 				break;
 			}
 
 			case 20:
 			{
 				gEngfuncs.pfnClientCmd("speak \"CantBelive\"\n");
+				
+				cantbelieve();
+				
 				break;
 			}
 
 			case 25:
 			{
 				gEngfuncs.pfnClientCmd("speak \"OutofWorld\"\n");
+				
 				break;
 			}
 			}
@@ -654,6 +696,46 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 	return 1;
 }
 
+void CHudDeathNotice::headshots()
+{
+	m_pCurTexture = ribbon_headshot;
+	m_flDisplayTime = gHUD.m_flTime;
+	gEngfuncs.pfnClientCmd("speak \"assist\"\n");
+}
 
+void CHudDeathNotice::crazy()
+{
+	m_pCurTexture = ribbon_crazy;
+	m_flDisplayTime = gHUD.m_flTime;
+	gEngfuncs.pfnClientCmd("speak \"assist\"\n");
+}
+
+void CHudDeathNotice::incredible()
+{
+	m_pCurTexture = ribbon_incredible;
+	m_flDisplayTime = gHUD.m_flTime;
+	gEngfuncs.pfnClientCmd("speak \"assist\"\n");
+}
+
+void CHudDeathNotice::excellent()
+{
+	m_pCurTexture = ribbon_excellent;
+	m_flDisplayTime = gHUD.m_flTime;
+	gEngfuncs.pfnClientCmd("speak \"assist\"\n");
+}
+
+void CHudDeathNotice::knife()
+{
+	m_pCurTexture = ribbon_knife;
+	m_flDisplayTime = gHUD.m_flTime;
+	gEngfuncs.pfnClientCmd("speak \"assist\"\n");
+}
+
+void CHudDeathNotice::cantbelieve()
+{
+	m_pCurTexture = ribbon_cantbelieve;
+	m_flDisplayTime = gHUD.m_flTime;
+	gEngfuncs.pfnClientCmd("speak \"assist\"\n");
+}
 
 

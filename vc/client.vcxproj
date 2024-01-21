@@ -72,7 +72,6 @@
     <ClCompile Include="..\cl_dll\events\event_scout.cpp" />
     <ClCompile Include="..\cl_dll\events\event_sg550.cpp" />
     <ClCompile Include="..\cl_dll\events\event_sg552.cpp" />
-    <ClCompile Include="..\cl_dll\events\event_shelteraxe.cpp" />
     <ClCompile Include="..\cl_dll\events\event_svdex.cpp" />
     <ClCompile Include="..\cl_dll\events\event_tar21.cpp" />
     <ClCompile Include="..\cl_dll\events\event_thompson.cpp" />
@@ -90,16 +89,17 @@
     <ClCompile Include="..\cl_dll\hud\ammo.cpp" />
     <ClCompile Include="..\cl_dll\hud\ammohistory.cpp" />
     <ClCompile Include="..\cl_dll\hud\ammo_secondary.cpp" />
-    <ClCompile Include="..\cl_dll\hud\battery.cpp" />
     <ClCompile Include="..\cl_dll\hud\death.cpp" />
     <ClCompile Include="..\cl_dll\hud\flashlight.cpp" />
     <ClCompile Include="..\cl_dll\hud\followicon.cpp" />
     <ClCompile Include="..\cl_dll\hud\geiger.cpp" />
     <ClCompile Include="..\cl_dll\hud\headname.cpp" />
     <ClCompile Include="..\cl_dll\hud\health.cpp" />
+    <ClCompile Include="..\cl_dll\hud\hit_indicator.cpp" />
     <ClCompile Include="..\cl_dll\hud\hud.cpp" />
     <ClCompile Include="..\cl_dll\hud\hud_msg.cpp" />
     <ClCompile Include="..\cl_dll\hud\hud_redraw.cpp" />
+    <ClCompile Include="..\cl_dll\hud\hud_sifiammo.cpp" />
     <ClCompile Include="..\cl_dll\hud\hud_spectator.cpp" />
     <ClCompile Include="..\cl_dll\hud\hud_update.cpp" />
     <ClCompile Include="..\cl_dll\hud\legacy\hud_radar_legacy.cpp" />
@@ -129,6 +129,7 @@
     <ClCompile Include="..\cl_dll\hud\zb2\zb2.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb2\zb2_skill.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb3\NewScoreboard.cpp" />
+    <ClCompile Include="..\cl_dll\hud\zb3\TextSet.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb3\zb3.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb3\zb3_morale.cpp" />
     <ClCompile Include="..\cl_dll\hud\zb3\zb3_rage.cpp" />
@@ -228,14 +229,12 @@
     <ClInclude Include="..\cl_dll\hud\retina.h" />
     <ClInclude Include="..\cl_dll\hud\scenariostatus.h" />
     <ClInclude Include="..\cl_dll\hud\scoreboard.h" />
-    <ClInclude Include="..\cl_dll\hud\zb1\mod_zb1.h" />
-    <ClInclude Include="..\cl_dll\hud\zb1\zb1_const.h" />
-    <ClInclude Include="..\cl_dll\hud\zb1\zb1_zclass.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\Textstring.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\Winhud.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\zb2.h" />
     <ClInclude Include="..\cl_dll\hud\zb2\zb2_skill.h" />
     <ClInclude Include="..\cl_dll\hud\zb3\NewScoreboard.h" />
+    <ClInclude Include="..\cl_dll\hud\zb3\TextSet.h" />
     <ClInclude Include="..\cl_dll\hud\zb3\zb3.h" />
     <ClInclude Include="..\cl_dll\hud\zb3\zb3_morale.h" />
     <ClInclude Include="..\cl_dll\hud\zb3\zb3_rage.h" />
@@ -257,7 +256,6 @@
     <ClInclude Include="..\common\mathlib.h" />
     <ClInclude Include="..\common\render_api.h" />
     <ClInclude Include="..\dlls\gamemode\zb2\zb2_const.h" />
-    <ClInclude Include="..\dlls\gamemode\zsh\zsh_const.h" />
     <ClInclude Include="..\dlls\wpn_shared\wpn_ak47.h" />
     <ClInclude Include="..\dlls\wpn_shared\wpn_ak47l.h" />
     <ClInclude Include="..\dlls\wpn_shared\wpn_as50.h" />
@@ -322,6 +320,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>hl_cdll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Client</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -334,7 +333,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -368,9 +367,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\Debug</OutDir>
+    <OutDir>C:\Users\Denchik-PC\Desktop\Release\cstz\cl_dlls</OutDir>
     <TargetName>client</TargetName>
-    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>.\Debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>client64</TargetName>
@@ -394,7 +393,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level1</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CLIENT_DLL;CLIENT_WEAPONS;HL_DLL;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
