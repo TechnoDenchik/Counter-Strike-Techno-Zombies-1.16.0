@@ -4,7 +4,7 @@
 >Присоединяйтесь к моему Discord серверу - https://discord.gg/U9sdYbZrRU
 
 ## Режимы и обновления
-* [x] Обновлённый дизайн худов из CSO
+* [x] Обновлённый дизайн худов из CSN:S
 * [x] *Режим* : Командный бой насмерть
 * [x] *Режим* : Бой насмерть
 * [x] *Режим* : Зомби Классика
@@ -28,7 +28,7 @@
 >Join my discord server - https://discord.gg/U9sdYbZrRU
 
 ## Modes and Updates
-* [x] Updated hood design from CSO
+* [x] Updated hood design from CSN:S
 * [x] Mode : Team Fight to the death
 * [x] Mode : Fight to the Death
 * [x] Mode : Zombie Classic
