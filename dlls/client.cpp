@@ -1869,25 +1869,41 @@ void HandleMenu_ChooseAppearance(CBasePlayer *player, int slot)
 		case 1:
 			appearance.model_id = MODEL_TERROR;
 			appearance.model_name = "terror";
+
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_terror); // type, reserved.
+			MESSAGE_END();
+
 			break;
 		case 2:
 			appearance.model_id = MODEL_LEET;
 			appearance.model_name = "leet";
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_leet); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 3:
 			appearance.model_id = MODEL_ARCTIC;
 			appearance.model_name = "arctic";
-
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_arctic); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 4:
 			appearance.model_id = MODEL_GUERILLA;
 			appearance.model_name = "guerilla";
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_guerilla); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 5:
 			if (g_bIsCzeroGame)
 			{
 				appearance.model_id = MODEL_MILITIA;
 				appearance.model_name = "militia";
+				MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+				WRITE_BYTE(CLS_militia); // type, reserved.
+				MESSAGE_END();
 				break;
 			}
 		default:
@@ -1899,6 +1915,9 @@ void HandleMenu_ChooseAppearance(CBasePlayer *player, int slot)
 			{
 				appearance.model_id = MODEL_TERROR;
 				appearance.model_name = "terror";
+				MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+				WRITE_BYTE(CLS_terror); // type, reserved.
+				MESSAGE_END();
 			}
 			break;
 		}
@@ -1919,24 +1938,39 @@ void HandleMenu_ChooseAppearance(CBasePlayer *player, int slot)
 		case 1:
 			appearance.model_id = MODEL_URBAN;
 			appearance.model_name = "urban";
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_urban); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 2:
 			appearance.model_id = MODEL_GSG9;
 			appearance.model_name = "gsg9";
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_gsg9); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 3:
 			appearance.model_id = MODEL_SAS;
 			appearance.model_name = "sas";
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_sas); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 4:
 			appearance.model_id = MODEL_GIGN;
 			appearance.model_name = "gign";
+			MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+			WRITE_BYTE(CLS_gign); // type, reserved.
+			MESSAGE_END();
 			break;
 		case 5:
 			if (g_bIsCzeroGame)
 			{
 				appearance.model_id = MODEL_SPETSNAZ;
 				appearance.model_name = "spetsnaz";
+				MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+				WRITE_BYTE(CLS_spetsnaz); // type, reserved.
+				MESSAGE_END();
 				break;
 			}
 		default:
@@ -1948,6 +1982,9 @@ void HandleMenu_ChooseAppearance(CBasePlayer *player, int slot)
 			{
 				appearance.model_id = MODEL_URBAN;
 				appearance.model_name = "urban";
+				MESSAGE_BEGIN(MSG_ONE, gmsgZB3Msg, nullptr, player->edict());
+				WRITE_BYTE(CLS_urban); // type, reserved.
+				MESSAGE_END();
 			}
 			break;
 		}

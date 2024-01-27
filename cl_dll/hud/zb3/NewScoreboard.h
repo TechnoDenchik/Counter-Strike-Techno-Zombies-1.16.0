@@ -7,7 +7,7 @@ class CHudZB3ScoreBoard : public IBaseHudSub
 public:
 	int VidInit(void) override;
 	int Draw(float time) override;
-
+	int Draw2();
 protected:
 	
 	UniqueTexture newscoreboard;
@@ -15,6 +15,8 @@ protected:
 	UniqueTexture textstring;
 	UniqueTexture iconhm;
 	UniqueTexture iconzb;
+	UniqueTexture iconct;
+	UniqueTexture icont;
 	UniqueTexture ammoboard;
 	UniqueTexture weaponboard;
 	UniqueTexture iconround;
@@ -23,8 +25,7 @@ protected:
 	UniqueTexture countplayer;
 	UniqueTexture countplayer2;
 	UniqueTexture countround;
-	SharedTexture iconwinhm;
-	SharedTexture iconwinzb;
+	UniqueTexture countkill;
 	SharedTexture m_pCurTexture;
 	
 	wrect_t m_rcroundmax[10];

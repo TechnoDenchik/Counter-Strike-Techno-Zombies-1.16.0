@@ -13,14 +13,14 @@
 #include "NewScoreboard.h"
 #include "hud/legacy/hud_scoreboard_legacy.h"
 #include "zb3_rage.h"
-
+#include "player/player_const.h"
 
 #include "gamemode/zb3/zb3_const.h"
 
 #include <vector>
 
 class CHudZB3::impl_t
-	: public THudSubDispatcher<CHudZB3Morale, CHudZB3Rage>
+	: public THudSubDispatcher<CHudZB3Morale, CHudZB3Rage, CHudZB3ScoreBoard>
 {
 public:
 };
@@ -47,6 +47,15 @@ int CHudZB3::MsgFunc_ZB3Msg(const char *pszName, int iSize, void *pbuf)
 		pimpl->get<CHudZB3Rage>().SetPercent(percent);
 		break;
 	}
+	}
+	auto type2 = static_cast<ModelName>(buf.ReadByte());
+	switch (type2)
+	{
+		case CLS_sas:
+		{
+			pimpl->get<CHudZB3ScoreBoard>().Draw2();
+			break;
+		}
 	}
 	
 	return 1;

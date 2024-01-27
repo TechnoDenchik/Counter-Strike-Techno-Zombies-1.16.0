@@ -1301,10 +1301,10 @@ int CHudAmmo::Draw(float flTime)
 			int ammos2 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmoType);
 			int ammos3 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmo2Type);
 		    int x3 = ScreenWidth / 1.1;
-		    int y3 = 995;;
+		    int y3 = 998;
 
 		    int x4 = ScreenWidth / 1.1;
-		    int y4 = 995;
+		    int y4 = 998;
 
 			int x7 = ScreenWidth / 1.1;
 			int y7 = 995;
@@ -1313,7 +1313,7 @@ int CHudAmmo::Draw(float flTime)
 	        gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 
 			ammoboard->Bind();
-			DrawUtils::Draw2DQuadScaled(x7 - 480 / 3.0, y7 + 4.5, x7 + 520 / 3.0, y7 + 77);
+			DrawUtils::Draw2DQuadScaled(x7 - 480 / 3.0, y7 + 4.5, x7 + 520 / 3.0, y7 + 80);
 
 			gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 
@@ -1323,6 +1323,7 @@ int CHudAmmo::Draw(float flTime)
 			FillRGBA(x + 30, y - 2, iBarWidth, gHUD.m_iFontHeight, r, g, b, a);
 			x += iBarWidth + AmmoWidth/2;;
 		}
+
 		int iOffset = (m_pWeapon->rcAmmo.bottom - m_pWeapon->rcAmmo.top)/8;
 		SPR_Set(m_pWeapon->hAmmo, r, g, b);
 		SPR_DrawAdditive(0, x8 + 125, y - iOffset, &m_pWeapon->rcAmmo);

@@ -52,6 +52,20 @@ typedef enum
 
 typedef enum
 {
+	
+	//CT
+	CLS_urban,
+	CLS_gsg9,
+	CLS_sas,
+	CLS_gign,
+	CLS_spetsnaz,
+
+	//T
+	CLS_terror,
+	CLS_leet,
+	CLS_arctic,
+	CLS_guerilla,
+	CLS_militia,
 	MODEL_UNASSIGNED,
 	MODEL_URBAN,
 	MODEL_TERROR,

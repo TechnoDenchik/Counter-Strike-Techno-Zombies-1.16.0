@@ -204,13 +204,12 @@ int CHudMoney::Draw(float flTime)
 			}
 			else if (m_iDelta < 0)//buy enough money
 			{
-				r = (RGB_REDISH & 0xFF0000) >> 16;				//	RGB_WHITE							//	RGB_REDISH
-				g = ((RGB_REDISH & 0xFF00) >> 8) + interpolate * (((RGB_REDISH & 0xFF00) >> 8) - ((RGB_WHITE & 0xFF00) >> 8));
+				r = (RGB_REDISH & 0xFF0000) >> 16;
+				g = ((RGB_REDISH & 0xFF00) >> 8) + interpolate * (((RGB_YELLOWISH & 0xFF00) >> 8) - ((RGB_REDISH & 0xFF00) >> 8));
 				b = (RGB_REDISH & 0xFF) - interpolate * (RGB_REDISH & 0xFF);
 
 				SPR_Set(m_hMinus.spr, iDeltaR, iDeltaG, iDeltaB);
 				SPR_DrawAdditive(0, x8, y8 + iDollarHeight * 1.5, &m_hMinus.rect);
-				
 			}   
 			
 			if (m_iDelta < 0)

@@ -202,7 +202,7 @@ int CHudZBSScoreBoard::Draw(float time)
 	else
 	{
 		gEngfuncs.pTriAPI->Color4ub(255, 160, 0, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x3 + 130, y3 + 10);
+		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x3 + 130, y3 + 10, 1.1f);
 	}
 
     m_iSelfKills = selfKill;
