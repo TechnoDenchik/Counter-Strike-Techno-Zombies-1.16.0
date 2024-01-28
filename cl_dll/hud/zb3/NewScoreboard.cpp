@@ -131,10 +131,10 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int x4 = ScreenWidth / 2;
 	int y4 = 10;
 
-	int x6 = ScreenWidth / 2;
-
 	int x5 = ScreenWidth / 2;
 	int y5 = 60;
+
+	int x6 = ScreenWidth / 2;
 
 	int x7 = ScreenWidth / 1.1;
 	int y7 = 995;
@@ -146,8 +146,8 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int y9 = 20;
 
 	int x10 = ScreenWidth / 1.85;
-	int x11 = ScreenWidth / 2.17;
 
+	int x11 = ScreenWidth / 2.17;
 	int y11 = 10;
 
 	int x12 = ScreenWidth / 2;

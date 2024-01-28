@@ -56,7 +56,7 @@ typedef enum
 	//CT
 	CLS_urban,
 	CLS_gsg9,
-	CLS_sas,
+	//CLS_sas,
 	CLS_gign,
 	CLS_spetsnaz,
 

@@ -1206,7 +1206,7 @@ bool CHalfLifeMultiplay::VIPRoundEndCheck(bool bNeededPlayers)
 			}
 
 			TerminateRound(5, WINSTATUS_CTS);
-			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 			WRITE_BYTE(ORIG_WINCT);
 			MESSAGE_END();
 			if (IsCareer())
@@ -1236,7 +1236,7 @@ bool CHalfLifeMultiplay::VIPRoundEndCheck(bool bNeededPlayers)
 			{
 				TheBots->OnEvent(EVENT_VIP_ASSASSINATED);
 			}
-			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 			WRITE_BYTE(ORIG_WINT);
 			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_TERRORISTS);
@@ -1273,7 +1273,7 @@ bool CHalfLifeMultiplay::PrisonRoundEndCheck(int NumAliveTerrorist, int NumAlive
 			}
 
 			EndRoundMessage("#Terrorists_Escaped", ROUND_TERRORISTS_ESCAPED);
-			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 			WRITE_BYTE(ORIG_WINT);
 			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_TERRORISTS);
@@ -1300,7 +1300,7 @@ bool CHalfLifeMultiplay::PrisonRoundEndCheck(int NumAliveTerrorist, int NumAlive
 			}
 
 			EndRoundMessage("#CTs_PreventEscape", ROUND_CTS_PREVENT_ESCAPE);
-			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 			WRITE_BYTE(ORIG_WINCT);
 			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_CTS);
@@ -1327,7 +1327,7 @@ bool CHalfLifeMultiplay::PrisonRoundEndCheck(int NumAliveTerrorist, int NumAlive
 			}
 
 			EndRoundMessage("#Escaping_Terrorists_Neutralized", ROUND_ESCAPING_TERRORISTS_NEUTRALIZED);
-			MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+			MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 			WRITE_BYTE(ORIG_WINCT);
 			MESSAGE_END();
 			TerminateRound(5, WINSTATUS_CTS);
@@ -1361,7 +1361,7 @@ bool CHalfLifeMultiplay::BombRoundEndCheck(bool bNeededPlayers)
 		}
 
 		EndRoundMessage("#Target_Bombed", ROUND_TARGET_BOMB);
-		MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+		MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 		WRITE_BYTE(ORIG_WINT);
 		MESSAGE_END();
 		TerminateRound(5, WINSTATUS_TERRORISTS);
@@ -1387,7 +1387,7 @@ bool CHalfLifeMultiplay::BombRoundEndCheck(bool bNeededPlayers)
 		}
 
 		EndRoundMessage("#Bomb_Defused", ROUND_BOMB_DEFUSED);
-		MESSAGE_BEGIN(MSG_ONE, gmsgORIGMsg, NULL);
+		MESSAGE_BEGIN(MSG_ALL, gmsgORIGMsg, NULL);
 		WRITE_BYTE(ORIG_WINCT);
 		MESSAGE_END();
 		TerminateRound(5, WINSTATUS_CTS);

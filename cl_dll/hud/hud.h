@@ -140,6 +140,7 @@ struct HUDLIST {
 #include "moe/moe_touch.h"
 #include "hud_sub.h"
 #include "r_texture.h"
+#include "Original/Classic.h"
 
 
 //
@@ -1252,6 +1253,7 @@ public:
 	CHudScoreBoardLegacy m_legacy_score;
 	CHudZBS	m_ZBS;
 	CHudZB2 m_ZB2;
+	CHudClassic m_CLS;
 	CHudZB3 m_ZB3;
 	CHudZSH m_ZSH;
 	CHudMoeTouch m_MoeTouch;

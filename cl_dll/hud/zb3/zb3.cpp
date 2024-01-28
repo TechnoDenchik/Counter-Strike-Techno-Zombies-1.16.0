@@ -47,15 +47,11 @@ int CHudZB3::MsgFunc_ZB3Msg(const char *pszName, int iSize, void *pbuf)
 		pimpl->get<CHudZB3Rage>().SetPercent(percent);
 		break;
 	}
-	}
-	auto type2 = static_cast<ModelName>(buf.ReadByte());
-	switch (type2)
+	case CLS_sas:
 	{
-		case CLS_sas:
-		{
-			pimpl->get<CHudZB3ScoreBoard>().Draw2();
-			break;
-		}
+		pimpl->get<CHudZB3ScoreBoard>().Draw2();
+		break;
+	}
 	}
 	
 	return 1;

@@ -248,6 +248,7 @@ void CHud :: Init( void )
 	m_ZB2.Init();
 	m_ZB3.Init();
 	m_ZSH.Init();
+	m_CLS.Init();
 	m_MoeTouch.Init();
 	m_HitIndicator.Init();
  	m_HudSiFiammo.Init();

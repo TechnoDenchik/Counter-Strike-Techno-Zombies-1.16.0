@@ -28,7 +28,8 @@ enum ZB3HumanMoraleType_e : byte
 enum ZB3MessageType : byte
 {
 	ZB3_MESSAGE_MORALE, // { byte msg_type, byte morale_type, byte level }
-	ZB3_MESSAGE_RAGE, // { byte msg_type, byte zombielevel[0-2], byte percent[0-100] }
+	ZB3_MESSAGE_RAGE,
+	CLS_sas,// { byte msg_type, byte zombielevel[0-2], byte percent[0-100] }
 
 };
 

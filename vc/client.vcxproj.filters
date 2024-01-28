@@ -61,6 +61,9 @@
     <Filter Include="cl_dll\hud\zsh">
       <UniqueIdentifier>{742faf19-9c07-4c61-89b6-f726474baeb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cl_dll\hud\none">
+      <UniqueIdentifier>{3a9581b6-658c-45c9-9eed-c5f627188975}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cl_dll\events\ev_cs16.cpp">
@@ -648,6 +651,12 @@
     <ClCompile Include="..\cl_dll\events\event_gungnir.cpp">
       <Filter>cl_dll\events</Filter>
     </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\original\Classic.cpp">
+      <Filter>cl_dll\hud\none</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cl_dll\hud\original\Wins.cpp">
+      <Filter>cl_dll\hud\none</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\cvardef.h">
@@ -943,6 +952,12 @@
     </ClInclude>
     <ClInclude Include="..\cl_dll\hud\zb3\TextSet.h">
       <Filter>cl_dll\hud\zb3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\original\Classic.h">
+      <Filter>cl_dll\hud\none</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cl_dll\hud\original\Wins.h">
+      <Filter>cl_dll\hud\none</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

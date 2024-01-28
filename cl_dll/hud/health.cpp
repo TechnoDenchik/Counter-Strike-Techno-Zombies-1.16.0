@@ -387,9 +387,11 @@ int CHudHealth::Draw(float flTime)
 				m_health_board->Bind();
 				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
 
+				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 				m_plus->Bind();
 				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
 
+				gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 				m_armors->Bind();
 				DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
 
@@ -433,9 +435,11 @@ int CHudHealth::Draw(float flTime)
 				m_health_board->Bind();
 				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
 
+				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 				m_plus->Bind();
 				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
 
+				gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 				m_armors->Bind();
 				DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
 
@@ -476,10 +480,11 @@ int CHudHealth::Draw(float flTime)
 
 					m_health_board->Bind();
 					DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
-
+					
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 					m_plus->Bind();
 					DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
-
+					gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 					m_armors->Bind();
 					DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
 
