@@ -377,6 +377,7 @@ struct extra_player_info_t
 	bool vip;
 	bool dead;
 	bool zombie;
+	bool hero;
 	bool showhealth;
 	bool nextflash;
 	bool talking;

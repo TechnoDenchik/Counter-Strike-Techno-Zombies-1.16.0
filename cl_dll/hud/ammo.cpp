@@ -1301,13 +1301,13 @@ int CHudAmmo::Draw(float flTime)
 			int ammos2 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmoType);
 			int ammos3 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmo2Type);
 		    int x3 = ScreenWidth / 1.1;
-		    int y3 = 998;
+		    int y3 = ScreenHeight / 1.0820;
 
 		    int x4 = ScreenWidth / 1.1;
-		    int y4 = 998;
+		    int y4 = ScreenHeight / 1.0820;
 
 			int x7 = ScreenWidth / 1.1;
-			int y7 = 995;
+			int y7 = ScreenHeight / 1.0840;
 
             gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	        gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
@@ -1341,19 +1341,7 @@ int CHudAmmo::Draw(float flTime)
 		{
 			y -= gHUD.m_iFontHeight + gHUD.m_iFontHeight / 4;
 			x = ScreenWidth - 4 * AmmoWidth - iIconWidth;
-
-			if (gWR.CountAmmo(pw->iAmmo2Type) >= 255)
-			{
-				x = ScreenWidth - AmmoWidth - iIconWidth;
-				//int width = gHUD.GetSpriteRect(m_iInfinite).right - gHUD.GetSpriteRect(m_iInfinite).left;
-				//x -= width;
-
-			//	SPR_Set(gHUD.GetSprite(m_iInfinite), r, g, b);
-			//	SPR_DrawAdditive(0, x, y, &gHUD.GetSpriteRect(m_iInfinite));
-				x = ScreenWidth - AmmoWidth - iIconWidth;
-			}
-			else
-				x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmo2Type), r, g, b);
+			x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmo2Type), r, g, b);
 
 			// Draw the ammo Icon
 			SPR_Set(m_pWeapon->hAmmo2, r, g, b);

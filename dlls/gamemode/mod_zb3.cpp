@@ -22,7 +22,6 @@ GNU General Public License for more details.
 #include "mod_zb3.h"
 
 #include "util/u_range.hpp"
-
 #include <vector>
 #include <algorithm>
 #include <functional>
@@ -175,7 +174,8 @@ void CPlayerModStrategy_ZB3::Event_OnBecomeHero(CBasePlayer * who)
 		return;
 
 	// TODO : hero weapons & model
-	m_pPlayer->m_bIsVIP = true;
+	m_pPlayer->m_bIsVIP = true; 
+	
 }
 
 void CPlayerModStrategy_ZB3::Event_OnRoundStart()
@@ -209,12 +209,12 @@ void CMod_ZombieHero::PickZombieOrigin()
 {
 	CMod_Zombi::PickZombieOrigin();
 	// TODO : pick hero
-	 PickHero();
+	PickHero();
 }
 
 void CMod_ZombieHero::UpdateGameMode(CBasePlayer * pPlayer)
 {
-	MESSAGE_BEGIN(MSG_ONE, gmsgGameMode, NULL, pPlayer->edict());
+	MESSAGE_BEGIN(MSG_ONE, gmsgGameMode, nullptr, pPlayer->edict());
 	WRITE_BYTE(MOD_ZB3);
 	WRITE_BYTE(0); // Reserved. (weapon restriction? )
 	WRITE_BYTE(maxrounds.value); // MaxRound (mp_roundlimit)
@@ -260,11 +260,13 @@ void CMod_ZombieHero::CheckWinConditions()
 		return;
 
 	moe::range::PlayersList list;
-	auto iAliveHuman = std::count_if(list.begin(), list.end(), [](CBasePlayer *player) { return player->m_iTeam == TEAM_CT && !player->m_bIsZombie && player->IsAlive(); });
-	auto iAliveZombie = std::count_if(list.begin(), list.end(), [](CBasePlayer *player) { return player->m_iTeam == TEAM_TERRORIST && player->m_bIsZombie && !(!player->IsAlive() && player->m_bHeadshotKilled); });
+	auto const iAliveHuman = std::count_if(list.begin(), list.end(), [](CBasePlayer *player) { return player->m_iTeam == TEAM_CT && !player->m_bIsZombie && player->IsAlive(); });
+	auto const iAliveZombie = std::count_if(list.begin(), list.end(), [](CBasePlayer *player) { return player->m_iTeam == TEAM_TERRORIST && player->m_bIsZombie && !(!player->IsAlive() && player->m_bHeadshotKilled); });
 
-	if (!iAliveHuman)
-		ZombieWin();
-	else if (!iAliveZombie)
-		HumanWin();
+
+		if (!iAliveHuman)
+			ZombieWin();
+		else if (!iAliveZombie)
+			HumanWin();
+
 }

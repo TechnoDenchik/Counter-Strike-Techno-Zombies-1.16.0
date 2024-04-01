@@ -485,7 +485,8 @@ int CHudScoreboard::DrawPlayers(float list_slot, int nameoffset, const char* tea
 			DrawUtils::DrawHudString(ATTRIB_POS_START(), ypos, ATTRIB_POS_END(), "VIP", r, g, b);
 		else if (g_PlayerExtraInfo[best_player].zombie)
 			DrawUtils::DrawHudString(ATTRIB_POS_START(), ypos, ATTRIB_POS_END(), "Zombie", r, g, b);
-
+		else if (g_PlayerExtraInfo[best_player].hero)
+			DrawUtils::DrawHudString(ATTRIB_POS_START(), ypos, ATTRIB_POS_END(), "Hero", r, g, b);
 		// draw kills (right to left)
 		DrawUtils::DrawHudNumberString(KILLS_POS_END(), ypos, KILLS_POS_START(), g_PlayerExtraInfo[best_player].frags, r, g, b);
 

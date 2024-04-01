@@ -20,7 +20,7 @@
 #include <vector>
 
 class CHudZB3::impl_t
-	: public THudSubDispatcher<CHudZB3Morale, CHudZB3Rage, CHudZB3ScoreBoard>
+	: public THudSubDispatcher<CHudZB3Morale, CHudZB3Rage>
 {
 public:
 };
@@ -45,11 +45,6 @@ int CHudZB3::MsgFunc_ZB3Msg(const char *pszName, int iSize, void *pbuf)
 		int percent = buf.ReadByte();
 		pimpl->get<CHudZB3Rage>().SetZombieLevel(zombie_level);
 		pimpl->get<CHudZB3Rage>().SetPercent(percent);
-		break;
-	}
-	case CLS_sas:
-	{
-		pimpl->get<CHudZB3ScoreBoard>().Draw2();
 		break;
 	}
 	}

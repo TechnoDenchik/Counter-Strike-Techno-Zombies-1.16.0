@@ -39,7 +39,7 @@ CMod_Zombi::CMod_Zombi() // precache
 	PRECACHE_SOUND("zb3/human_death_02.wav");
 	PRECACHE_GENERIC("sound/zb3/Zombi_Ambience.mp3");
 
-	CVAR_SET_FLOAT("sv_maxspeed", 390);
+	CVAR_SET_FLOAT("sv_maxspeed", 990);
 }
 
 void CMod_Zombi::CheckMapConditions()
@@ -179,7 +179,7 @@ void CMod_Zombi::Think()
 		if (m_iMaxRounds < 0)
 		{
 			m_iMaxRounds = 0;
-			CVAR_SET_FLOAT("mp_maxrounds", 0);
+			CVAR_SET_FLOAT("mp_maxrounds", 33);
 		}
 
 		m_iMaxRoundsWon = (int)winlimit.value;

@@ -174,12 +174,12 @@ int CHudZB3ScoreBoard::Draw(float time)
 
 	int scoreCT = gHUD.m_Scoreboard.m_iTeamScore_CT;
 	int scoreT = gHUD.m_Scoreboard.m_iTeamScore_T;
-	
+
 	int scoreMax = gHUD.m_Scoreboard.m_iNumTeams;
 	int roundNumber = scoreMax ? scoreMax : scoreT + scoreCT - 1;
-	int roundmax = gHUD.m_Scoreboard.m_iTeamScore_Max;
-
+	
 	int roundNumber2 = gHUD.m_Scoreboard.m_iTeamScore_T + gHUD.m_Scoreboard.m_iTeamScore_CT;
+	int roundmax = gHUD.m_Scoreboard.m_iTeamScore_Max;
 
 	switch (gHUD.m_iModRunning)
 	{
