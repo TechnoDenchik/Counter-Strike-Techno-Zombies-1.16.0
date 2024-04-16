@@ -102,15 +102,23 @@ int CHudZB3ScoreBoard::VidInit(void)
 	R_InitTexture(countplayer, "resource/hud/hud_sb_num_small_blue");
 	R_InitTexture(countplayer2, "resource/hud/hud_sb_num_small_red");
 	R_InitTexture(iconround, "resource/hud/zb3/hud_text_icon_round");
+	R_InitTexture(iconteamkill, "resource/hud/hud_text_icon_teamkill");
 	R_InitTexture(iconhm, "resource/hud/zb3/hud_text_icon_hm_left");
 	R_InitTexture(iconzb, "resource/hud/zb3/hud_text_icon_zb_right");
 	R_InitTexture(iconct, "resource/hud/zb3/hud_text_icon_ct_left");
 	R_InitTexture(icont, "resource/hud/zb3/hud_text_icon_tr_right");
 
+	R_InitTexture(whitebig, "resource/hud/hud_sb_num_big_white");
+	R_InitTexture(newscoreboarddm, "resource/hud/hud_scoreboard_bg_zombiegaint");
+	R_InitTexture(iconkill, "resource/hud/hud_text_icon_kill_center");
+	R_InitTexture(iconmy, "resource/hud/hud_text_icon_my");
+	R_InitTexture(icononest, "resource/hud/hud_text_icon_1st");
+
 	BuildNumberRC( m_rcSelfnumber, 18, 22);
 	BuildNumberRC( m_rcTeamnumber, 18, 22);
 	BuildNumberRC( m_rcToprecord, 11, 13);
 	BuildNumberRC( m_rcToprecord2, 8, 11);
+	BuildNumberRC(m_rcToprecord3, 18, 22);
 	BuildNumberRC( m_rcroundmax, 11, 13);
 	BuildNumberRC( m_rcroundnumber, 11, 13);
 
@@ -165,6 +173,9 @@ int CHudZB3ScoreBoard::Draw(float time)
 	int x16 = ScreenWidth / 2;
 	int y16 = 20.5;
 
+	int x17 = ScreenWidth / 2.03;
+	int y17 = ScreenHeight / 50;
+
 	const float flScale = 0.0f;
 	int best_player = gHUD.m_Scoreboard.FindBestPlayer();
 	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
@@ -211,8 +222,33 @@ int CHudZB3ScoreBoard::Draw(float time)
 		DrawTexturedNumbersTopRightAligned(*countround, m_rcToprecord, roundNumber2, x16 - 24, y16 + 14, 1.0f);
 
 		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
-		DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 70, y4 + 14, 1.0f);
-		DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 87, y3 + 14, 1.0f);
+
+		if (gHUD.m_Scoreboard.m_iTeamScore_CT < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 70, y4 + 14, 1.0f);
+		}
+		else if (gHUD.m_Scoreboard.m_iTeamScore_CT < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 75, y4 + 14, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 87, y4 + 14, 1.0f);
+		}
+
+		if (gHUD.m_Scoreboard.m_iTeamScore_T < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 88, y3 + 14, 1.0f);
+		}
+		else if (gHUD.m_Scoreboard.m_iTeamScore_T < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 77, y3 + 14, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 78, y3 + 14, 1.0f);
+		}
+
 		DrawTexturedNumbersTopRightAligned(*countplayer, m_rcToprecord2, countHM, x5 + 77, y5, 1.0f);
 		DrawTexturedNumbersTopRightAligned(*countplayer2, m_rcToprecord2, countZB, x6 - 87, y5, 1.0f);
 		
@@ -243,12 +279,140 @@ int CHudZB3ScoreBoard::Draw(float time)
 		DrawTexturedNumbersTopRightAligned(*countround, m_rcToprecord, roundNumber2, x16 - 24, y16 + 14, 1.0f);
 
 		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
-		DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 70, y4 + 14, 1.0f);
-		DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 87, y3 + 14, 1.0f);
+
+		if (gHUD.m_Scoreboard.m_iTeamScore_CT < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 70, y4 + 14, 1.0f);
+		}
+		else if (gHUD.m_Scoreboard.m_iTeamScore_CT < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 75, y4 + 14, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 87, y4 + 14, 1.0f);
+		}
+
+		if (gHUD.m_Scoreboard.m_iTeamScore_T < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 88, y3 + 14, 1.0f);
+		}
+		else if (gHUD.m_Scoreboard.m_iTeamScore_T < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 77, y3 + 14, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 78, y3 + 14, 1.0f);
+		}
+
 		DrawTexturedNumbersTopRightAligned(*countplayer, m_rcToprecord2, countHM, x5 + 77, y5, 1.0f);
 		DrawTexturedNumbersTopRightAligned(*countplayer2, m_rcToprecord2, countZB, x6 - 87, y5, 1.0f);
 
 		break;
+	 case MOD_DM: 
+		 
+		 scoreCT = g_PlayerExtraInfo[gEngfuncs.GetLocalPlayer()->index].frags;
+		 scoreT = best_player ? g_PlayerExtraInfo[best_player].frags : 0;
+
+		 roundNumber = scoreMax ? scoreMax : 0;
+
+		 gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+		 gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+
+		 newscoreboarddm->Bind();
+		 DrawUtils::Draw2DQuadScaled(x - 450 / 3.0, y - 4.6, x + 450 / 3.0, y + 78);
+
+		 iconkill->Bind();
+		 DrawUtils::Draw2DQuadScaled(x9 - 39.7, y9 - 1.7, x9 + 39.7, y9 + 10.7);
+
+		 iconmy->Bind();
+		 DrawUtils::Draw2DQuadScaled(x10 - 34.7, y11 - 1.7, x10 + 34.7, y11 + 10.7);
+
+		 icononest->Bind();
+		 DrawUtils::Draw2DQuadScaled(x11 - 34.7, y11 - 1.7, x11 + 34.7, y11 + 10.7);
+
+		 gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+		 DrawTexturedNumbersTopRightAligned(*countround, m_rcToprecord, roundmax, x17 + 19, y17 + 14, 1.0f);
+
+		 gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+
+		 if (scoreCT < 10)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreCT, x4 + 70, y4 + 14, 1.0f);
+		 }
+		 else if (scoreCT < 100)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreCT, x4 + 75, y4 + 14, 1.0f);
+		 }
+		 else
+		 {
+			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreCT, x4 + 87, y4 + 14, 1.0f);
+		 }
+
+		 if (scoreT < 10)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreT, x3 - 88, y3 + 14, 1.0f);
+		 }
+		 else if (scoreT < 100)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreT, x3 - 77, y3 + 14, 1.0f);
+		 }
+		 else
+		 {
+			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreT, x3 - 78, y3 + 14, 1.0f);
+		 }
+		 break;
+	 case MOD_TDM:
+
+		 gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+		 gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+
+		 newscoreboard->Bind();
+		 DrawUtils::Draw2DQuadScaled(x - 450 / 3.0, y - 4.6, x + 450 / 3.0, y + 78);
+
+		 iconteamkill->Bind();
+		 DrawUtils::Draw2DQuadScaled(x9 - 39.7, y9 - 1.7, x9 + 39.7, y9 + 10.7);
+
+		 iconct->Bind();
+		 DrawUtils::Draw2DQuadScaled(x10 - 34.7, y11 - 1.7, x10 + 34.7, y11 + 10.7);
+
+		 icont->Bind();
+		 DrawUtils::Draw2DQuadScaled(x11 - 34.7, y11 - 1.7, x11 + 34.7, y11 + 10.7);
+
+		 gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+		 DrawTexturedNumbersTopRightAligned(*countround, m_rcToprecord, roundmax, x17 + 19, y17 + 14, 1.0f);
+
+		 gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+		 if (gHUD.m_Scoreboard.m_iTeamScore_CT < 10)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 70, y4 + 14, 1.0f);
+		 }
+		 else if (gHUD.m_Scoreboard.m_iTeamScore_CT < 100)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 75, y4 + 14, 1.0f);
+		 }
+		 else
+		 {
+			 DrawTexturedNumbersTopRightAligned(*winhm, m_rcTeamnumber, gHUD.m_Scoreboard.m_iTeamScore_CT, x4 + 87, y4 + 14, 1.0f);
+		 }
+
+		 if (gHUD.m_Scoreboard.m_iTeamScore_T < 10)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 88, y3 + 14, 1.0f);
+		 }
+		 else if (gHUD.m_Scoreboard.m_iTeamScore_T < 100)
+		 {
+			 DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 77, y3 + 14, 1.0f);
+		 }
+		 else
+		 {
+			 DrawTexturedNumbersTopRightAligned(*winzb, m_rcSelfnumber, gHUD.m_Scoreboard.m_iTeamScore_T, x3 - 78, y3 + 14, 1.0f);
+		 }
+		
+		 DrawTexturedNumbersTopRightAligned(*countplayer, m_rcToprecord2, countHM, x5 + 77, y5, 1.0f);
+		 DrawTexturedNumbersTopRightAligned(*countplayer2, m_rcToprecord2, countZB, x6 - 87, y5, 1.0f);
+		 break;
 	}
 	return 1;
 }

@@ -50,6 +50,11 @@ void CZombieClass_Default::InitHUD() const
 	WRITE_BYTE(ZOMBIE_CLASS_TANK);
 	WRITE_BYTE(ZOMBIE_SKILL_CRAZY);
 	MESSAGE_END();
+
+	MESSAGE_BEGIN(MSG_ONE, gmsgZB2Msg, nullptr, m_pPlayer->pev);
+	WRITE_BYTE(MAKE_ZOMBIES);
+	MESSAGE_END();
+	
 }
 
 void CZombieClass_Default::ResetMaxSpeed() const

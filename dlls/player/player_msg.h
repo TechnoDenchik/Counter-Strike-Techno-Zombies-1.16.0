@@ -110,6 +110,7 @@ extern int gmsgZB3Msg;
 extern int gmsgZSHMsg;
 extern int gmsgORIGMsg;
 extern int gmsgGunDeath;
+extern int gmsgMakeZombie;
 
 void LinkUserMessages();
 void WriteSigonMessages();

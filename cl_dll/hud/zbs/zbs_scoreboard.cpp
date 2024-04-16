@@ -110,13 +110,9 @@ int CHudZBSScoreBoard::VidInit(void)
 	R_InitTexture(m_pBackground, "resource/hud/zbs/hud_scoreboard_bg_zbs");
 	R_InitTexture(m_pTeamnumber, "resource/hud/zbs/teamnumber");
 	R_InitTexture(m_pSelfnumber, "resource/hud/zbs/selfnumber");
-	R_InitTexture(m_pToprecord, "resource/hud/challenge/toprecord");
+	R_InitTexture(m_pToprecord, "resource/hud/zb3/hud_sb_num_center");
 
 	R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
-	R_InitTexture(healthboard, "resource/hud/zb3/hud_character_bg_bottom");
-	R_InitTexture(healthboard2, "resource/hud/zb3/hud_character_bg_top");
-	R_InitTexture(ammoboard, "resource/hud/zb3/hud_weapon_bg");
-	R_InitTexture(countplayer, "resource/hud/zb3/hud_sb_num_center");
 	R_InitTexture(iconround, "resource/hud/zb3/hud_text_icon_round");
 	R_InitTexture(icontotalkill, "resource/hud/zbs/hud_text_icon_totalkill_left");
 	R_InitTexture(iconkill, "resource/hud/hud_text_icon_kill");
@@ -125,6 +121,7 @@ int CHudZBSScoreBoard::VidInit(void)
 	BuildNumberRC(m_rcTeamnumber, 23, 24);
 	BuildNumberRC(m_rcSelfnumber, 19, 19);
 	BuildNumberRC(m_rcToprecord, 14, 14);
+	BuildNumberRC(m_rcToprecord2, 11, 13);
 
 	return 1;
 }
@@ -144,8 +141,8 @@ int CHudZBSScoreBoard::Draw(float time)
     int x4 = ScreenWidth / 2.210;
 	int y4 = 9.5;
 
-	int x5 = ScreenWidth / 2.020;
-	int y5 = 9.5;
+	int x5 = ScreenWidth / 1.89;
+	int y5 = 10;
 
 	int x7 = ScreenWidth / 1.1;
 	int y7 = 995;
@@ -172,7 +169,7 @@ int CHudZBSScoreBoard::Draw(float time)
 	DrawUtils::Draw2DQuadScaled(x9 - 39.7, y9 - 1.7, x9 + 39.7, y9 + 10.7);
 
 	iconkill->Bind();
-	DrawUtils::Draw2DQuadScaled(x5 + 130, y5 - 1.7, x5 + 39.7, y5 + 10.7);
+	DrawUtils::Draw2DQuadScaled(x5 - 39.7, y5 - 1.7, x5 + 39.7, y5 + 10.7);
 
     icontotalkill->Bind();
 	DrawUtils::Draw2DQuadScaled(x4 - 80, y4 - 1.7, x4 + 39.7, y4 + 10.7);
@@ -184,7 +181,7 @@ int CHudZBSScoreBoard::Draw(float time)
 	
 	int r, g, b;
 	
-	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord, roundNumber, x2 + 25, y2 + 25); // ok
+	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord2, roundNumber, x2 + 25, y2 + 25); // ok
 	DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, teamKill, x3 - 80, y3 + 10);
    
 	DrawUtils::ScaleColors(r, g, b, DHN_2DIGITS);

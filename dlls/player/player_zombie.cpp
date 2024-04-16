@@ -7,6 +7,7 @@
 
 #include "gamemode/mods.h"
 #include "gamemode/zb1/zb1_zclass.h"
+#include "gamemode/zb2/zb2_const.h"
 
 CHuman_ZB1::CHuman_ZB1(CBasePlayer *player) : BasePlayerExtra(player)
 {

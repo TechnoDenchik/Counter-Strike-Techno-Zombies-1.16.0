@@ -24,8 +24,16 @@ protected:
 	UniqueTexture winzb;
 	UniqueTexture countplayer;
 	UniqueTexture countplayer2;
+	UniqueTexture iconteamkill;
 	UniqueTexture countround;
 	UniqueTexture countkill;
+
+	UniqueTexture newscoreboarddm;
+	UniqueTexture iconkill;
+	UniqueTexture iconmy;
+	UniqueTexture whitebig;
+	UniqueTexture icononest;
+
 	SharedTexture m_pCurTexture;
 	
 	wrect_t m_rcroundmax[10];
@@ -34,6 +42,7 @@ protected:
 	wrect_t m_rcSelfnumber[10];
 	wrect_t m_rcToprecord[10];
 	wrect_t m_rcToprecord2[10];
+	wrect_t m_rcToprecord3[10];
 
 	float m_flDisplayTime;	
 

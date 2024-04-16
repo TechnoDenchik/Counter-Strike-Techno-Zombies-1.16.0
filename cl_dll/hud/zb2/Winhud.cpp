@@ -88,3 +88,38 @@ void CHudInfection::infected()
 	m_pCurTexture = infect;
 	m_flDisplayTime = gHUD.m_flTime;
 }
+
+int CHudMakeZombies::VidInit(void)
+{
+	if (!Zombieclassic)
+		Zombieclassic = R_LoadTextureShared("resource/portrait/zombietype_tank_zombi", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+	return 1;
+}
+
+int CHudMakeZombies::Draw(float time)
+{
+	if (!m_pCurTexture)
+		return 1;
+
+	if (time > m_flDisplayTime + 9999.0f)
+	{
+		m_pCurTexture = nullptr;
+		return 1;
+	}
+
+	int x = ScreenWidth / 40.25;
+	int y = ScreenHeight / 1.1;
+	const float flScale = 0.0f;
+
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+	Zombieclassic->Bind();
+	DrawUtils::Draw2DQuadScaled(x - 50, y - 15.5, x + 50, y + 50);
+	return 1;
+}
+
+void CHudMakeZombies::Make()
+{
+	m_pCurTexture = Zombieclassic;
+	m_flDisplayTime = gHUD.m_flTime;
+}

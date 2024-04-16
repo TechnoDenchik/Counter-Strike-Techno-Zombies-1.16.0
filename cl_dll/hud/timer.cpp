@@ -172,9 +172,29 @@ int CHudTimer::Draw(float fTime)
 	DrawUtils::Draw2DQuadScaled(x6 - 5, y6, x6 + 5, y6 + 23);
 
 	gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+	switch (gHUD.m_iModRunning)
+	{
+	case MOD_ZB1:
+	case MOD_ZB3:
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+		break;
+	case MOD_NONE:
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+		break;
+	case MOD_DM:
+	case MOD_TDM:
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
 
-	DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
-	DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+		break;
+	default:
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
+		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+		break;
+	}
+	
 
 	return 1;
 }

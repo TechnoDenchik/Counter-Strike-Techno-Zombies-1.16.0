@@ -33,3 +33,17 @@ protected:
 	float m_flDisplayTime;
 };
 
+class CHudMakeZombies : public IBaseHudSub
+{
+public:
+	int VidInit(void) override;
+	int Draw(float time) override;
+
+	void Make();
+
+protected:
+	SharedTexture Zombieclassic;
+	SharedTexture m_pCurTexture;
+	float m_flDisplayTime;
+};
+

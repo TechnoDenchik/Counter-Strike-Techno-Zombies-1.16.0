@@ -29,6 +29,7 @@ protected:
 	wrect_t m_rcSelfnumber[10];
 	UniqueTexture m_pSelfnumber;
 	wrect_t m_rcToprecord[10];
+	wrect_t m_rcToprecord2[10];
 	UniqueTexture m_pToprecord;
 	int m_iSelfKills;
 	float m_iSelfnumberScale;

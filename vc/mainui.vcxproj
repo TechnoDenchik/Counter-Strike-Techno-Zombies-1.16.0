@@ -195,7 +195,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>interface</TargetName>
-    <OutDir>..\Debug</OutDir>
+    <OutDir>H:\Release</OutDir>
     <IntDir>.\Debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

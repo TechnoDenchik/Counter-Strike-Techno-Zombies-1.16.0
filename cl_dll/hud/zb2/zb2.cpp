@@ -33,7 +33,7 @@ GNU General Public License for more details.
 
 #include <vector>
 
-class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1, CHudTextZB1, CHudTextZB3, CHudInfection>
+class CHudZB2_impl_t : public THudSubDispatcher<CHudZB2_Skill, CHudWinhudZB1, CHudTextZB1, CHudTextZB3, CHudInfection, CHudMakeZombies>
 {
 public:
 	SharedTexture m_pTexture_RageRetina;
@@ -118,6 +118,11 @@ int CHudZB2::MsgFunc_ZB2Msg(const char *pszName, int iSize, void *pbuf)
 	case ZOMBIE_INFECTION:
 	{
 		pimpl->get<CHudInfection>().infected();
+		break;
+	}
+	case MAKE_ZOMBIES:
+	{
+		pimpl->get<CHudMakeZombies>().Make();
 		break;
 	}
 	}

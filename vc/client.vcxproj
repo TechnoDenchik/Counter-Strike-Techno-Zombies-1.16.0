@@ -371,7 +371,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>C:\Users\Denchik-PC\Desktop\Release\cstz\cl_dlls</OutDir>
+    <OutDir>H:\Release\cstz\cl_dlls</OutDir>
     <TargetName>client</TargetName>
     <IntDir>.\Debug</IntDir>
   </PropertyGroup>

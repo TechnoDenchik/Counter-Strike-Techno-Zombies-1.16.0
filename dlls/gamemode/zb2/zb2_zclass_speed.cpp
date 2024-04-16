@@ -50,8 +50,6 @@ void CZombieClass_Speed::InitHUD() const
 	WRITE_BYTE(ZOMBIE_CLASS_TANK);
 	WRITE_BYTE(ZOMBIE_SKILL_CRAZY); 
 	MESSAGE_END();
-
-	
 }
 
 void CZombieClass_Speed::ResetMaxSpeed() const

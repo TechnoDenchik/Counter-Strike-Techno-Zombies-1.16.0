@@ -112,6 +112,7 @@ int gmsgZB3Msg = 0;
 int gmsgZSHMsg = 0;
 int gmsgORIGMsg = 0;
 int gmsgGunDeath = 0;
+int gmsgMakeZombie = 0;
 
 // utils
 inline int FNullEnt(CBaseEntity *ent) { return (!ent) || FNullEnt(ent->edict()); }
@@ -213,6 +214,8 @@ void LinkUserMessages()
 	gmsgZSHMsg = REG_USER_MSG("ZSHMsg", -1);
 	gmsgORIGMsg = REG_USER_MSG("ORIGWin", -1);
 	gmsgGunDeath = REG_USER_MSG("GunDeath", -1);
+	gmsgMakeZombie = REG_USER_MSG("MakeZombi", -1);
+
 }
 
 /*void WriteWeaponInfo(const ItemInfo &II)
