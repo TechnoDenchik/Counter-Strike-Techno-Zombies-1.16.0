@@ -92,7 +92,7 @@ void CHudInfection::infected()
 int CHudMakeZombies::VidInit(void)
 {
 	if (!Zombieclassic)
-		Zombieclassic = R_LoadTextureShared("resource/portrait/zombietype_tank_zombi", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
+		Zombieclassic = R_LoadTextureShared("resource/zombieenhance/zombie_nomal", TF_NEAREST | TF_NOPICMIP | TF_NOMIPMAP | TF_CLAMP);
 	return 1;
 }
 
@@ -108,13 +108,13 @@ int CHudMakeZombies::Draw(float time)
 	}
 
 	int x = ScreenWidth / 40.25;
-	int y = ScreenHeight / 1.1;
+	int y = ScreenHeight / 1.1380;
 	const float flScale = 0.0f;
 
 	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
 	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 	Zombieclassic->Bind();
-	DrawUtils::Draw2DQuadScaled(x - 50, y - 15.5, x + 50, y + 50);
+	DrawUtils::Draw2DQuadScaled(x - 60, y - 15.5, x + 60, y + 100);
 	return 1;
 }
 

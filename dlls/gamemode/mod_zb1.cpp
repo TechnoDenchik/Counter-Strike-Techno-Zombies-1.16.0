@@ -79,7 +79,7 @@ void CMod_Zombi::UpdateGameMode(CBasePlayer *pPlayer)
 
 BOOL CMod_Zombi::ClientConnected(edict_t *pEntity, const char *pszName, const char *pszAddress, char *szRejectReason)
 {
-	CLIENT_COMMAND(pEntity, "mp3 loop sound/zb2/Zombi_Ambience.mp3\n");
+	CLIENT_COMMAND(pEntity, "mp3 loop sound/zb3/Zombi_Ambience.mp3\n");
 	
 	return IBaseMod::ClientConnected(pEntity, pszName, pszAddress, szRejectReason);
 }
