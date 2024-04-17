@@ -18,7 +18,7 @@ public:
 	}
 
 protected:
-	UniqueTexture m_pTexture_ZBSBoard_BG;
+	UniqueTexture textbg;
 	UniqueTexture m_pTexture_ZBSBoard_BG_Wall;
 
 	int m_iLevel_HP;

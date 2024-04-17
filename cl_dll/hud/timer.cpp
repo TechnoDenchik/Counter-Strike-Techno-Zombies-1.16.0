@@ -176,22 +176,120 @@ int CHudTimer::Draw(float fTime)
 	{
 	case MOD_ZB1:
 	case MOD_ZB3:
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+
+		if (minutes < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 48, y2, 1.0f);
+		}
+		else if (minutes < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 40, y2, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 32, y2, 1.0f);
+		}
+
+		if (seconds < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 29, y3, 1.0f);
+		}
+		else if (seconds < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 36, y3, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 42, y3, 1.0f);
+		}
 		break;
 	case MOD_NONE:
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+
+		if (minutes < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 48, y2, 1.0f);
+		}
+		else if (minutes < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 40, y2, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 32, y2, 1.0f);
+		}
+
+		if (seconds < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 29, y3, 1.0f);
+		}
+		else if (seconds < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 36, y3, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 42, y3, 1.0f);
+		}
+		
+		
 		break;
 	case MOD_DM:
 	case MOD_TDM:
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+
+		if (minutes < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 48, y2, 1.0f);
+		}
+		else if (minutes < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 40, y2, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 32, y2, 1.0f);
+		}
+
+		if (seconds < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 29, y3, 1.0f);
+		}
+		else if (seconds < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 36, y3, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 42, y3, 1.0f);
+		}
 
 		break;
 	default:
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 46, y2, 1.0f);
-		DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 38, y3, 1.0f);
+
+		if (minutes < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 48, y2, 1.0f);
+		}
+		else if (minutes < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 40, y2, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_m, minutes, x2 - 32, y2, 1.0f);
+		}
+
+		if (seconds < 10)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 29, y3, 1.0f);
+		}
+		else if (seconds < 100)
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 36, y3, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopRightAligned(*m_timer, rc_m_timer_s, seconds, x3 + 42, y3, 1.0f);
+		}
 		break;
 	}
 	

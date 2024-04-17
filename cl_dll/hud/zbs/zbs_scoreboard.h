@@ -28,8 +28,10 @@ protected:
 	UniqueTexture m_pTeamnumber;
 	wrect_t m_rcSelfnumber[10];
 	UniqueTexture m_pSelfnumber;
+	UniqueTexture killcount;
 	wrect_t m_rcToprecord[10];
 	wrect_t m_rcToprecord2[10];
+	wrect_t m_rcToprecord3[10];
 	UniqueTexture m_pToprecord;
 	int m_iSelfKills;
 	float m_iSelfnumberScale;

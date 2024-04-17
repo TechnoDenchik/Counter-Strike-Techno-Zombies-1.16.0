@@ -299,8 +299,9 @@ int CHudHealth::Draw(float flTime)
 {
 	if( !(gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH ) && !gEngfuncs.IsSpectateOnly() )
 	{
-		int r, g, b;
+		int r, g, b, r2, g2, b2;
 		int a = 0;
+		int a2 = 0;
 
 		int x2 = ScreenWidth / 75;
 		int y2 = 1043;
@@ -349,6 +350,28 @@ int CHudHealth::Draw(float flTime)
 			g = 0;
 			b = 0;
 		}
+
+		if (m_iBat > 25)
+		{
+			a2 = 255;
+		}
+
+		if (m_iBat <= 15)
+		{
+			a2 = 255;
+		}
+
+		if (m_iBat > 25)
+		{
+			DrawUtils::UnpackRGB(r2, g2, b2, RGB_WHITE);
+		}
+		else
+		{
+			r2 = 250;
+			g2 = 0;
+			b2 = 0;
+		}
+
 		
 		if (gHUD.m_iWeaponBits & (1 << (WEAPON_SUIT)))
 		{
@@ -384,22 +407,21 @@ int CHudHealth::Draw(float flTime)
 			case MOD_ZB1:
 			case MOD_ZB3:
 
+				rc = m_hEmpty[m_enArmorType].rect;
+				rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
+
 				m_health_board->Bind();
 				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
 
 				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 				m_plus->Bind();
 				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
-
-				gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+				gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 				m_armors->Bind();
 				DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
 
 				m_ihealthes_top->Bind();
 				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
-
-				rc = m_hEmpty[m_enArmorType].rect;
-				rc.top += m_iHeight * ((float)(100 - (min(100, m_iBat))) * 0.01f);
 
 				if (m_fFade)
 				{
@@ -420,11 +442,62 @@ int CHudHealth::Draw(float flTime)
 					a = MIN_ALPHA;
 				}
 
-				(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
-				DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x11 + 70, y11 + 14, 1);
+				if (m_iHealth < 10)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1); 
+				}
+				else if (m_iHealth < 100)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 54, y13 + 14, 1);
+				}
+				else if (m_iHealth < 1000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+				}
+				else if (m_iHealth < 10000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 86, y13 + 14, 1);
+				}
+				else
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 106, y13 + 14, 1);
+				}
 
-				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-				DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x9 + 70, y9 + 14, 1);
+				if (m_iBat < 10)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1); 
+				}
+				else if (m_iBat < 100)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 54, y14 + 14, 1);
+				}
+				else if (m_iBat < 1000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 70, y14 + 14, 1);
+				}
+				else if (m_iBat < 10000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 86, y14 + 14, 1);
+				}
+				else
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 106, y14 + 14, 1);
+				}
 				break;
 			
 			case MOD_ZBS:
@@ -438,13 +511,12 @@ int CHudHealth::Draw(float flTime)
 				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 				m_plus->Bind();
 				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
-
-				gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+				gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 				m_armors->Bind();
 				DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
 
-				m_ihealthes_top->Bind();
-				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+				//m_ihealthes_top->Bind();
+				//DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
 
 				if (m_fFade)
 				{
@@ -464,12 +536,63 @@ int CHudHealth::Draw(float flTime)
 				{
 					a = MIN_ALPHA;
 				}
-				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-				
-				DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x10 + 70, y10 + 14, 1);
-		
-				(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
-				DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x12 + 70, y12 + 14, 1);
+
+				if (m_iHealth < 10)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1); 
+				}
+				else if (m_iHealth < 100)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 54, y13 + 14, 1);
+				}
+				else if (m_iHealth < 1000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+				}
+				else if (m_iHealth < 10000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 86, y13 + 14, 1);
+				}
+				else
+				{
+					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 106, y13 + 14, 1);
+				}
+
+				if (m_iBat < 10)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1); 
+				}
+				else if (m_iBat < 100)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 54, y14 + 14, 1);
+				}
+				else if (m_iBat < 1000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 70, y14 + 14, 1);
+				}
+				else if (m_iBat < 10000)
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 86, y14 + 14, 1);
+				}
+				else
+				{
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 106, y14 + 14, 1);
+				}
 
 				break;
 				
@@ -484,7 +607,7 @@ int CHudHealth::Draw(float flTime)
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 					m_plus->Bind();
 					DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
-					gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 					m_armors->Bind();
 					DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
 
@@ -510,11 +633,68 @@ int CHudHealth::Draw(float flTime)
 						a = MIN_ALPHA;
 					}
 
-					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 70, y14 + 14, 1);
+					if (m_iHealth < 10)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1); 
+					}
+					else if(m_iHealth < 100)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 54, y13 + 14, 1);
+					}
+					else if (m_iHealth < 1000)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+					}
+					else if(m_iHealth < 10000)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 86, y13 + 14, 1);
+					}
+					else
+					{
+						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 106, y13 + 14, 1);
+					}
 
-					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+					if (m_iBat < 10)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+						(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1); 
+					}
+					else if (m_iBat < 100)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+						(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 54, y14 + 14, 1);
+					}
+					else if (m_iBat < 1000)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+						(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 70, y14 + 14, 1);
+					}
+					else if (m_iBat < 10000)
+					{
+						gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+						(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 86, y14 + 14, 1);
+					}
+					else
+					{
+						gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
+						(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 106, y14 + 14, 1);
+					}
+					
+
+
+
+
+					
 					break;
 
 				}

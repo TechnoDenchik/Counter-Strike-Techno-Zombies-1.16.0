@@ -110,6 +110,7 @@ int CHudZBSScoreBoard::VidInit(void)
 	R_InitTexture(m_pBackground, "resource/hud/zbs/hud_scoreboard_bg_zbs");
 	R_InitTexture(m_pTeamnumber, "resource/hud/zbs/teamnumber");
 	R_InitTexture(m_pSelfnumber, "resource/hud/zbs/selfnumber");
+	R_InitTexture(killcount, "resource/hud/zbs/selfnumber");
 	R_InitTexture(m_pToprecord, "resource/hud/zb3/hud_sb_num_center");
 
 	R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
@@ -117,11 +118,11 @@ int CHudZBSScoreBoard::VidInit(void)
 	R_InitTexture(icontotalkill, "resource/hud/zbs/hud_text_icon_totalkill_left");
 	R_InitTexture(iconkill, "resource/hud/hud_text_icon_kill");
 
-
 	BuildNumberRC(m_rcTeamnumber, 23, 24);
 	BuildNumberRC(m_rcSelfnumber, 19, 19);
 	BuildNumberRC(m_rcToprecord, 14, 14);
 	BuildNumberRC(m_rcToprecord2, 11, 13);
+	BuildNumberRC(m_rcToprecord3, 19, 19);
 
 	return 1;
 }
@@ -136,7 +137,7 @@ int CHudZBSScoreBoard::Draw(float time)
 	int y2 = 6;
 
 	int x3 = ScreenWidth / 2.050;
-	int y3 = 13.7;
+	int y3 = 14.7;
 
     int x4 = ScreenWidth / 2.210;
 	int y4 = 9.5;
@@ -181,9 +182,29 @@ int CHudZBSScoreBoard::Draw(float time)
 	
 	int r, g, b;
 	
-	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord2, roundNumber, x2 + 25, y2 + 25); // ok
-	DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, teamKill, x3 - 80, y3 + 10);
-   
+	DrawTexturedNumbersTopCenterAligned(*m_pToprecord, m_rcToprecord2, roundNumber, x2 + 25, y2 + 25);
+
+	if (teamKill < 10)
+	{
+		DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, teamKill, x3 - 40, y3 + 10,1.0f); //40
+	}
+	else if (teamKill < 100)
+	{
+		DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, teamKill, x3 - 46, y3 + 10, 1.0f);
+	}
+	else if (teamKill < 1000)
+	{
+		DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, teamKill, x3 - 60, y3 + 10, 1.0f);
+	}
+	else if (teamKill < 10000)
+	{
+		DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, teamKill, x3 - 65, y3 + 10, 1.0f);
+	}
+	else
+	{
+		DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, teamKill, x3 - 70, y3 + 10, 1.0f);
+	}
+	
 	DrawUtils::ScaleColors(r, g, b, DHN_2DIGITS);
 
 	if (m_iSelfKills != selfKill)
@@ -194,12 +215,56 @@ int CHudZBSScoreBoard::Draw(float time)
 	if (time > m_flSelfnumberScaleTime + ZBS_SELFNUMBER_SCALE_TIME)
 	{                              //160, 210, 250, 255
 		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x3 + 130, y3 + 10);
+
+		if (selfKill < 10)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 90, y3 + 10, 1.0f); //90
+		}
+		else if (selfKill < 100)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 96, y3 + 10, 1.0f);
+		}
+		else if (selfKill < 1000)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 110, y3 + 10, 1.0f);
+		}
+		else if (selfKill < 10000)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 115, y3 + 10, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 124, y3 + 10, 1.0f);
+		}
+
+		//DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 130, y3 + 10, 0.90f);
 	}
 	else
 	{
 		gEngfuncs.pTriAPI->Color4ub(255, 160, 0, 255);
-		DrawTexturedNumbersTopCenterAligned(*m_pTeamnumber, m_rcTeamnumber, selfKill, x3 + 130, y3 + 10, 1.1f);
+
+		if (selfKill < 10)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 90, y3 + 10, 1.0f);     //90
+		}
+		else if (selfKill < 100)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 96, y3 + 10, 1.0f);
+		}
+		else if (selfKill < 1000)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 110, y3 + 10, 1.0f);
+		}
+		else if (selfKill < 10000)
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 115, y3 + 10, 1.0f);
+		}
+		else
+		{
+			DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 124, y3 + 10, 1.0f);
+		}
+
+		//DrawTexturedNumbersTopCenterAligned(*killcount, m_rcToprecord3, selfKill, x3 + 130, y3 + 10, 1.0f);
 	}
 
     m_iSelfKills = selfKill;

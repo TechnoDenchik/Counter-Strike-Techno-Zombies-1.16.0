@@ -14,13 +14,13 @@
 #include "util/u_range.hpp"
 
 
-void CMod_ZombieShelter_coop::Precache() // precache
-{
-	//PRECACHE_SOUND("zb3/human_death_01.wav");
-	//PRECACHE_SOUND("zb3/human_death_02.wav");
-	PRECACHE_SOUND("zsh/BGM_start.wav");
+#include "mod_zb1.h"
+#include "zb2/zb2_const.h"
 
-	CVAR_SET_FLOAT("sv_maxspeed", 490);
+CMod_ZombieShelter_coop::CMod_ZombieShelter_coop() // precache
+{
+	PRECACHE_SOUND("zsh/BGM_start.wav");
+	CVAR_SET_FLOAT("sv_maxspeed", 990);
 }
 
 void CMod_ZombieShelter_coop::CheckMapConditions()
@@ -46,6 +46,9 @@ void CMod_ZombieShelter_coop::CheckMapConditions()
 	LIGHT_STYLE(0, "g"); // previous one is "f"
 }
 
+
+
+
 void CMod_ZombieShelter_coop::UpdateGameMode(CBasePlayer* pPlayer)
 {
 	MESSAGE_BEGIN(MSG_ONE, gmsgGameMode, nullptr, pPlayer->edict());
@@ -59,20 +62,104 @@ void CMod_ZombieShelter_coop::UpdateGameMode(CBasePlayer* pPlayer)
 
 BOOL CMod_ZombieShelter_coop::ClientConnected(edict_t* pEntity, const char* pszName, const char* pszAddress, char* szRejectReason)
 {
-	
 	return 1;//IBaseMod::ClientConnected(pEntity, pszName, pszAddress, szRejectReason);
 }
 
 void CMod_ZombieShelter_coop::ClientDisconnected(edict_t* pClient)
 {
-	CLIENT_COMMAND(pClient, "mp3 stop\n");
-
 	IBaseMod::ClientDisconnected(pClient);
 }
+
+void CMod_ZombieShelter_coop::Think()
+{
+	//IBaseMod::Think();
+
+	static int iLastCountDown = -1;
+	int const iCountDown = static_cast<int>(gpGlobals->time - m_fRoundCount);
+
+	if (iCountDown != iLastCountDown)
+	{
+		iLastCountDown = iCountDown;
+		if (iCountDown > 0 && iCountDown < 20 && !m_bFreezePeriod)
+		{
+
+			UTIL_ClientPrintAll(HUD_PRINTCENTER, "Time Remaining: %s1 Sec", UTIL_dtos1(20 - iCountDown));
+
+			if (iCountDown == 1)
+			{
+				for (CBasePlayer* player : moe::range::PlayersList())
+					CLIENT_COMMAND(player->edict(), "spk sound/zsh/BGM_start.wav");
+
+			}
+			
+		}
+		else if (iCountDown == 20)
+		{
+			
+		}
+	
+	}
+
+	if (CheckGameOver())   // someone else quit the game already
+		return;
+
+	if (CheckTimeLimit())
+		return;
+
+	if (IsFreezePeriod())
+	{
+		CheckFreezePeriodExpired();
+	}
+
+	if (m_fTeamCount != 0.0f && m_fTeamCount <= gpGlobals->time)
+	{
+		RestartRound();
+	}
+
+	CheckLevelInitialized();
+
+	if (gpGlobals->time > m_tmNextPeriodicThink)
+	{
+		CheckRestartRound();
+		m_tmNextPeriodicThink = gpGlobals->time + 1.0f;
+
+		if (g_psv_accelerate->value != 5.0f)
+		{
+			CVAR_SET_FLOAT("sv_accelerate", 5.0);
+		}
+
+		if (g_psv_friction->value != 4.0f)
+		{
+			CVAR_SET_FLOAT("sv_friction", 4.0);
+		}
+
+		if (g_psv_stopspeed->value != 75.0f)
+		{
+			CVAR_SET_FLOAT("sv_stopspeed", 75.0);
+		}
+
+		m_iMaxRounds = (int)maxrounds.value;
+
+		if (m_iMaxRounds < 0)
+		{
+			m_iMaxRounds = 0;
+			CVAR_SET_FLOAT("mp_maxrounds", 33);
+		}
+
+		m_iMaxRoundsWon = (int)winlimit.value;
+
+		if (m_iMaxRoundsWon < 0)
+		{
+			m_iMaxRoundsWon = 0;
+			CVAR_SET_FLOAT("mp_winlimit", 0);
+		}
+	}
+}
+
 
 void CMod_ZombieShelter_coop::PlayerSpawn(CBasePlayer* pPlayer)
 {
 	IBaseMod::PlayerSpawn(pPlayer);
 	for (CBasePlayer* pPlayer : moe::range::PlayersList())
-		CLIENT_COMMAND(pPlayer->edict(), "spk BGM_start\n");
+		CLIENT_COMMAND(pPlayer->edict(), "spk sound/zsh/BGM_start.wav");
 }
