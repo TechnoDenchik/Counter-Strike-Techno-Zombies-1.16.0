@@ -52,6 +52,10 @@ public:
 	CBaseEntity* MakeZombieNPC5();
 	CBaseEntity* MakeZombieNPC6();
 	CBaseEntity* MakeZombieNPC7();
+	CBaseEntity* MakeZombieNPC8();
+	CBaseEntity* MakeZombieNPC9();
+	CBaseEntity* MakeZombieNPC10();
+	CBaseEntity* MakeZombieNPC11();
 	void ClearZombieNPC();
 
 public:

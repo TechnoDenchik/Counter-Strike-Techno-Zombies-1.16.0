@@ -127,8 +127,8 @@ int CHudZB3ScoreBoard::VidInit(void)
 
 int CHudZB3ScoreBoard::Draw(float time)
 {
-	int x = ScreenWidth / 2; // Движение по горизонтали
-	int y = 5; // Движение по вертикали
+	int x = ScreenWidth / 2; // Движение по вертикали
+	int y = 5; // Движение по горизонтали
 
 	int x2 = ScreenWidth / 2;
 	int y2 = 8;
@@ -196,6 +196,7 @@ int CHudZB3ScoreBoard::Draw(float time)
 	{
 
 	 case MOD_ZB1:
+	 case MOD_ZB2:
 	 case MOD_ZB3:
 	 		
 		gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
@@ -362,6 +363,7 @@ int CHudZB3ScoreBoard::Draw(float time)
 		 {
 			 DrawTexturedNumbersTopRightAligned(*whitebig, m_rcToprecord3, scoreT, x3 - 78, y3 + 14, 1.0f);
 		 }
+
 		 break;
 	 case MOD_TDM:
 
@@ -412,17 +414,8 @@ int CHudZB3ScoreBoard::Draw(float time)
 		
 		 DrawTexturedNumbersTopRightAligned(*countplayer, m_rcToprecord2, countHM, x5 + 77, y5, 1.0f);
 		 DrawTexturedNumbersTopRightAligned(*countplayer2, m_rcToprecord2, countZB, x6 - 87, y5, 1.0f);
+
 		 break;
 	}
-	return 1;
-}
-
-int CHudZB3ScoreBoard::Draw2()
-{
-	int x = ScreenWidth / 2; // Движение по горизонтали
-	int y = 15; // Движение по вертикали
-
-	newscoreboard->Bind();
-	DrawUtils::Draw2DQuadScaled(x - 450 / 3.0, y - 4.6, x + 450 / 3.0, y + 78);
 	return 1;
 }

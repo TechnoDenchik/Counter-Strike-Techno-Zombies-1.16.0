@@ -102,6 +102,8 @@ public:
 	float m_flAttackDamage;
 	int m_iKillBonusMoney;
 	int m_iKillBonusFrags;
+	int m_iKillBonusMoney2;
+	int m_iKillBonusFrags2;
 	float m_flTimeLastActive;
 	float m_flTargetChange;
 

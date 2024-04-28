@@ -21,7 +21,6 @@
 
 //PlayerExtraHumanLevel_ZBS m_HumanLevel;
 
-
 class PlayerModStrategy_ZBS : public CPlayerModStrategy_Default
 {
 public:
@@ -109,13 +108,13 @@ class PlayerModStrategy_ZBS2 : public CPlayerModStrategy_Default
 {
 
 public:
-	PlayerModStrategy_ZBS2(CBasePlayer* player, CMod_ZombieScenario* mp) : CPlayerModStrategy_Default(player), m_HumanLevel(player)
+	PlayerModStrategy_ZBS2(CBasePlayer* player, CMod_ZombieScenario* mp) : CPlayerModStrategy_Default(player), m_HumanLevel2(player)
 	{
 		m_listenerAdjustDamage = mp->m_eventAdjustDamage2.subscribe(
 			[=](CBasePlayer* attacker, float& out)
 			{
 				if (attacker == m_pPlayer)
-					out *= m_HumanLevel.GetAttackBonus();
+					out *= m_HumanLevel2.GetAttackBonus();
 			}
 		);
 		m_listenerMonsterKilled = mp->m_eventMonsterKilled2.subscribe(
@@ -123,11 +122,12 @@ public:
 			{
 				if (attacker == m_pPlayer)
 				{
-					if (victim->m_iKillBonusFrags)
-						m_pPlayer->AddPoints(victim->m_iKillBonusFrags, FALSE);
-					if (victim->m_iKillBonusMoney)
-						m_pPlayer->AddAccount(victim->m_iKillBonusMoney);
-
+					if (victim->m_iKillBonusFrags2)
+						m_pPlayer->AddPoints(victim->m_iKillBonusFrags2, FALSE);
+					if (victim->m_iKillBonusMoney2)
+						m_pPlayer->AddAccount(victim->m_iKillBonusMoney2);
+					//m_HumanLevel2.LevelUpHealth();
+					//m_HumanLevel2.LevelUpAttack();
 					MESSAGE_BEGIN(MSG_ONE, gmsgZBSTip, NULL, m_pPlayer->pev);
 					WRITE_BYTE(ZBS_TIP_KILL);
 					MESSAGE_END();
@@ -147,18 +147,18 @@ public:
 
 	void OnSpawn() override
 	{
-		m_pPlayer->pev->health += m_HumanLevel.GetHealthBonus();
+		m_pPlayer->pev->health += m_HumanLevel2.GetHealthBonus();
 	}
 
 	void OnInitHUD() override
 	{
-		m_HumanLevel.UpdateHUD();
+		m_HumanLevel2.UpdateHUD();
 	}
 
 protected:
 	EventListener m_listenerAdjustDamage;
 	EventListener m_listenerMonsterKilled;
-	PlayerExtraHumanLevel_ZBS m_HumanLevel;
+	PlayerExtraHumanLevel_ZBS m_HumanLevel2;
 
 };
 
@@ -215,10 +215,39 @@ CMod_ZombieScenario::CMod_ZombieScenario()
 	PRECACHE_GENERIC("sound/zbs/Scenario_Ready.mp3");
 	PRECACHE_GENERIC("sound/zbs/Scenario_Normal.mp3");
 	PRECACHE_GENERIC("sound/zbs/Scenario_Rush.mp3");
+
 	PRECACHE_MODEL("models/player/zombi_origin/zombi_origin.mdl");
 	PRECACHE_MODEL("models/player/zombi_host/zombi_host.mdl");
+
 	PRECACHE_MODEL("models/player/heavy_zombi_host/heavy_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/heavy_zombi_origin/heavy_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/speed_zombi_host/speed_zombi_host.mdl");
 	PRECACHE_MODEL("models/player/speed_zombi_origin/speed_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/pc_zombi_origin/pc_zombi_origin.mdl");
+	PRECACHE_MODEL("models/player/pc_zombi_host/pc_zombi_host.mdl");
+
+	PRECACHE_MODEL("models/player/resident_zombi_host/resident_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/resident_zombi_origin/resident_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/heal_zombi_host/heal_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/heal_zombi_origin/heal_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/deimos_zombi_host/deimos_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/deimos_zombi_origin/deimos_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/flyingzombi_host/flyingzombi_host.mdl");
+	PRECACHE_MODEL("models/player/flyingzombi_origin/flyingzombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/pass_zombi_host/pass_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/pass_zombi_origin/pass_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/china_zombi_host/china_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/china_zombi_origin/china_zombi_origin.mdl");
+
+	PRECACHE_MODEL("models/player/revival_zombi_host/revival_zombi_host.mdl");
+	PRECACHE_MODEL("models/player/revival_zombi_origin/revival_zombi_origin.mdl");
 }
 
 void CMod_ZombieScenario::UpdateGameMode(CBasePlayer *pPlayer)
@@ -365,7 +394,11 @@ void CMod_ZombieScenario::Think()
 			MakeZombieNPC5();
 			MakeZombieNPC6();
 			MakeZombieNPC7();
-			m_flNextSpawnNPC = gpGlobals->time + 8.0f;
+			MakeZombieNPC8();
+			MakeZombieNPC9();
+			MakeZombieNPC10();
+			MakeZombieNPC11();
+			m_flNextSpawnNPC = gpGlobals->time + 18.0f;
 	  }
 	}
 
@@ -821,6 +854,211 @@ CBaseEntity* CMod_ZombieScenario::MakeZombieNPC7()
 	monster->m_pMonsterStrategy.reset(new CMonsterModStrategy_ZBS(monster, this));
 
 	return monster;
+}
+
+
+
+
+
+CBaseEntity* CMod_ZombieScenario::MakeZombieNPC8()
+{
+	CMonster* monster = GetClassPtr<CMonster>(nullptr);
+
+	if (!monster)
+		return nullptr;
+
+	edict_t* pent = monster->edict();
+
+	CZombieSpawn* sp = SelectZombieSpawnPoint();
+	if (sp)
+	{
+		monster->pev->origin = sp->pev->origin;
+		monster->pev->angles = sp->pev->angles;
+	}
+	else
+	{
+		Vector backup_v_angle = monster->pev->v_angle;
+		CSDM_DoRandomSpawn(monster);
+		monster->pev->v_angle = backup_v_angle;
+	}
+
+	pent->v.spawnflags |= SF_NORESPAWN;
+
+	DispatchSpawn(pent);
+
+	// default settings
+	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
+	monster->pev->maxspeed = 180.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
+
+	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
+	{
+		monster->pev->health = monster->pev->max_health = monster->pev->max_health / 2;
+		switch (RANDOM_LONG(1, 2))
+		{
+		case 1: SET_MODEL(monster->edict(), "models/player/pass_zombi_host/pass_zombi_host.mdl"); break;
+		case 2: SET_MODEL(monster->edict(), "models/player/pass_zombi_origin/pass_zombi_origin.mdl"); break;
+	
+		default:
+			break;
+		}
+
+		UTIL_SetSize(monster->pev, VEC_HULL_MIN, VEC_HULL_MAX);
+	}
+
+	monster->m_pMonsterStrategy.reset(new CMonsterModStrategy_ZBS(monster, this));
+
+	return monster;
+}
+
+CBaseEntity* CMod_ZombieScenario::MakeZombieNPC9()
+{
+	CMonster* monster = GetClassPtr<CMonster>(nullptr);
+
+	if (!monster)
+		return nullptr;
+
+	edict_t* pent = monster->edict();
+
+	CZombieSpawn* sp = SelectZombieSpawnPoint();
+	if (sp)
+	{
+		monster->pev->origin = sp->pev->origin;
+		monster->pev->angles = sp->pev->angles;
+	}
+	else
+	{
+		Vector backup_v_angle = monster->pev->v_angle;
+		CSDM_DoRandomSpawn(monster);
+		monster->pev->v_angle = backup_v_angle;
+	}
+
+	pent->v.spawnflags |= SF_NORESPAWN;
+
+	DispatchSpawn(pent);
+
+	// default settings
+	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
+	monster->pev->maxspeed = 180.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
+
+	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
+	{
+		monster->pev->health = monster->pev->max_health = monster->pev->max_health / 2;
+		switch (RANDOM_LONG(1, 2))
+		{
+		case 1: SET_MODEL(monster->edict(), "models/player/china_zombi_host/china_zombi_host.mdl"); break;
+		case 2: SET_MODEL(monster->edict(), "models/player/china_zombi_origin/china_zombi_origin.mdl"); break;
+		
+		default:
+			break;
+		}
+
+		UTIL_SetSize(monster->pev, VEC_HULL_MIN, VEC_HULL_MAX);
+	}
+
+	monster->m_pMonsterStrategy.reset(new CMonsterModStrategy_ZBS(monster, this));
+
+	return monster;
+}
+
+CBaseEntity* CMod_ZombieScenario::MakeZombieNPC10()
+{
+	CMonster* monster = GetClassPtr<CMonster>(nullptr);
+
+	if (!monster)
+		return nullptr;
+
+	edict_t* pent = monster->edict();
+
+	CZombieSpawn* sp = SelectZombieSpawnPoint();
+	if (sp)
+	{
+		monster->pev->origin = sp->pev->origin;
+		monster->pev->angles = sp->pev->angles;
+	}
+	else
+	{
+		Vector backup_v_angle = monster->pev->v_angle;
+		CSDM_DoRandomSpawn(monster);
+		monster->pev->v_angle = backup_v_angle;
+	}
+
+	pent->v.spawnflags |= SF_NORESPAWN;
+
+	DispatchSpawn(pent);
+
+	// default settings
+	monster->pev->health = monster->pev->max_health = 100 + m_iNumCTWins * 15;
+	monster->pev->maxspeed = 180.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster->m_flAttackDamage = (0.2f * m_iNumCTWins + 1) * (0.2f * m_iNumCTWins + 1);
+
+	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
+	{
+		monster->pev->health = monster->pev->max_health = monster->pev->max_health / 2;
+		switch (RANDOM_LONG(1, 2))
+		{
+		case 1: SET_MODEL(monster->edict(), "models/player/revival_zombi_host/revival_zombi_host.mdl"); break;
+		case 2: SET_MODEL(monster->edict(), "models/player/revival_zombi_origin/revival_zombi_origin.mdl"); break;
+		
+		default:
+			break;
+		}
+
+		UTIL_SetSize(monster->pev, VEC_HULL_MIN, VEC_HULL_MAX);
+	}
+
+	monster->m_pMonsterStrategy.reset(new CMonsterModStrategy_ZBS(monster, this));
+
+	return monster;
+}
+
+CBaseEntity* CMod_ZombieScenario::MakeZombieNPC11()
+{
+	CMonster2* monster2 = GetClassPtr<CMonster2>(nullptr);
+
+	if (!monster2)
+		return nullptr;
+
+	edict_t* pent = monster2->edict();
+
+	CZombieSpawn* sp = SelectZombieSpawnPoint();
+	if (sp)
+	{
+		monster2->pev->origin = sp->pev->origin;
+		monster2->pev->angles = sp->pev->angles;
+	}
+	else
+	{
+		Vector backup_v_angle = monster2->pev->v_angle;
+		CSDM_DoRandomSpawn(monster2);
+		monster2->pev->v_angle = backup_v_angle;
+	}
+
+	pent->v.spawnflags |= SF_NORESPAWN;
+
+	DispatchSpawn(pent);
+
+	// default settings
+	monster2->pev->health = monster2->pev->max_health = 100 + m_iNumCTWins * 15;
+	monster2->pev->maxspeed = 200.0f + (m_iNumCTWins / static_cast<float>(3)) * 15;
+	monster2->m_flAttackDamage = (0.1f * m_iNumCTWins + 1) * (0.1f * m_iNumCTWins + 1);
+	if (m_iNumCTWins < 5 || RANDOM_LONG(0, 3))
+	{
+		monster2->pev->health = monster2->pev->max_health = monster2->pev->max_health / 2;
+		switch (RANDOM_LONG(1, 2))
+		{
+		case 1: SET_MODEL(monster2->edict(), "models/player/flyingzombi_host/flyingzombi_host.mdl"); break;
+		case 2: SET_MODEL(monster2->edict(), "models/player/flyingzombi_origin/flyingzombi_origin.mdl"); break;
+
+		default:
+			break;
+		}
+		UTIL_SetSize(monster2->pev, VEC_HULL_MIN, VEC_HULL_MAX);
+	}
+	monster2->m_pMonsterStrategy2.reset(new CMonsterModStrategy_ZBS2(monster2, this));
+
+	return monster2;
 }
 
 void CMod_ZombieScenario::ClearZombieNPC()
