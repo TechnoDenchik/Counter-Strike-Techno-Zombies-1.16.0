@@ -1581,7 +1581,7 @@ void SV_UpdateResourceList( void )
 		}
 
 		// load common reslist.txt file form gamedir root
-		SV_ParseResListFile( &sv.reslist, "reslist.txt");
+		SV_ParseResListFile( &sv.reslist, "parersetup.cst");
 
 		// write maps/<name>.res
 		Q_strcpy( mapresfilename, sv.worldmodel->name );
@@ -2385,7 +2385,7 @@ static void SV_Notarget_f( sv_client_t *cl )
 
 static void SV_SendBuildInfo_f( sv_client_t *cl )
 {
-	SV_ClientPrintf( cl, PRINT_HIGH, "Server running Xash3D FWGS %s (build %i-%s, %s-%s)\n", XASH_VERSION, Q_buildnum(), Q_buildcommit(), Q_buildos(), Q_buildarch() );
+	SV_ClientPrintf( cl, PRINT_HIGH, "Server running TechnoEngine %s (build %i-%s, %s-%s)\n", XASH_VERSION, Q_buildnum(), Q_buildcommit(), Q_buildos(), Q_buildarch() );
 }
 
 edict_t *pfnFindEntityInSphere( edict_t *pStartEdict, const float *org, float flRadius );
@@ -3321,7 +3321,7 @@ void SV_TSourceEngineQuery( netadr_t from )
 	BF_WriteByte( &buf, 'L' );
 #endif
 	BF_WriteByte( &buf, havePassword );
-	if( Q_stricmp( GI->gamedir, "valve" ) )
+	if( Q_stricmp( GI->gamedir, "cstz" ) )
 	{
 		BF_WriteByte( &buf, 1 ); // mod
 		BF_WriteString( &buf, GI->game_url );
@@ -3333,7 +3333,7 @@ void SV_TSourceEngineQuery( netadr_t from )
 			BF_WriteByte( &buf, 1 ); // multiplayer_only
 		else
 			BF_WriteByte( &buf, 0 );
-		if( Q_strstr(SI.gamedll, "hl." ) )
+		if( Q_strstr(SI.gamedll, "technoengine." ) )
 			BF_WriteByte( &buf, 0 ); // Half-Life DLL
 		else
 			BF_WriteByte( &buf, 1 ); // Own DLL

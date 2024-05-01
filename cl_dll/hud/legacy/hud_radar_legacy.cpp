@@ -306,7 +306,15 @@ void CHudRadarLegacy::DrawPlayerLocation()
 
 int CHudRadarLegacy::Draw(float flTime)
 {
-	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH) ||
+	switch(gHUD.m_iModRunning)
+	{
+	case MOD_ZB3:
+	case MOD_ZB2:
+	case MOD_TDM:
+	case MOD_DM:
+	case MOD_NONE:
+	{
+		if ((gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH) ||
 		gEngfuncs.IsSpectateOnly() ||
 		!(gHUD.m_iWeaponBits & (1 << (WEAPON_SUIT))) ||
 		gHUD.m_fPlayerDead)
@@ -441,6 +449,12 @@ int CHudRadarLegacy::Draw(float flTime)
 		float x = iMaxRadius + pos.x - (m_hRadarBombTarget[i].rect.right - m_hRadarBombTarget[i].rect.left) / 2.0f, y = iMaxRadius + pos.y - (m_hRadarBombTarget[i].rect.bottom - m_hRadarBombTarget[i].rect.top) / 2.0f;
 		SPR_DrawAdditive(0, x, y, &m_hRadarBombTarget[i].rect);
 	}
+	}
 
+	
+	default:
+		break;
+	}
+	
 	return 0;
 }

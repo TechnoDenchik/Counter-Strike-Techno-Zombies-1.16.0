@@ -28,7 +28,7 @@ convar_t *sv_log_onefile;
 void Log_InitCvars ( void )
 {
 	mp_logfile = Cvar_Get( "mp_logfile", "1", CVAR_ARCHIVE, "log server information in the log file" );
-	mp_logecho = Cvar_Get( "mp_logecho", "1", CVAR_ARCHIVE, "echoes log information to the console" );
+	mp_logecho = Cvar_Get( "mp_logecho", "0", CVAR_ARCHIVE, "echoes log information to the console" );
 
 	sv_log_singleplayer = Cvar_Get( "sv_log_singleplayer", "0", CVAR_ARCHIVE, "allows logging in singleplayer games" );
 	sv_log_onefile = Cvar_Get( "sv_log_onefile", "0", CVAR_ARCHIVE, "logs server information to only one file" );
@@ -122,13 +122,13 @@ void Log_Open( void )
 		temp = Cvar_VariableString( "logsdir" );
 
 		if ( !temp || Q_strlen(temp) <= 0 || Q_strstr( temp, ":" ) || Q_strstr( temp, ".." ) )
-			Q_snprintf( file_base, sizeof( file_base ), "logs/L%02i%02i", today->tm_mon + 1, today->tm_mday );
+			Q_snprintf( file_base, sizeof( file_base ), "L%02i%02i", today->tm_mon + 1, today->tm_mday );
 
-		else Q_snprintf( file_base , sizeof( file_base ), "%s/L%02i%02i", temp, today->tm_mon + 1, today->tm_mday );
+		else Q_snprintf( file_base , sizeof( file_base ), "L%02i%02i", temp, today->tm_mon + 1, today->tm_mday );
 
 		for (i = 0; i < 1000; i++)
 		{
-			Q_snprintf( test_file, sizeof( test_file ), "%s%03i.log", file_base, i );
+			Q_snprintf( test_file, sizeof( test_file ), "%s%03i.cst", file_base, i );
 
 			COM_FixSlashes( test_file );
 

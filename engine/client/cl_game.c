@@ -4098,8 +4098,8 @@ qboolean CL_LoadProgs( const char *name )
 	clgame.maxRemapInfos = 0; // will be alloc on first call CL_InitEdicts();
 	clgame.maxEntities = 2; // world + localclient (have valid entities not in game)
 
-	CL_InitCDAudio( "media/cdaudio.txt" );
-	CL_InitTitles( "titles.txt" );
+	CL_InitCDAudio( "media/playlist.json" );
+	CL_InitTitles( "messages.cst" );
 	CL_InitParticles ();
 	CL_InitViewBeams ();
 	CL_InitTempEnts ();

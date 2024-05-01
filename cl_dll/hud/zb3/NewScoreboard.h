@@ -7,9 +7,9 @@ class CHudZB3ScoreBoard : public IBaseHudSub
 public:
 	int VidInit(void) override;
 	int Draw(float time) override;
-	int Draw2();
+	void InitHUDData(void);
 protected:
-	
+	UniqueTexture m_iCharacterBG_New_Bottom;
 	UniqueTexture newscoreboard;
 	UniqueTexture slash;
 	UniqueTexture textstring;
@@ -35,7 +35,8 @@ protected:
 	UniqueTexture icononest;
 
 	SharedTexture m_pCurTexture;
-	
+	UniqueTexture m_iCharacter;
+	std::string m_szLastModel;
 	wrect_t m_rcroundmax[10];
 	wrect_t m_rcroundnumber[10];
 	wrect_t m_rcTeamnumber[10];

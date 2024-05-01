@@ -90,6 +90,8 @@ inline int DrawTexturedNumbersTopCenterAligned(const CTextureRef& tex, const wre
 
 int CHudZB3ScoreBoard::VidInit(void)
 { 
+	if (!m_iCharacterBG_New_Bottom)
+		m_iCharacterBG_New_Bottom = R_LoadTextureUnique("resource/hud/hud_character_bg_new_bottom");
 	R_InitTexture(newscoreboard, "resource/hud/hud_scoreboard_bg_gundeath");
     R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
     R_InitTexture(ammoboard,"resource/hud/zb3/hud_weapon_bg");
@@ -123,6 +125,11 @@ int CHudZB3ScoreBoard::VidInit(void)
 	BuildNumberRC( m_rcroundnumber, 11, 13);
 
     return 1;
+}
+
+void CHudZB3ScoreBoard::InitHUDData(void)
+{
+	m_szLastModel = "";
 }
 
 int CHudZB3ScoreBoard::Draw(float time)
@@ -178,7 +185,7 @@ int CHudZB3ScoreBoard::Draw(float time)
 
 	const float flScale = 0.0f;
 	int best_player = gHUD.m_Scoreboard.FindBestPlayer();
-	int idx = IS_FIRSTPERSON_SPEC ? g_iUser2 : gEngfuncs.GetLocalPlayer()->index;
+	int idx = gEngfuncs.GetLocalPlayer()->index;
 
 	int countHM = gHUD.m_Scoreboard.m_iTeamAlive_CT;
 	int countZB = gHUD.m_Scoreboard.m_iTeamAlive_T;
@@ -191,6 +198,45 @@ int CHudZB3ScoreBoard::Draw(float time)
 	
 	int roundNumber2 = gHUD.m_Scoreboard.m_iTeamScore_T + gHUD.m_Scoreboard.m_iTeamScore_CT;
 	int roundmax = gHUD.m_Scoreboard.m_iTeamScore_Max;
+
+	int iX = 0;
+	int iY = ScreenHeight - 5;
+
+	int iW = m_iCharacterBG_New_Bottom->w();
+	int iH = m_iCharacterBG_New_Bottom->h();
+
+	m_iCharacterBG_New_Bottom->Draw2DQuadScaled(iX, iY - iH, iX + iW, iY - iH + iH);
+
+	iW = m_iCharacterBG_New_Bottom->w();
+	iH = m_iCharacterBG_New_Bottom->h();
+
+	iX = ScreenWidth;
+	iY = ScreenHeight - 5;
+
+	if (!g_PlayerInfoList[idx].model) 
+	{
+		return 1;
+	}
+
+	if (m_szLastModel != g_PlayerInfoList[idx].model)
+	{
+		m_szLastModel = g_PlayerInfoList[idx].model;
+		if (m_iCharacter)
+			m_iCharacter = nullptr;
+
+		std::string tmp = "resource/hud/portrait/hud_" + m_szLastModel;
+		m_iCharacter = R_LoadTextureUnique(tmp.c_str());
+	}
+
+	if (m_iCharacter) 
+	{
+		iW = m_iCharacter->w();
+		iH = m_iCharacter->h();
+		iX = 0;
+		iY = ScreenHeight - 44;
+
+		m_iCharacter->Draw2DQuadScaled(iX, iY - iH, iX + iW, iY - iH + iH);
+	}
 
 	switch (gHUD.m_iModRunning)
 	{

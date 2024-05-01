@@ -17,6 +17,7 @@ GNU General Public License for more details.
 #define PROTOCOL_H
 
 #define PROTOCOL_VERSION		48
+
 // server to client
 #define svc_bad			0	// immediately crash client when received
 #define svc_nop			1	// does nothing
@@ -93,19 +94,19 @@ GNU General Public License for more details.
 #define MAX_CLIENT_BITS		5
 #define MAX_CLIENTS			(1<<MAX_CLIENT_BITS)// 5 bits == 32 clients ( int32 limit )
 
-#define MAX_WEAPON_BITS		6
+#define MAX_WEAPON_BITS		5
 #define MAX_WEAPONS			(1<<MAX_WEAPON_BITS)// 5 bits == 32 weapons ( int32 limit )
 
-#define MAX_EVENT_BITS		10
+#define MAX_EVENT_BITS		18
 #define MAX_EVENTS			(1<<MAX_EVENT_BITS)	// 10 bits == 1024 events (the original Half-Life limit)
 
-#define MAX_MODEL_BITS		13
+#define MAX_MODEL_BITS		18
 #define MAX_MODELS			(1<<MAX_MODEL_BITS)	// 11 bits == 2048 models
 
-#define MAX_SOUND_BITS		13
+#define MAX_SOUND_BITS		18
 #define MAX_SOUNDS			(1<<MAX_SOUND_BITS)	// 11 bits == 2048 sounds
 
-#define MAX_ENTITY_BITS		14
+#define MAX_ENTITY_BITS		18
 #define MAX_EDICTS			(1<<MAX_ENTITY_BITS)// 12 bits = 4096 edicts
 
 #define MAX_CUSTOM			1024	// max custom resources per level

@@ -422,7 +422,8 @@ int CHudAmmo::Init(void)
 
 	R_InitTexture(ammoclips, "resource/hud/zb3/hud_sb_num_big_white");
 	R_InitTexture(weaponboard, "resource/hud/zb3/weapon_list_new");
-	R_InitTexture(ammoboard, "resource/hud/zb3/hud_weapon_bg");
+	R_InitTexture(ammoboard, "resource/hud/zb3/hud_weapon_bg_bottom");
+	R_InitTexture(ammoboard2, "resource/hud/zb3/hud_weapon_bg_top");
 	BuildNumberRC(m_rcAmmoclip, 18, 22);
 	BuildNumberRC(m_rcAmmofloat, 18, 22);
 	gHUD.AddHudElem(this);
@@ -1229,12 +1230,15 @@ int CHudAmmo::Draw(float flTime)
 	int AmmoWidth;
 	static bool switchCrosshairType = false;
  
+	int x9 = ScreenWidth / 1.1;
+	int y9 = ScreenHeight / 1.0785;
+
 	if ((gHUD.m_iHideHUDDisplay & HIDEHUD_HEALTH))
 		return 1;
 
 	if (!(gHUD.m_iWeaponBits & (1<<(WEAPON_SUIT)) ))
 		return 1;
-
+	
 	// place it here, so pretty dynamic crosshair will work even in spectator!
 	if( gHUD.m_iFOV > 40 )
 	{
@@ -1260,6 +1264,11 @@ int CHudAmmo::Draw(float flTime)
 
 	DrawWList(flTime);
 	gHR.DrawAmmoHistory( flTime );
+
+	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+	ammoboard2->Bind();
+	DrawUtils::Draw2DQuadScaled(x9 - 180, y9 - 4.5, x9 + 180, y9 + 78);
 
 	if (!m_pWeapon)
 		return 0;
@@ -1300,6 +1309,7 @@ int CHudAmmo::Draw(float flTime)
 			int ammos = gHUD.m_Ammo.m_pWeapon->iClip;
 			int ammos2 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmoType);
 			int ammos3 = gWR.CountAmmo(gHUD.m_Ammo.m_pWeapon->iAmmo2Type);
+
 		    int x3 = ScreenWidth / 1.1;
 		    int y3 = ScreenHeight / 1.0820;
 
@@ -1313,12 +1323,43 @@ int CHudAmmo::Draw(float flTime)
 	        gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
 
 			ammoboard->Bind();
-			DrawUtils::Draw2DQuadScaled(x7 - 480 / 3.0, y7 + 4.5, x7 + 520 / 3.0, y7 + 80);
+			DrawUtils::Draw2DQuadScaled(x7 - 420 / 3.0, y7 + 4.5, x7 + 522 / 3.0, y7 + 80);
 
 			gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 
-	        DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos, x3 - 30, y3 + 45, 1.0f);
-	        DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos2, x4 + 100, y4 + 45, 1.0f);
+			if (ammos < 10)
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos, x3 - 5, y3 + 45, 1.0f);
+			}
+			else if (ammos < 1000)
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos, x3 - 5, y3 + 45, 1.0f);
+			}
+			else if (ammos < 10000)
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos, x3 - 5, y3 + 45, 1.0f);
+			}
+			else
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos, x3 - 5, y3 + 45, 1.0f);
+			}
+
+			if (ammos2 < 10)
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos2, x4 + 100, y4 + 45, 1.0f);
+			}
+			else if (ammos2 < 1000)
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos2, x4 + 100, y4 + 45, 1.0f);
+			}
+			else if (ammos2 < 10000)
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos2, x4 + 100, y4 + 45, 1.0f);
+			}
+			else
+			{
+				DrawTexturedNumbersTopRightAligned(*ammoclips, m_rcAmmoclip, ammos2, x4 + 105, y4 + 45, 1.0f);
+			}
 			
 			FillRGBA(x + 30, y - 2, iBarWidth, gHUD.m_iFontHeight, r, g, b, a);
 			x += iBarWidth + AmmoWidth/2;;
@@ -1344,8 +1385,8 @@ int CHudAmmo::Draw(float flTime)
 			x = DrawUtils::DrawHudNumber(x, y, iFlags | DHN_3DIGITS, gWR.CountAmmo(pw->iAmmo2Type), r, g, b);
 
 			// Draw the ammo Icon
-			SPR_Set(m_pWeapon->hAmmo2, r, g, b);
 			int iOffset = (m_pWeapon->rcAmmo2.bottom - m_pWeapon->rcAmmo2.top) / 8;
+			SPR_Set(m_pWeapon->hAmmo2, r, g, b);
 			SPR_DrawAdditive(0, x, y - iOffset, &m_pWeapon->rcAmmo2);
 		}
 	}

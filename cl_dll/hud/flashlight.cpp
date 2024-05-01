@@ -82,8 +82,8 @@ int CHudFlashlight::Draw(float flTime)
 
 	DrawUtils::ScaleColors(r, g, b, a);
 
-	int iY = ScreenHeight - 84;	//y1
-	int iX = ScreenWidth - 10 - m_iWidth; //x1
+	int iY = ScreenHeight - 79;	//y1
+	int iX = ScreenWidth - 24 - m_iWidth; //x1
 
 	// Draw the flashlight casing
 	SPR_Set(m_hSprite1.spr, r, g, b);
@@ -91,14 +91,14 @@ int CHudFlashlight::Draw(float flTime)
 
 	if (m_fOn)
 	{  // draw the flashlight beam
-		iX = ScreenWidth - 10;
+		iX = ScreenWidth - 24;
 
 		SPR_Set(m_hBeam.spr, r, g, b);
 		SPR_DrawAdditive(0, iX, iY, &m_hBeam.rect);
 	}
 
 	// draw the flashlight energy level
-	iX = ScreenWidth - 10 - m_iWidth;
+	iX = ScreenWidth - 24 - m_iWidth;
 	int iOffset = m_iWidth * (1.0 - m_flBat);
 	if (iOffset < m_iWidth)
 	{

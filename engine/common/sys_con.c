@@ -131,7 +131,7 @@ void Sys_InitLog( void )
 	if( host.change_game )
 		mode = "a";
 	else mode = "w";
-	Q_strncpy( s_ld.title, "Xash3D FWGS", sizeof ( s_ld.title ) );
+	Q_strncpy( s_ld.title, "TechnoSoftware", sizeof ( s_ld.title ) );
 
 	// print log to stdout
 	printf( "================================================================================\n" );
@@ -168,7 +168,7 @@ void Sys_PrintLog( const char *pMsg )
 	time( &crt_time );
 	crt_tm = localtime( &crt_time );
 #ifdef __ANDROID__
-	__android_log_print( ANDROID_LOG_DEBUG, "Xash", "%s", pMsg );
+	__android_log_print( ANDROID_LOG_DEBUG, "TechnoSoftware", "%s", pMsg );
 #endif
 
 #if TARGET_OS_IOS

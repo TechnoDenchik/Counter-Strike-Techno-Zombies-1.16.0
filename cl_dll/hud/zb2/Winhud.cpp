@@ -106,15 +106,17 @@ int CHudMakeZombies::Draw(float time)
 		m_pCurTexture = nullptr;
 		return 1;
 	}
+	if (g_PlayerExtraInfo[gHUD.m_Scoreboard.m_iPlayerNum].teamnumber == TEAM_CT)
+	{
+		int x = ScreenWidth / 40.25;
+		int y = ScreenHeight / 1.1380;
+		const float flScale = 0.0f;
 
-	int x = ScreenWidth / 40.25;
-	int y = ScreenHeight / 1.1380;
-	const float flScale = 0.0f;
-
-	gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
-	gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
-	Zombieclassic->Bind();
-	DrawUtils::Draw2DQuadScaled(x - 60, y - 15.5, x + 60, y + 100);
+		gEngfuncs.pTriAPI->RenderMode(kRenderTransTexture);
+		gEngfuncs.pTriAPI->Color4ub(255, 255, 255, 255);
+		Zombieclassic->Bind();
+		DrawUtils::Draw2DQuadScaled(x - 60, y - 15.5, x + 60, y + 100);
+	}
 	return 1;
 }
 

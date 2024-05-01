@@ -65,7 +65,7 @@ extern "C" {
 #include <stdarg.h> // va
 #define EXPORT		__declspec( dllexport )
 #undef PATH_MAX
-#define PATH_MAX 124096 // Try workaround some strange bugs
+#define PATH_MAX 4096 // Try workaround some strange bugs
 #endif
 
 #define MAX_STRING		256	// generic string
@@ -168,16 +168,16 @@ typedef enum
 #include "crtlib.h"
 #include "base_cmd.h"
 
-#define XASH_VERSION	"1.16.0(TechnoSoftware)"		// engine current version
+#define XASH_VERSION	"1.16.0"		// engine current version
 // since this fork have own version, this is just left for compability
 #define BASED_VERSION	0.98f
 
 // generic update page, see ShellExecute
-#define XASH_UPDATE_PAGE "https://github.com/TechnoDenchik/Counter-Strike-Techno-Zombies-1.16.0"
+#define XASH_UPDATE_PAGE "https://github.com/FWGS/xash3d/releases/latest"
 
 // PERFORMANCE INFO
 #define MIN_FPS         	15.0		// host minimum fps value for maxfps.
-#define MAX_FPS         	750.0		// upper limit for maxfps.
+#define MAX_FPS         	500.0		// upper limit for maxfps.
 
 #define MAX_FRAMETIME	0.1
 #define MIN_FRAMETIME	0.000001
@@ -198,8 +198,8 @@ typedef enum
 #define CS_SIZE		64	// size of one config string
 #define CS_TIME		16	// size of time string
 
-#define MAX_DECALS		2048	// touching TE_DECAL messages, etc
-#define MAX_STATIC_ENTITIES	1048	// static entities that moved on the client when level is spawn
+#define MAX_DECALS		1024	// touching TE_DECAL messages, etc
+#define MAX_STATIC_ENTITIES	512	// static entities that moved on the client when level is spawn
 
 #define GI              SI.GameInfo
 #define FS_Gamedir()	SI.GameInfo->gamefolder

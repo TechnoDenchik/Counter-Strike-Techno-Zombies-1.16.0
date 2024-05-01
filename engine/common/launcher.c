@@ -76,16 +76,16 @@ int main( int argc, char** argv )
 #ifdef __EMSCRIPTEN__
 #ifdef EMSCRIPTEN_LIB_FS
 	// For some unknown reason emscripten refusing to load libraries later
-	Com_LoadLibrary("menu", 0 );
+	Com_LoadLibrary("interface", 0 );
 	Com_LoadLibrary("server", 0 );
 	Com_LoadLibrary("client", 0 );
 #endif
 #ifdef XASH_DEDICATED
 	// NodeJS support for debug
 	EM_ASM(try{
-		FS.mkdir('/xash');
-		FS.mount(NODEFS, { root: '.'}, '/xash' );
-		FS.chdir('/xash');
+		FS.mkdir('/cstz');
+		FS.mount(NODEFS, { root: '.'}, '/cstz' );
+		FS.chdir('/cstz');
 	}catch(e){};);
 #endif
 #endif

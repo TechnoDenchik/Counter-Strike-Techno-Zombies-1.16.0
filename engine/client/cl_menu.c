@@ -137,6 +137,7 @@ static void UI_DrawLogo( const char *filename, float x, float y, float width, fl
 	movie_state_t	*cin_state;
 	int		cin_frame;
 	qboolean		redraw = false;
+
 	if( !menu.drawLogo ) return;
 	cin_state = AVI_GetState( CIN_LOGO );
 
@@ -147,7 +148,7 @@ static void UI_DrawLogo( const char *filename, float x, float y, float width, fl
 	
 		// run cinematic if not
 		Q_snprintf( path, sizeof( path ), "media/%s", filename );
-		FS_DefaultExtension( path, ".avi" );
+		FS_DefaultExtension( path, ".mp4" );
 		fullpath = FS_GetDiskPath( path, false );
 
 		if( FS_FileExists( path, false ) && !fullpath )
@@ -958,10 +959,10 @@ static void pfnWriteGameConfig( const char *name )
 {
 	// do not use game.cfg or listenserver.cfg
 	// as it will be executed from hlsdk
-	Host_WriteGameConfig( "gamesettings.cfg" );
+	Host_WriteGameConfig( "gamesetup.cst" );
 
 	// remove old game.cfg, prevent it from resetting settings
-	FS_Delete( "game.cfg" );
+	FS_Delete( "gamedefault.json" );
 }
 
 // engine callbacks

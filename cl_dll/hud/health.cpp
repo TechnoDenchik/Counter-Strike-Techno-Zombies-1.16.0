@@ -304,31 +304,31 @@ int CHudHealth::Draw(float flTime)
 		int a2 = 0;
 
 		int x2 = ScreenWidth / 75;
-		int y2 = 1043;
+		int y2 = ScreenHeight / 1.0215;
 
 		int x3 = ScreenWidth / 9.0;
-		int y3 = 1045;
+		int y3 = ScreenHeight / 1.0215;
 
 		int x8 = ScreenWidth / 10.4;
-		int y8 = 980;
+		int y8 = ScreenHeight / 1.1014;
 
 		int x9 = ScreenWidth / 50.5;
-		int y9 = 1030;
+		int y9 = ScreenHeight / 1.0215;
 
 		int x10 = ScreenWidth / 98.0;
-		int y10 = 1030;
+		int y10 = ScreenHeight / 1.0485;
 
 		int x11 = ScreenWidth / 9.0;
-		int y11 = 1030;
+		int y11 = ScreenHeight / 1.0485;
 
 		int x12 = ScreenWidth / 9.8;
-		int y12 = 1030;
+		int y12 = ScreenHeight / 1.0485;
 
 		int x13 = ScreenWidth / 215.5;
-		int y13 = 1030;
+		int y13 = ScreenHeight / 1.0485;
 
 		int x14 = ScreenWidth / 10.0;
-		int y14 = 1030;
+		int y14 = ScreenHeight / 1.0485;
 
 		if (m_iHealth > 25)
 		{
@@ -415,10 +415,10 @@ int CHudHealth::Draw(float flTime)
 
 				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 				m_plus->Bind();
-				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+				DrawUtils::Draw2DQuadScaled(x2 - 8, y2 - 8, x2 + 8, y2 + 8);
 				gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 				m_armors->Bind();
-				DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
+				DrawUtils::Draw2DQuadScaled(x3 - 8, y3 - 8, x3 + 8, y3 + 8);
 
 				m_ihealthes_top->Bind();
 				DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
@@ -445,17 +445,17 @@ int CHudHealth::Draw(float flTime)
 				if (m_iHealth < 10)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1); 
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 42, y13 + 14, 1);
 				}
 				else if (m_iHealth < 100)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 54, y13 + 14, 1);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1);
 				}
 				else if (m_iHealth < 1000)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 64, y13 + 14, 1);
 				}
 				else if (m_iHealth < 10000)
 				{
@@ -472,7 +472,7 @@ int CHudHealth::Draw(float flTime)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1); 
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1);
 				}
 				else if (m_iBat < 100)
 				{
@@ -510,10 +510,10 @@ int CHudHealth::Draw(float flTime)
 
 				gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 				m_plus->Bind();
-				DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+				DrawUtils::Draw2DQuadScaled(x2 - 8, y2 - 8, x2 + 8, y2 + 8);
 				gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 				m_armors->Bind();
-				DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
+				DrawUtils::Draw2DQuadScaled(x3 - 8, y3 - 8, x3 + 8, y3 + 8);
 
 				//m_ihealthes_top->Bind();
 				//DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
@@ -540,17 +540,17 @@ int CHudHealth::Draw(float flTime)
 				if (m_iHealth < 10)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1); 
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 42, y13 + 14, 1);
 				}
 				else if (m_iHealth < 100)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 54, y13 + 14, 1);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1);
 				}
 				else if (m_iHealth < 1000)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 64, y13 + 14, 1);
 				}
 				else if (m_iHealth < 10000)
 				{
@@ -567,7 +567,7 @@ int CHudHealth::Draw(float flTime)
 				{
 					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 					(m_hEmpty[m_enArmorType].rect.right - m_hEmpty[m_enArmorType].rect.left);
-					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1); 
+					DrawTexturedNumbersTopRightAligned(*m_ihealthes, iarmors, m_iBat, x14 + 46, y14 + 14, 1);
 				}
 				else if (m_iBat < 100)
 				{
@@ -606,13 +606,10 @@ int CHudHealth::Draw(float flTime)
 					
 					gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
 					m_plus->Bind();
-					DrawUtils::Draw2DQuadScaled(x2 - 12, y2, x2 + 12, y2 + 23);
+					DrawUtils::Draw2DQuadScaled(x2 - 8, y2 - 8, x2 + 8, y2 + 8);
 					gEngfuncs.pTriAPI->Color4ub(r2, g2, b2, 255);
 					m_armors->Bind();
-					DrawUtils::Draw2DQuadScaled(x3 - 8, y3, x3 + 8, y3 + 20);
-
-					//m_ihealthes_top->Bind();
-					//DrawUtils::Draw2DQuadScaled(x8 - 550 / 3.0, y8 + 5.5, x8 + 450 / 3.0, y8 + 95);
+					DrawUtils::Draw2DQuadScaled(x3 - 8, y3 - 8, x3 + 8, y3 + 8);
 
 					if (m_fFade)
 					{
@@ -636,17 +633,17 @@ int CHudHealth::Draw(float flTime)
 					if (m_iHealth < 10)
 					{
 						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1); 
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 42, y13 + 14, 1);
 					}
 					else if(m_iHealth < 100)
 					{
 						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 54, y13 + 14, 1);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 46, y13 + 14, 1);
 					}
 					else if (m_iHealth < 1000)
 					{
 						gEngfuncs.pTriAPI->Color4ub(r, g, b, 255);
-						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 70, y13 + 14, 1);
+						DrawTexturedNumbersTopRightAligned(*m_ihealthes, ihealth, m_iHealth, x13 + 64, y13 + 14, 1);
 					}
 					else if(m_iHealth < 10000)
 					{

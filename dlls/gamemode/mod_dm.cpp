@@ -92,7 +92,8 @@ void CMod_DeathMatch::Think(void)
 		{
 			CVAR_SET_FLOAT("sv_stopspeed", 75.0);
 		}
-
+		CVAR_SET_FLOAT("mp_roundtime", 120);
+		CVAR_SET_FLOAT("mp_timelimit", 125);
 		
 		m_iMaxRoundsWon = (int)maxkills.value;
 

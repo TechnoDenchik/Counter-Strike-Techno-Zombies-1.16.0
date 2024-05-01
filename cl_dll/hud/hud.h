@@ -202,6 +202,7 @@ public:
 	SharedTexture ammoclips;
 	SharedTexture ammofloat;
 	UniqueTexture ammoboard;
+	UniqueTexture ammoboard2;
 	UniqueTexture weaponboard;
 
 	wrect_t m_rcAmmoclip[10];

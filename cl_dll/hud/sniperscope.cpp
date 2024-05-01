@@ -47,7 +47,7 @@ int CHudSniperScope::VidInit()
 {
 	if( g_iXash == 0 )
 	{
-		ConsolePrint("^3No Xash Found Warning^7: CHudSniperScope is disabled!\n");
+		ConsolePrint("^3No TechnoEngine Found Warning^7: CHudSniperScope is disabled!\n");
 		m_iFlags = 0;
 		return 0;
 	}

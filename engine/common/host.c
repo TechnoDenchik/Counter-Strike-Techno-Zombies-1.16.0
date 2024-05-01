@@ -414,11 +414,11 @@ void Host_Exec_f( void )
 	if( !Q_stricmp( Cvar_VariableString( "lservercfgfile" ),  Cmd_Argv( 1 )))
 	{
 		if( Q_strstr( f, "//=======================================================================" ) &&
-			Q_strstr( f, "//\t\t\tCopyright TechnoSoftware Team" ) &&
+			Q_strstr( f, "//\t\t\tCopyright XashXT Group" ) &&
 			Q_strstr( f, "//\t\t\tserver.cfg - server temp" ) )
 		{
-			Msg( "^1Found old generated cstz listenserver config, skipping!\n" );
-			Msg( "^1Remove TechnoEngine header to use it\n" );
+			Msg( "^1Found old generated xash3d listenserver config, skipping!\n" );
+			Msg( "^1Remove Xash3D header to use it\n" );
 			Mem_Free( f );
 			return;
 		}

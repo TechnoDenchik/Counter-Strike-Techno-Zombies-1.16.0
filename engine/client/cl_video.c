@@ -85,12 +85,11 @@ void SCR_CreateStartupVids( void )
 {
 	file_t	*f;
 
-	f = FS_Open( "media/StartupVids.txt", "w", false );
+	f = FS_Open( "media/playlist2.json", "w", false );
 	if( !f ) return;
 
-	// make standard video playlist: sierra, valve
 	FS_Print( f, "media/sierra.avi\n" );
-	FS_Print( f, "media/valve.mp4\n" );
+	FS_Print( f, "media/technocorp.mp4\n" );
 	FS_Close( f );
 }
 
@@ -107,10 +106,10 @@ void SCR_CheckStartupVids( void )
 		return;
 	}
 
-	if( !FS_FileExists( "media/StartupVids.txt", false ))
+	if( !FS_FileExists( "media/playlist2.json", false ))
 		SCR_CreateStartupVids();
 
-	afile = (char *)FS_LoadFile( "media/StartupVids.txt", NULL, false );
+	afile = (char *)FS_LoadFile( "media/playlist2.json", NULL, false );
 	if( !afile ) return; // something bad happens
 
 	pfile = afile;
@@ -121,7 +120,7 @@ void SCR_CheckStartupVids( void )
 
 		if( ++c > MAX_MOVIES - 1 )
 		{
-			MsgDev( D_WARN, "Host_StartMovies: max %i movies in StartupVids\n", MAX_MOVIES );
+			MsgDev( D_WARN, "Host_StartMovies: max %i movies in playlist2\n", MAX_MOVIES );
 			break;
 		}
 	}

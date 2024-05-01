@@ -2091,7 +2091,7 @@ void CL_InitLocal( void )
 	Q_memset( &cls.serveradr, 0, sizeof( cls.serveradr ) );
 
 	// register our variables
-	cl_predict = Cvar_Get( "cl_predict", "0", CVAR_ARCHIVE, "enable client movement prediction" );
+	cl_predict = Cvar_Get( "cl_predict", "1", CVAR_ARCHIVE, "enable client movement prediction" );
 	cl_crosshair = Cvar_Get( "crosshair", "1", CVAR_ARCHIVE, "show weapon chrosshair" );
 	cl_nodelta = Cvar_Get ("cl_nodelta", "0", 0, "disable delta-compression for usercommands" );
 	cl_idealpitchscale = Cvar_Get( "cl_idealpitchscale", "0.8", 0, "how much to look up/down slopes and stairs when not using freelook" );
@@ -2115,7 +2115,7 @@ void CL_InitLocal( void )
 	Cvar_Get( "password", "", CVAR_USERINFO, "player password" );
 	// cvar is not registered as userinfo as it not needed usually
 	// it will be set as userinfo only if it has non-default and correct value
-	cl_maxpacket = Cvar_Get( "cl_maxpacket", "40000", CVAR_ARCHIVE, "split packet size" );
+	cl_maxpacket = Cvar_Get( "cl_maxpacket", "140000", CVAR_ARCHIVE, "split packet size" );
 	cl_maxpayload = Cvar_Get( "cl_maxpayload", "0", CVAR_ARCHIVE, "max netchan size from server durning connection" );
 	name = Cvar_Get( "name", Sys_GetCurrentUser(), CVAR_USERINFO|CVAR_ARCHIVE|CVAR_PRINTABLEONLY, "player name" );
 	model = Cvar_Get( "model", "player", CVAR_USERINFO|CVAR_ARCHIVE, "player model ('player' is a singleplayer model)" );

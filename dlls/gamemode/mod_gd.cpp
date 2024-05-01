@@ -159,6 +159,8 @@ void CMod_GunDeath::UpdateGameMode(CBasePlayer *pPlayer)
 	WRITE_BYTE(static_cast<int>(maxkills.value)); // MaxRound (mp_roundlimit)
 	WRITE_BYTE(0); // Reserved. (MaxTime?)
 	MESSAGE_END();
+	CVAR_SET_FLOAT("mp_roundtime", 120);
+	CVAR_SET_FLOAT("mp_timelimit", 125);
 }
 
 void CMod_GunDeath::InstallPlayerModStrategy(CBasePlayer *player)

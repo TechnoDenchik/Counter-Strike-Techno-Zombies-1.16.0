@@ -40,7 +40,8 @@ void CMod_None::UpdateGameMode(CBasePlayer *pPlayer)
 	WRITE_BYTE(0); // Reserved. (weapon restriction? )
 	WRITE_BYTE(maxrounds.value); // MaxRound (mp_roundlimit)
 	WRITE_BYTE(0); // Reserved. (MaxTime?)
-
+	CVAR_SET_FLOAT("mp_maxrounds", 9);
+	CVAR_SET_FLOAT("mp_roundtime", 4);
 	WRITE_BYTE(m_mapBombZones.size());
 	for (const auto& EV : m_mapBombZones)
 	{
